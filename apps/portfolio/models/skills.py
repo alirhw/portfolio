@@ -1,5 +1,7 @@
 from django.db import models
 
+from apps.portfolio.querysets import SkillQuerySet
+
 
 class SkillCategory(models.Model):
     name_en = models.CharField(max_length=100)
@@ -36,6 +38,8 @@ class Skill(models.Model):
     )
     highlight = models.BooleanField(default=False)
     order = models.PositiveIntegerField(default=0)
+
+    objects = models.Manager.from_queryset(SkillQuerySet)()
 
     class Meta:
         ordering = ["order", "name_en"]
