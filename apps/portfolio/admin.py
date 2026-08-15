@@ -1,4 +1,5 @@
 from django.contrib import admin, messages
+from django.db import transaction
 
 from apps.portfolio.models import (
     CurrentlyBuilding,
@@ -156,3 +157,17 @@ class ResumeAdmin(admin.ModelAdmin):
     search_fields = ("title", "version")
     readonly_fields = ("created_at", "updated_at")
     ordering = ("-is_current", "-created_at")
+
+    def save_model(self, request, obj, form, change):
+        if obj.is_current:
+            with transaction.atomic():
+                Resume.objects.filter(
+                    is_current=True,
+                ).exclude(
+                    pk=obj.pk,
+                ).update(
+                    is_current=False,
+                )
+                super().save_model(request, obj, form, change)
+        else:
+            super().save_model(request, obj, form, change)

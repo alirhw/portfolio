@@ -9,6 +9,7 @@ from apps.contact.models import ContactMessage
 from apps.portfolio.admin import (
     PortfolioProfileAdmin,
     ProjectAdmin,
+    ResumeAdmin,
     SkillAdmin,
 )
 from apps.portfolio.models import (
@@ -154,3 +155,110 @@ def test_contact_message_admin_configuration(request_factory):
     assert "ip_address" in admin.readonly_fields
     assert "created_at" in admin.readonly_fields
     assert "is_read" not in admin.readonly_fields
+
+
+@pytest.mark.django_db
+def test_resume_admin_replaces_current_resume_safely(request_factory):
+    admin = ResumeAdmin(Resume, site)
+    request = request_factory.get("/admin/portfolio/resume/")
+
+    resume_a = Resume.objects.create(
+        title="Resume A",
+        file="resumes/a.pdf",
+        is_current=True,
+    )
+    resume_b = Resume.objects.create(
+        title="Resume B",
+        file="resumes/b.pdf",
+        is_current=False,
+    )
+
+    resume_b.is_current = True
+    admin.save_model(request, resume_b, form=None, change=True)
+
+    resume_a.refresh_from_db()
+    resume_b.refresh_from_db()
+    assert resume_a.is_current is False
+    assert resume_b.is_current is True
+    assert Resume.objects.filter(is_current=True).count() == 1
+
+
+@pytest.mark.django_db
+def test_resume_admin_saves_non_current_resume_without_affecting_current(request_factory):
+    admin = ResumeAdmin(Resume, site)
+    request = request_factory.get("/admin/portfolio/resume/")
+
+    resume_a = Resume.objects.create(
+        title="Resume A",
+        file="resumes/a.pdf",
+        is_current=True,
+    )
+    resume_c = Resume(
+        title="Resume C",
+        file="resumes/c.pdf",
+        is_current=False,
+    )
+
+    admin.save_model(request, resume_c, form=None, change=False)
+
+    resume_a.refresh_from_db()
+    resume_c.refresh_from_db()
+    assert resume_a.is_current is True
+    assert resume_c.is_current is False
+    assert Resume.objects.filter(is_current=True).count() == 1
+
+
+@pytest.mark.django_db
+def test_resume_admin_edit_same_current_resume_keeps_current(request_factory):
+    admin = ResumeAdmin(Resume, site)
+    request = request_factory.get("/admin/portfolio/resume/")
+
+    resume_a = Resume.objects.create(
+        title="Resume A",
+        file="resumes/a.pdf",
+        is_current=True,
+    )
+
+    resume_a.title = "Resume A Updated"
+    admin.save_model(request, resume_a, form=None, change=True)
+
+    resume_a.refresh_from_db()
+    assert resume_a.title == "Resume A Updated"
+    assert resume_a.is_current is True
+    assert Resume.objects.filter(is_current=True).count() == 1
+
+
+@pytest.mark.django_db
+def test_resume_admin_atomic_rollback_on_save_failure(request_factory, monkeypatch):
+    admin = ResumeAdmin(Resume, site)
+    request = request_factory.get("/admin/portfolio/resume/")
+
+    resume_a = Resume.objects.create(
+        title="Resume A",
+        file="resumes/a.pdf",
+        is_current=True,
+    )
+    resume_b = Resume.objects.create(
+        title="Resume B",
+        file="resumes/b.pdf",
+        is_current=False,
+    )
+
+    resume_b.is_current = True
+
+    def failing_save_model(self, req, obj, form, change):
+        raise RuntimeError("Simulated database failure during save")
+
+    from django.contrib.admin import ModelAdmin
+
+    monkeypatch.setattr(ModelAdmin, "save_model", failing_save_model)
+
+    with pytest.raises(RuntimeError, match="Simulated database failure"):
+        admin.save_model(request, resume_b, form=None, change=True)
+
+    resume_a.refresh_from_db()
+    resume_b.refresh_from_db()
+    # Transaction rollback guarantees Resume A stays True and Resume B stays False
+    assert resume_a.is_current is True
+    assert resume_b.is_current is False
+    assert Resume.objects.filter(is_current=True).count() == 1
