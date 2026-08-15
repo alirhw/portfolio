@@ -3,5 +3,43 @@
 {% block content %}
 <main>
     <h1>Portfolio</h1>
+    {% if profile %}
+    <section id="profile">
+        <h2>{{ profile.full_name_en }}</h2>
+        <p>{{ profile.headline_en }}</p>
+    </section>
+    {% endif %}
+
+    {% if skills %}
+    <section id="skills">
+        <h2>Skills</h2>
+        <ul>
+            {% for skill in skills %}
+            <li>{{ skill.name_en }} ({{ skill.category.name_en }})</li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% if projects %}
+    <section id="projects">
+        <h2>Projects</h2>
+        <ul>
+            {% for project in projects %}
+            <li>
+                <h3>{{ project.title_en }}</h3>
+                <p>{{ project.description_en }}</p>
+                {% if project.technologies.all %}
+                <p>
+                    {% for tech in project.technologies.all %}
+                    <span>{{ tech.name }}</span>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
 </main>
 {% endblock %}
