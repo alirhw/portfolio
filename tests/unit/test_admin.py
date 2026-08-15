@@ -1,3 +1,5 @@
+from unittest.mock import MagicMock
+
 import pytest
 from django.contrib.admin.sites import site
 from django.test import RequestFactory
@@ -79,6 +81,62 @@ def test_project_admin_configuration():
     assert "is_published" in admin.list_display
     assert "is_featured" in admin.list_display
     assert "slug" in admin.list_display
+    assert "publish_selected_projects" in admin.actions
+    assert "unpublish_selected_projects" in admin.actions
+
+
+@pytest.mark.django_db
+def test_project_admin_publish_and_unpublish_actions(request_factory):
+    admin = ProjectAdmin(Project, site)
+    request = request_factory.get("/admin/portfolio/project/")
+    admin.message_user = MagicMock()
+
+    p1 = Project.objects.create(
+        title_en="P1",
+        title_fa="پ۱",
+        slug="p1",
+        description_en="D1",
+        description_fa="ت۱",
+        is_published=False,
+    )
+    p2 = Project.objects.create(
+        title_en="P2",
+        title_fa="پ۲",
+        slug="p2",
+        description_en="D2",
+        description_fa="ت۲",
+        is_published=False,
+    )
+
+    qs = Project.objects.filter(id__in=[p1.id, p2.id])
+
+    # 1. Test Publish Action
+    admin.publish_selected_projects(request, qs)
+    p1.refresh_from_db()
+    p2.refresh_from_db()
+    assert p1.is_published is True
+    assert p2.is_published is True
+    assert p1 in Project.objects.published()
+    assert p2 in Project.objects.published()
+    admin.message_user.assert_called_with(
+        request,
+        "2 project(s) published successfully.",
+        25,  # messages.SUCCESS is 25
+    )
+
+    # 2. Test Unpublish Action
+    admin.unpublish_selected_projects(request, qs)
+    p1.refresh_from_db()
+    p2.refresh_from_db()
+    assert p1.is_published is False
+    assert p2.is_published is False
+    assert p1 not in Project.objects.published()
+    assert p2 not in Project.objects.published()
+    admin.message_user.assert_called_with(
+        request,
+        "2 project(s) unpublished successfully.",
+        25,  # messages.SUCCESS is 25
+    )
 
 
 def test_contact_message_admin_configuration(request_factory):

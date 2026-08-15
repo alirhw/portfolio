@@ -1,4 +1,4 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 
 from apps.portfolio.models import (
     CurrentlyBuilding,
@@ -75,6 +75,28 @@ class ProjectAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("title_en",)}
     filter_horizontal = ("technologies",)
     ordering = ("order", "-id")
+    actions = [
+        "publish_selected_projects",
+        "unpublish_selected_projects",
+    ]
+
+    @admin.action(description="Publish selected projects")
+    def publish_selected_projects(self, request, queryset):
+        updated = queryset.update(is_published=True)
+        self.message_user(
+            request,
+            f"{updated} project(s) published successfully.",
+            messages.SUCCESS,
+        )
+
+    @admin.action(description="Unpublish selected projects")
+    def unpublish_selected_projects(self, request, queryset):
+        updated = queryset.update(is_published=False)
+        self.message_user(
+            request,
+            f"{updated} project(s) unpublished successfully.",
+            messages.SUCCESS,
+        )
 
 
 @admin.register(Experience)
