@@ -4,13 +4,15 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Portfolio</title>
+    <title>{% block title %}Portfolio{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 </head>
 <body>
+    {% block content %}
     <main>
         <h1>Portfolio</h1>
         <p>Django runtime is working.</p>
     </main>
+    {% endblock %}
 </body>
 </html>
