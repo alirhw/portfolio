@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin, messages
 from django.db import transaction
 
@@ -149,8 +150,22 @@ class CurrentlyBuildingAdmin(admin.ModelAdmin):
     ordering = ("order", "-id")
 
 
+class ResumeAdminForm(forms.ModelForm):
+    class Meta:
+        model = Resume
+        fields = "__all__"
+
+    def validate_constraints(self):
+        exclude = set(self._get_validation_exclusions()) | {"is_current"}
+        try:
+            self.instance.validate_constraints(exclude=exclude)
+        except forms.ValidationError as e:
+            self._update_errors(e)
+
+
 @admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
+    form = ResumeAdminForm
     list_display = ("title", "version", "is_current", "created_at")
     list_editable = ["is_current"]
     list_filter = ("is_current",)
