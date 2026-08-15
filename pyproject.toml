@@ -1,0 +1,42 @@
+[project]
+name = "portfolio"
+version = "0.1.0"
+description = "Personal Developer Portfolio"
+readme = "README.md"
+authors = [
+    { name = "alirhw", email = "ali.rouhani.2005@gmail.com" }
+]
+requires-python = ">=3.14,<3.15"
+dependencies = [
+    "django>=6.1,<6.2",
+    "httpx",
+    "psycopg[binary]",
+    "sentry-sdk",
+    "whitenoise",
+]
+
+[dependency-groups]
+dev = [
+    "pytest",
+    "pytest-django",
+    "ruff",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py314"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
