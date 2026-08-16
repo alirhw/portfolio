@@ -1,45 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-<main>
-    <h1>Portfolio</h1>
-    {% if profile %}
-    <section id="profile">
-        <h2>{{ profile.full_name_en }}</h2>
-        <p>{{ profile.headline_en }}</p>
-    </section>
-    {% endif %}
+    <main>
+        {% if profile %}
+            <section>
+                <h1>{{ profile }}</h1>
+            </section>
+        {% endif %}
 
-    {% if skills %}
-    <section id="skills">
-        <h2>Skills</h2>
-        <ul>
+        <section>
             {% for skill in skills %}
-            <li>{{ skill.name_en }} ({{ skill.category.name_en }})</li>
+                <article>
+                    {{ skill }}
+                </article>
             {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
+        </section>
 
-    {% if projects %}
-    <section id="projects">
-        <h2>Projects</h2>
-        <ul>
+        <section>
             {% for project in projects %}
-            <li>
-                <h3>{{ project.title_en }}</h3>
-                <p>{{ project.description_en }}</p>
-                {% if project.technologies.all %}
-                <p>
-                    {% for tech in project.technologies.all %}
-                    <span>{{ tech.name }}</span>{% if not forloop.last %}, {% endif %}
+                <article>
+                    <h2>{{ project }}</h2>
+
+                    {% for technology in project.technologies.all %}
+                        <span>{{ technology }}</span>
                     {% endfor %}
-                </p>
-                {% endif %}
-            </li>
+                </article>
             {% endfor %}
-        </ul>
-    </section>
-    {% endif %}
-</main>
+        </section>
+    </main>
 {% endblock %}
