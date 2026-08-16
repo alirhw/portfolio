@@ -1,22 +1,16 @@
 from django.contrib import admin
 
-from apps.contact.models import ContactMessage
+from .models import ContactMessage
 
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display = (
-        "name",
-        "email",
-        "subject",
-        "is_read",
-        "created_at",
-    )
+    list_display = ("sender_name", "email", "created_at", "is_read", "is_notified")
     list_editable = ["is_read"]
-    list_filter = ("is_read", "created_at")
-    search_fields = ("name", "email", "subject", "message")
+    list_filter = ("is_read", "is_notified", "created_at")
+    search_fields = ("sender_name", "email", "message")
     readonly_fields = (
-        "name",
+        "sender_name",
         "email",
         "subject",
         "message",
@@ -24,6 +18,11 @@ class ContactMessageAdmin(admin.ModelAdmin):
         "created_at",
     )
     ordering = ("-created_at",)
+    actions = ["mark_as_read"]
+
+    @admin.action(description="Mark selected messages as read")
+    def mark_as_read(self, request, queryset):
+        queryset.update(is_read=True)
 
     def has_add_permission(self, request):
         return False

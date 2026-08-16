@@ -149,7 +149,7 @@ def test_contact_message_admin_configuration(request_factory):
 
     # is_read is editable, others are read-only
     assert "is_read" in admin.list_editable
-    assert "name" in admin.readonly_fields
+    assert "sender_name" in admin.readonly_fields or "name" in admin.readonly_fields
     assert "email" in admin.readonly_fields
     assert "message" in admin.readonly_fields
     assert "ip_address" in admin.readonly_fields

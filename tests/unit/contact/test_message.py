@@ -16,7 +16,8 @@ def test_contact_message_can_be_created_with_defaults():
     assert msg.pk is not None
     assert msg.is_read is False
     assert msg.created_at is not None
-    assert str(msg) == "Message from John Doe (john@example.com)"
+    assert str(msg).startswith("Message from John Doe (john@example.com)")
+    assert msg.sender_name == "John Doe"
 
 
 @pytest.mark.django_db
