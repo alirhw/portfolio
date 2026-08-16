@@ -83,3 +83,36 @@ def test_get_stats_returns_neutral_fallback_when_no_cache_and_api_fails():
     assert result.username == "developer"
     assert result.total_contributions == 0
     assert result.is_stale is True
+
+
+def test_service_returns_empty_when_no_username_configured():
+    service = GitHubStatsService(username="")
+    metrics = service.get_stats()
+
+    assert metrics.username == ""
+    assert metrics.is_stale is True
+
+
+def test_get_metrics_alias_with_force_refresh():
+    mock_client = MagicMock()
+    mock_client.execute_graphql.return_value = {
+        "data": {
+            "user": {
+                "followers": {"totalCount": 50},
+                "repositories": {"totalCount": 20, "nodes": []},
+                "contributionsCollection": {
+                    "contributionCalendar": {"totalContributions": 300, "weeks": []}
+                },
+            }
+        }
+    }
+
+    service = GitHubStatsService(client=mock_client, username="developer")
+    metrics = service.get_metrics()
+    assert metrics.total_contributions == 300
+    assert mock_client.execute_graphql.call_count == 1
+
+    # Force refresh must bypass cache and re-query
+    refreshed_metrics = service.get_metrics(force_refresh=True)
+    assert refreshed_metrics.total_contributions == 300
+    assert mock_client.execute_graphql.call_count == 2
