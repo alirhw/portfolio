@@ -1,32 +1,43 @@
 {% extends "base.html" %}
 
+{% block title %}
+    ALI.DEV — Backend Developer & AI Enthusiast
+{% endblock %}
+
+{% block meta_description %}
+    Personal portfolio of a Backend Developer and AI enthusiast.
+{% endblock %}
+
 {% block content %}
-    <main>
-        {% if profile %}
-            <section>
-                <h1>{{ profile.full_name_en }}</h1>
-                <p>{{ profile.headline_en }}</p>
-            </section>
-        {% endif %}
+    <section>
+        <h1>ALI.DEV</h1>
+        <p>Backend Developer & AI Enthusiast</p>
+    </section>
 
+    {% if profile %}
         <section>
-            {% for skill in skills %}
-                <article>
-                    {{ skill.name_en }} ({{ skill.category.name_en }})
-                </article>
-            {% endfor %}
+            <h2>{{ profile.full_name_en }}</h2>
+            <p>{{ profile.headline_en }}</p>
         </section>
+    {% endif %}
 
-        <section>
-            {% for project in projects %}
-                <article>
-                    <h2>{{ project.title_en }}</h2>
+    <section>
+        {% for skill in skills %}
+            <article>
+                {{ skill.name_en }} ({{ skill.category.name_en }})
+            </article>
+        {% endfor %}
+    </section>
 
-                    {% for technology in project.technologies.all %}
-                        <span>{{ technology.name }}</span>
-                    {% endfor %}
-                </article>
-            {% endfor %}
-        </section>
-    </main>
+    <section>
+        {% for project in projects %}
+            <article>
+                <h2>{{ project.title_en }}</h2>
+
+                {% for technology in project.technologies.all %}
+                    <span>{{ technology.name }}</span>
+                {% endfor %}
+            </article>
+        {% endfor %}
+    </section>
 {% endblock %}
