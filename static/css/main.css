@@ -878,3 +878,17 @@ select {
     padding: 0;
 }
 
+/* Progressive Enhancement for Terminal */
+.js-only-feature {
+    display: none;
+}
+
+.js-only-feature.is-initialized {
+    display: block;
+}
+
+noscript .js-only-feature {
+    display: none !important;
+}
+
+

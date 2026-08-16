@@ -5,6 +5,7 @@ export const ALLOWED_COMMANDS = Object.freeze([
     'skills',
     'projects',
     'contact',
+    'stats',
     'clear',
     'theme',
     'repo',
@@ -13,7 +14,7 @@ export const ALLOWED_COMMANDS = Object.freeze([
 
 export class CommandRegistry {
     constructor(dataContext = {}) {
-        this.data = dataContext; // Contains skills, projects, contact, etc. parsed from json payload
+        this.data = dataContext; // Contains skills, projects, contact, stats parsed from json payload
         this.commands = new Map();
         this._registerBuiltins();
     }
@@ -26,6 +27,7 @@ export class CommandRegistry {
                 '  skills    - List skills grouped by category',
                 '  projects  - List featured projects and technologies',
                 '  contact   - Show contact channels (email, github, linkedin)',
+                '  stats     - View live GitHub activity metrics',
                 '  theme     - Toggle or set theme (usage: theme [light|dark])',
                 '  repo      - Open repository URL in a new tab',
                 '  clear     - Clear the terminal screen',
@@ -41,8 +43,11 @@ export class CommandRegistry {
 
             const lines = ['Technical Competencies:'];
             categories.forEach(cat => {
-                const skillNames = (cat.skills || []).map(s => s.name).join(', ');
-                lines.push(`  [${cat.name}] -> ${skillNames || 'None'}`);
+                const categoryName = cat.category || cat.name || 'General';
+                const skillNames = (cat.skills || [])
+                    .map(s => (typeof s === 'string' ? s : s.name))
+                    .join(', ');
+                lines.push(`  [${categoryName}] -> ${skillNames || 'None'}`);
             });
             return { output: lines.join('\n') };
         });
@@ -70,10 +75,24 @@ export class CommandRegistry {
         this.commands.set('contact', () => {
             const contact = this.data.contact || {};
             const lines = ['Contact & Links:'];
+            if (contact.name) lines.push(`  Name:     ${contact.name}`);
             if (contact.email) lines.push(`  Email:    ${contact.email}`);
             if (contact.github) lines.push(`  GitHub:   ${contact.github}`);
             if (contact.linkedin) lines.push(`  LinkedIn: ${contact.linkedin}`);
             return { output: lines.join('\n') };
+        });
+
+        this.commands.set('stats', () => {
+            const stats = this.data.stats || {};
+            return {
+                output: [
+                    'GitHub Metrics:',
+                    `  Contributions (1y): ${stats.contributions ?? 0}`,
+                    `  Public Repos:       ${stats.repos ?? 0}`,
+                    `  Stars Earned:       ${stats.stars ?? 0}`,
+                    `  Current Streak:     ${stats.streak ?? 0} days`
+                ].join('\n')
+            };
         });
 
         this.commands.set('theme', (args) => {

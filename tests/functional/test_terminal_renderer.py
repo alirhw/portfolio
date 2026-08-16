@@ -15,5 +15,8 @@ def test_terminal_structure_and_safe_payload_present(client):
     assert 'id="terminal-output"' in html
 
     # Confirm safe JSON payload type
-    assert '<script id="terminal-payload" type="application/json">' in html
+    assert (
+        '<script id="terminal-data-source" type="application/json">' in html
+        or '<script id="terminal-payload" type="application/json">' in html
+    )
     assert "eval(" not in html

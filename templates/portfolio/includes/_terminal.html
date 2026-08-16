@@ -1,21 +1,22 @@
 {% load i18n static %}
 
-<section id="terminal-section" class="section terminal-wrapper">
+<!-- Terminal component with progressive enhancement hidden state -->
+<section id="terminal-section" class="section terminal-wrapper js-only-feature">
     <div class="terminal-window" id="portfolio-terminal">
         <div class="terminal-header">
-            <div class="terminal-controls">
+            <div class="terminal-controls" aria-hidden="true">
                 <span class="ctrl-btn ctrl-close"></span>
                 <span class="ctrl-btn ctrl-min"></span>
                 <span class="ctrl-btn ctrl-max"></span>
             </div>
-            <div class="terminal-title">ali@portfolio:~</div>
+            <div class="terminal-title font-mono">ali@portfolio:~ (Interactive Shell)</div>
         </div>
 
         <div class="terminal-body">
-            <div class="terminal-output-container" id="terminal-output"></div>
+            <div class="terminal-output-container" id="terminal-output" role="log" aria-live="polite"></div>
 
             <div class="terminal-input-row">
-                <span class="terminal-prompt" aria-hidden="true">ali@portfolio:~$ </span>
+                <label for="terminal-input" class="terminal-prompt font-mono">ali@portfolio:~$ </label>
                 <input
                     type="text"
                     id="terminal-input"
@@ -31,27 +32,7 @@
     </div>
 </section>
 
-{% include "portfolio/includes/_terminal_data.html" %}
+<!-- Safe data injection via json_script without XSS vulnerability -->
+{{ terminal_data|json_script:"terminal-data-source" }}
 
-<script type="module">
-    import { InteractiveTerminal } from "{% static 'js/terminal/terminal.js' %}";
-
-    document.addEventListener("DOMContentLoaded", () => {
-        const payloadElem = document.getElementById("terminal-payload");
-        let dataContext = {};
-        if (payloadElem) {
-            try {
-                dataContext = JSON.parse(payloadElem.textContent);
-            } catch (e) {
-                console.error("Error parsing terminal data context", e);
-            }
-        }
-
-        new InteractiveTerminal({
-            containerId: "portfolio-terminal",
-            inputId: "terminal-input",
-            outputId: "terminal-output",
-            dataContext: dataContext
-        });
-    });
-</script>
+<script type="module" src="{% static 'js/terminal/controller.js' %}"></script>
