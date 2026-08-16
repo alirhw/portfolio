@@ -112,4 +112,5 @@ CACHES = {
 # GitHub Integration Settings (ARCH-008, ARCH-021)
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN", None)
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "default-user")
-GITHUB_CACHE_TTL = 3600  # 1 hour cache duration
+GITHUB_CACHE_TTL = 3600  # 1 hour fresh cache duration
+GITHUB_BACKUP_CACHE_TTL = 604800  # 7 days backup cache duration

@@ -8,7 +8,7 @@ from .exceptions import (
 from .normalizers import GitHubDataNormalizer
 from .queries import USER_METRICS_GRAPHQL_QUERY
 from .schemas import LanguageBreakdown, NormalizedGitHubMetrics
-from .service import GitHubStatsService
+from .services import GitHubStatsService
 
 __all__ = [
     "DEFAULT_TIMEOUT",
