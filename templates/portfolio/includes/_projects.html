@@ -21,7 +21,11 @@
 
                 <div class="project-card__content">
                     <div class="project-card__top">
-                        <h3 class="project-title">{{ project.title_en|default:project.title }}</h3>
+                        <h3 class="project-title">
+                            <a href="{% url 'portfolio:project_detail' slug=project.slug %}">
+                                {{ project.title_en|default:project.title }}
+                            </a>
+                        </h3>
                         {% if project.is_featured %}
                             <span class="badge badge-featured">Featured</span>
                         {% endif %}

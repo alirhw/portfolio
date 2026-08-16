@@ -1,4 +1,4 @@
-from django.views.generic import TemplateView
+from django.views.generic import DetailView, TemplateView
 
 from .models import (
     CurrentlyBuilding,
@@ -37,3 +37,15 @@ class HomeView(TemplateView):
         context["skills"] = Skill.objects.filter(highlight=True).select_related("category")
 
         return context
+
+
+class ProjectDetailView(DetailView):
+    model = Project
+    template_name = "portfolio/project_detail.html"
+    context_object_name = "project"
+    slug_field = "slug"
+    slug_url_kwarg = "slug"
+
+    def get_queryset(self):
+        # جلوگیری از دسترسی به پروژه‌های پیش‌نویس و منتشرنشده (بازگرداندن 404 خودکار)
+        return Project.objects.published().prefetch_related("technologies")

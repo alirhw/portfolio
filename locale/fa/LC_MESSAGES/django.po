@@ -54,5 +54,14 @@ msgstr "تغییر به تم تاریک"
 msgid "Switch to light theme"
 msgstr "تغییر به تم روشن"
 
+msgid "Back to all projects"
+msgstr "بازگشت به همه پروژه‌ها"
+
+msgid "Visit Live Demo"
+msgstr "مشاهده دموی زنده"
+
+msgid "View Source Code"
+msgstr "مشاهده سورس کد"
+
 msgid "All rights reserved."
 msgstr "تمامی حقوق محفوظ است."

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block title %}
+    {{ project.title_en|default:project.title }} — ALI.DEV
+{% endblock %}
+
+{% block content %}
+<article class="project-detail-container">
+    <header class="project-detail-header">
+        <a href="{% url 'portfolio:home' %}#projects" class="back-link">
+            ← {% translate "Back to all projects" %}
+        </a>
+        <h1 class="project-detail-title">{{ project.title_en|default:project.title }}</h1>
+        <p class="project-detail-summary">{{ project.description_en|default:project.summary }}</p>
+
+        <div class="project-tech-stack">
+            {% for tech in project.technologies.all %}
+                <span class="tech-tag">{{ tech.name }}</span>
+            {% endfor %}
+        </div>
+
+        <div class="project-actions">
+            {% if project.demo_url or project.live_url %}
+                <a
+                    href="{{ project.demo_url|default:project.live_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary"
+                >
+                    {% translate "Visit Live Demo" %} ↗
+                </a>
+            {% endif %}
+            {% if project.repository_url or project.github_url %}
+                <a
+                    href="{{ project.repository_url|default:project.github_url }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-secondary"
+                >
+                    {% translate "View Source Code" %} ↗
+                </a>
+            {% endif %}
+        </div>
+    </header>
+
+    {% if project.featured_image %}
+        <div class="project-detail-banner">
+            <img
+                src="{{ project.featured_image.url }}"
+                alt="{{ project.title_en|default:project.title }}"
+                class="project-banner-img"
+            >
+        </div>
+    {% endif %}
+
+    <div class="project-detail-body">
+        {{ project.description|default:project.description_en|linebreaks }}
+    </div>
+</article>
+{% endblock %}

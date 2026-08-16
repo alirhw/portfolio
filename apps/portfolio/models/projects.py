@@ -51,6 +51,10 @@ class Project(models.Model):
         return self.description_en
 
     @property
+    def description(self):
+        return self.description_en
+
+    @property
     def github_url(self):
         return self.repository_url
 

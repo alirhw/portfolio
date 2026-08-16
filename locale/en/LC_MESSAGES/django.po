@@ -54,5 +54,14 @@ msgstr "Switch to dark theme"
 msgid "Switch to light theme"
 msgstr "Switch to light theme"
 
+msgid "Back to all projects"
+msgstr "Back to all projects"
+
+msgid "Visit Live Demo"
+msgstr "Visit Live Demo"
+
+msgid "View Source Code"
+msgstr "View Source Code"
+
 msgid "All rights reserved."
 msgstr "All rights reserved."
