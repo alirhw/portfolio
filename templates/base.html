@@ -14,6 +14,17 @@
     <meta name="robots" content="index, follow">
     <title>{% block title %}{% translate "ALI.DEV — Backend Engineer" %}{% endblock %}</title>
 
+    <!-- Prevent Flash of Incorrect Theme (FOIT) -->
+    <script>
+        (function() {
+            try {
+                const saved = localStorage.getItem('portfolio_theme');
+                const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+            } catch (e) {}
+        })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -70,7 +81,7 @@
         {% endblock %}
     </footer>
 
-    <script src="{% static 'js/main.js' %}" defer></script>
+    <script type="module" src="{% static 'js/main.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -1,4 +1,5 @@
 import { CommandParser } from './parser.js';
+import { ThemeManager, THEMES } from '../theme.js';
 
 export const ALLOWED_COMMANDS = Object.freeze([
     'help',
@@ -97,10 +98,25 @@ export class CommandRegistry {
 
         this.commands.set('theme', (args) => {
             const target = args[0] ? args[0].toLowerCase() : null;
+
+            if (target === 'dark') {
+                ThemeManager.setTheme(THEMES.DARK);
+                return { output: 'Theme switched to dark mode.' };
+            }
+
+            if (target === 'light') {
+                ThemeManager.setTheme(THEMES.LIGHT);
+                return { output: 'Theme switched to light mode.' };
+            }
+
+            if (!target || target === 'toggle') {
+                const newTheme = ThemeManager.toggleTheme();
+                return { output: `Theme toggled to ${newTheme} mode.` };
+            }
+
             return {
-                action: 'theme',
-                themeTarget: target, // 'light', 'dark' or null for toggle
-                output: target ? `Switching theme to '${target}'...` : 'Toggling theme...'
+                output: `Invalid theme argument: '${target}'. Usage: theme [light|dark]`,
+                isError: true
             };
         });
 
