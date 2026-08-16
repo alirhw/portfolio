@@ -47,5 +47,4 @@ class ProjectDetailView(DetailView):
     slug_url_kwarg = "slug"
 
     def get_queryset(self):
-        # جلوگیری از دسترسی به پروژه‌های پیش‌نویس و منتشرنشده (بازگرداندن 404 خودکار)
         return Project.objects.published().prefetch_related("technologies")
