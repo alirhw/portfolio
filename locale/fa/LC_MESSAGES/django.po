@@ -75,5 +75,17 @@ msgstr "پروژه یا صفحه‌ای که به دنبال آن هستید م�
 msgid "Return to Homepage"
 msgstr "بازگشت به صفحه اصلی"
 
+msgid "Available for hire"
+msgstr "آماده برای همکاری"
+
+msgid "Busy on projects"
+msgstr "مشغول روی پروژه‌ها"
+
+msgid "View Resume"
+msgstr "مشاهده رزومه"
+
+msgid "Contact"
+msgstr "تماس"
+
 msgid "All rights reserved."
 msgstr "تمامی حقوق محفوظ است."

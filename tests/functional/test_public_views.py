@@ -84,7 +84,7 @@ def populated_db(db):
 @pytest.mark.django_db
 def test_homepage_query_budget_is_strictly_bounded(client, django_assert_num_queries, populated_db):
     # ممیزی سرتاسری تعداد کوئری‌ها روی زبان پیش‌فرض
-    with django_assert_num_queries(8):
+    with django_assert_num_queries(9):
         response = client.get("/en/")
 
     assert response.status_code == 200

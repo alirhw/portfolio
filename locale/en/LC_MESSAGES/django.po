@@ -75,5 +75,17 @@ msgstr "The project or page you are looking for might have been unpublished, rem
 msgid "Return to Homepage"
 msgstr "Return to Homepage"
 
+msgid "Available for hire"
+msgstr "Available for hire"
+
+msgid "Busy on projects"
+msgstr "Busy on projects"
+
+msgid "View Resume"
+msgstr "View Resume"
+
+msgid "Contact"
+msgstr "Contact"
+
 msgid "All rights reserved."
 msgstr "All rights reserved."

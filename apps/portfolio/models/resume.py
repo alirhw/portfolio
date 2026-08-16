@@ -25,8 +25,4 @@ class Resume(models.Model):
 
     @classmethod
     def get_current(cls):
-        """
-        واکشی رزومه فعال فعلی به صورت تک‌رکوردی و ایمن.
-        در صورت عدم وجود، None بازمی‌گرداند.
-        """
         return cls.objects.filter(is_current=True).order_by("-updated_at").first()

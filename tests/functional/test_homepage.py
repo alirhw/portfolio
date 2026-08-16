@@ -140,15 +140,16 @@ def test_homepage_prefetches_project_technologies(client, django_assert_num_quer
         p.technologies.add(tech1, tech2)
 
     # 1. Profile query
-    # 2. SkillCategory query
-    # 3. SkillCategory prefetch skills
-    # 4. Experience query
-    # 5. Education query
-    # 6. CurrentlyBuilding query
-    # 7. Projects query (published[:6])
-    # 8. Technologies prefetch query
-    # 9. Skills query
-    with django_assert_num_queries(9):
+    # 2. has_resume query (Resume.objects.filter(is_current=True).exists())
+    # 3. SkillCategory query
+    # 4. SkillCategory prefetch skills
+    # 5. Experience query
+    # 6. Education query
+    # 7. CurrentlyBuilding query
+    # 8. Projects query (published[:6])
+    # 9. Technologies prefetch query
+    # 10. Skills query
+    with django_assert_num_queries(10):
         response = client.get(reverse("portfolio:home"))
         assert response.status_code == 200
         # Iterate over prefetch and foreign keys in context to ensure no N+1 triggers

@@ -1,11 +1,12 @@
+{% load i18n %}
 {% if profile %}
 <section id="hero" class="section hero-section">
     <div class="hero-content">
         <div class="hero-status">
             {% if profile.available_for_hire or profile.is_available %}
-                <span class="badge badge-success">● Available for hire</span>
+                <span class="badge badge-success">● {% translate "Available for hire" %}</span>
             {% else %}
-                <span class="badge badge-muted">● Busy on projects</span>
+                <span class="badge badge-muted">● {% translate "Busy on projects" %}</span>
             {% endif %}
         </div>
 
@@ -14,6 +15,11 @@
         <p class="hero-bio">{{ profile.bio_en|default:profile.bio }}</p>
 
         <div class="hero-links">
+            {% if has_resume %}
+                <a href="{% url 'portfolio:resume_download' %}" target="_blank" rel="noopener noreferrer" class="link-btn link-primary">
+                    📄 {% translate "View Resume" %}
+                </a>
+            {% endif %}
             {% if profile.github_url %}
                 <a href="{{ profile.github_url }}" target="_blank" rel="noopener noreferrer" class="link-btn">GitHub</a>
             {% endif %}
@@ -21,7 +27,7 @@
                 <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="link-btn">LinkedIn</a>
             {% endif %}
             {% if profile.email %}
-                <a href="mailto:{{ profile.email }}" class="link-btn link-primary">Contact Me</a>
+                <a href="mailto:{{ profile.email }}" class="link-btn">{% translate "Contact" %}</a>
             {% endif %}
         </div>
     </div>

@@ -1,3 +1,5 @@
+from django.http import FileResponse, Http404
+from django.views import View
 from django.views.generic import DetailView, TemplateView
 
 from .models import (
@@ -6,6 +8,7 @@ from .models import (
     Experience,
     PortfolioProfile,
     Project,
+    Resume,
     Skill,
     SkillCategory,
 )
@@ -18,6 +21,7 @@ class HomeView(TemplateView):
         context = super().get_context_data(**kwargs)
 
         context["profile"] = PortfolioProfile.objects.first()
+        context["has_resume"] = Resume.objects.filter(is_current=True).exists()
 
         context["skill_categories"] = (
             SkillCategory.objects.prefetch_related("skills")
@@ -48,3 +52,15 @@ class ProjectDetailView(DetailView):
 
     def get_queryset(self):
         return Project.objects.published().prefetch_related("technologies")
+
+
+class ResumeDownloadView(View):
+    def get(self, request, *args, **kwargs):
+        resume = Resume.get_current()
+        if not resume or not resume.file:
+            raise Http404("Resume not found")
+
+        response = FileResponse(resume.file.open("rb"), content_type="application/pdf")
+        filename = resume.file.name.split("/")[-1]
+        response["Content-Disposition"] = f'inline; filename="{filename}"'
+        return response
