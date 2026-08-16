@@ -1,4 +1,5 @@
 import pytest
+from django.urls import reverse
 
 from apps.portfolio.models import CurrentlyBuilding, Project, Technology
 
@@ -28,7 +29,7 @@ def test_projects_and_currently_building_rendered(client):
         is_active=True,
     )
 
-    response = client.get("/")
+    response = client.get(reverse("portfolio:home"))
     assert response.status_code == 200
 
     html = response.content.decode()
@@ -56,6 +57,6 @@ def test_inactive_currently_building_not_rendered(client):
         is_active=False,
     )
 
-    response = client.get("/")
+    response = client.get(reverse("portfolio:home"))
     assert response.status_code == 200
     assert "Archived Task" not in response.content.decode()

@@ -1,6 +1,7 @@
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.files.uploadedfile import SimpleUploadedFile
+from django.urls import reverse
 
 from apps.contact.models import ContactMessage
 from apps.portfolio.models import Project, Resume
@@ -33,7 +34,7 @@ def regular_user(db):
 
 @pytest.mark.django_db
 def test_anonymous_user_is_redirected_to_admin_login(client):
-    response = client.get("/admin/")
+    response = client.get(reverse("admin:index"))
     assert response.status_code in {200, 302}
     if response.status_code == 302:
         assert "/admin/login/" in response.url
@@ -42,7 +43,7 @@ def test_anonymous_user_is_redirected_to_admin_login(client):
 @pytest.mark.django_db
 def test_non_staff_user_cannot_access_admin(client, regular_user):
     client.force_login(regular_user)
-    response = client.get("/admin/")
+    response = client.get(reverse("admin:index"))
     assert response.status_code in {200, 302}
     if response.status_code == 302:
         assert "/admin/login/" in response.url
@@ -51,7 +52,7 @@ def test_non_staff_user_cannot_access_admin(client, regular_user):
 @pytest.mark.django_db
 def test_staff_admin_can_access_admin(client, superuser):
     client.force_login(superuser)
-    response = client.get("/admin/")
+    response = client.get(reverse("admin:index"))
     assert response.status_code == 200
     assert "Django administration" in response.content.decode()
 
@@ -69,7 +70,7 @@ def test_admin_can_publish_project_via_action(client, superuser):
     )
 
     response = client.post(
-        "/admin/portfolio/project/",
+        reverse("admin:portfolio_project_changelist"),
         {
             "action": "publish_selected_projects",
             "_selected_action": [str(project.pk)],
@@ -96,7 +97,7 @@ def test_admin_can_unpublish_project_via_action(client, superuser):
     )
 
     response = client.post(
-        "/admin/portfolio/project/",
+        reverse("admin:portfolio_project_changelist"),
         {
             "action": "unpublish_selected_projects",
             "_selected_action": [str(project.pk)],
@@ -133,7 +134,7 @@ def test_admin_can_replace_current_resume_via_change_form(client, superuser):
 
     # Submit change form with is_current checked
     response = client.post(
-        f"/admin/portfolio/resume/{resume_new.pk}/change/",
+        reverse("admin:portfolio_resume_change", args=[resume_new.pk]),
         {
             "title": "Resume New",
             "file": update_file,
@@ -156,7 +157,7 @@ def test_admin_can_replace_current_resume_via_change_form(client, superuser):
 @pytest.mark.django_db
 def test_contact_message_cannot_be_added_manually(client, superuser):
     client.force_login(superuser)
-    response = client.get("/admin/contact/contactmessage/add/")
+    response = client.get(reverse("admin:contact_contactmessage_add"))
     assert response.status_code == 403
 
 
@@ -172,7 +173,7 @@ def test_contact_message_fields_are_readonly_in_admin(client, superuser):
         is_read=False,
     )
 
-    response = client.get(f"/admin/contact/contactmessage/{msg.pk}/change/")
+    response = client.get(reverse("admin:contact_contactmessage_change", args=[msg.pk]))
     assert response.status_code == 200
     content = response.content.decode()
     assert "Visitor Name" in content

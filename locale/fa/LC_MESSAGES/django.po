@@ -1,0 +1,46 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Portfolio 1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-16 09:20+0000\n"
+"PO-Revision-Date: 2026-08-16 09:20+0000\n"
+"Last-Translator: Ali Rouhani\n"
+"Language-Team: Persian\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "English"
+msgstr "انگلیسی"
+
+msgid "Persian"
+msgstr "فارسی"
+
+msgid "ALI.DEV — Backend Engineer"
+msgstr "ALI.DEV — مهندس بک‌اند"
+
+msgid "Personal portfolio of a Backend Developer and AI enthusiast."
+msgstr "پورتفولیوی شخصی توسعه‌دهنده بک‌اند و علاقه‌مند به هوش مصنوعی."
+
+msgid "Primary navigation"
+msgstr "ناوبری اصلی"
+
+msgid "Projects"
+msgstr "پروژه‌ها"
+
+msgid "Skills"
+msgstr "مهارت‌ها"
+
+msgid "Experience"
+msgstr "سوابق کاری"
+
+msgid "Education"
+msgstr "تحصیلات"
+
+msgid "Toggle color theme"
+msgstr "تغییر تم رنگی"
+
+msgid "All rights reserved."
+msgstr "تمامی حقوق محفوظ است."

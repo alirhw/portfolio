@@ -1,6 +1,7 @@
 from datetime import date
 
 import pytest
+from django.urls import reverse
 
 from apps.portfolio.models import (
     Education,
@@ -48,7 +49,7 @@ def test_homepage_renders_all_content_sections_correctly(client):
         graduation_year=2022,
     )
 
-    response = client.get("/")
+    response = client.get(reverse("portfolio:home"))
     assert response.status_code == 200
 
     html = response.content.decode()
@@ -83,7 +84,7 @@ def test_experience_order_is_reverse_chronological(client):
         start_date=date(2023, 1, 1),
     )
 
-    response = client.get("/")
+    response = client.get(reverse("portfolio:home"))
     html = response.content.decode()
 
     pos_newer = html.find("Newer Job")

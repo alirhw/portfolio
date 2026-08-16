@@ -1,50 +1,50 @@
-{% load static %}
-<!doctype html>
-<html lang="{{ LANGUAGE_CODE|default:'en' }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}" data-theme="light">
+{% load static i18n %}
+<!DOCTYPE html>
+{% get_current_language as CURRENT_LANGUAGE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html
+    lang="{{ CURRENT_LANGUAGE }}"
+    dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
+    data-theme="light"
+>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="{% block meta_description %}Personal portfolio of a Backend Developer and AI enthusiast.{% endblock %}">
+    <meta name="description" content="{% block meta_description %}{% translate 'Personal portfolio of a Backend Developer and AI enthusiast.' %}{% endblock %}">
     <meta name="robots" content="index, follow">
-    <title>{% block title %}ALI.DEV — Backend Developer & AI Enthusiast{% endblock %}</title>
+    <title>{% block title %}{% translate "ALI.DEV — Backend Engineer" %}{% endblock %}</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
+
 <body>
     <header class="site-header">
-        <nav class="site-nav" aria-label="Primary navigation">
-            <a class="site-logo" href="{% url 'portfolio:home' %}">
-                ALI.DEV
-            </a>
+        <nav class="site-nav" aria-label="{% translate 'Primary navigation' %}">
+            <a class="site-logo" href="{% url 'portfolio:home' %}">ALI.DEV</a>
 
             <div class="site-nav__links">
-                <a href="{% url 'portfolio:home' %}">
-                    Home
-                </a>
-                <a href="#skills">
-                    Skills
-                </a>
-                <a href="#experience">
-                    Experience
-                </a>
-                <a href="#education">
-                    Education
-                </a>
-                <a href="#projects">
-                    Projects
-                </a>
+                <a href="#projects">{% translate "Projects" %}</a>
+                <a href="#skills">{% translate "Skills" %}</a>
+                <a href="#experience">{% translate "Experience" %}</a>
+                <a href="#education">{% translate "Education" %}</a>
             </div>
 
             <div class="site-nav__actions">
+                {% include "includes/_language_switcher.html" %}
+
                 <button
                     type="button"
                     id="theme-toggle"
                     class="theme-toggle"
-                    aria-label="Toggle color theme"
+                    aria-label="{% translate 'Toggle color theme' %}"
                 >
                     Theme
                 </button>
@@ -58,10 +58,11 @@
 
     <footer class="site-footer">
         {% block footer %}
-            <p>© {% now "Y" %} ALI.DEV</p>
+            <p>© {% now "Y" %} ALI.DEV — {% translate "All rights reserved." %}</p>
         {% endblock %}
     </footer>
 
+    <script src="{% static 'js/main.js' %}" defer></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>
