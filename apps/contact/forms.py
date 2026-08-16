@@ -3,6 +3,7 @@ from django.core.validators import MinLengthValidator
 from django.utils.translation import gettext_lazy as _
 
 from .models import ContactMessage
+from .services.throttling import is_rate_limited
 from .services.turnstile import TurnstileVerificationService
 
 
@@ -88,13 +89,20 @@ class ContactForm(forms.ModelForm):
         return message
 
     def clean(self):
-        """Final validation and Turnstile captcha verification."""
+        """Final validation, IP rate limit check, and Turnstile captcha verification."""
         cleaned_data = super().clean()
 
-        # If honeypot caught spam, skip Turnstile external API verification
+        # If honeypot caught spam, skip further checks
         if "website" in self.errors:
             return cleaned_data
 
+        # 1. Rate limiting check (Throttling)
+        if self.remote_ip and is_rate_limited(self.remote_ip):
+            raise forms.ValidationError(
+                _("Too many messages sent from this IP. Please try again later.")
+            )
+
+        # 2. Turnstile verification
         token = self.data.get("cf-turnstile-response") or cleaned_data.get("cf_turnstile_response")
 
         if self.turnstile_service.secret_key:
