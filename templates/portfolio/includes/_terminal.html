@@ -1,8 +1,15 @@
 {% load i18n static %}
 
-<!-- Terminal component with progressive enhancement hidden state -->
 <section id="terminal-section" class="section terminal-wrapper js-only-feature">
-    <div class="terminal-window" id="portfolio-terminal">
+    <!-- Full LTR isolation for terminal component in all languages -->
+    <div
+        class="terminal-window"
+        id="portfolio-terminal"
+        dir="ltr"
+        lang="en"
+        role="region"
+        aria-label="Interactive Command Line Terminal"
+    >
         <div class="terminal-header">
             <div class="terminal-controls" aria-hidden="true">
                 <span class="ctrl-btn ctrl-close"></span>
@@ -13,26 +20,34 @@
         </div>
 
         <div class="terminal-body">
-            <div class="terminal-output-container" id="terminal-output" role="log" aria-live="polite"></div>
+            <div
+                class="terminal-output-container font-mono"
+                id="terminal-output"
+                role="log"
+                aria-live="polite"
+            ></div>
 
             <div class="terminal-input-row">
-                <label for="terminal-input" class="terminal-prompt font-mono">ali@portfolio:~$ </label>
+                <label for="terminal-input" class="terminal-prompt font-mono" aria-hidden="true">
+                    ali@portfolio:~$
+                </label>
                 <input
                     type="text"
                     id="terminal-input"
-                    class="terminal-input"
+                    class="terminal-input font-mono"
+                    dir="ltr"
+                    lang="en"
                     autocomplete="off"
                     autocorrect="off"
                     autocapitalize="off"
                     spellcheck="false"
-                    aria-label="{% translate 'Terminal Command Input' %}"
+                    aria-label="Terminal Command Input"
                 >
             </div>
         </div>
     </div>
 </section>
 
-<!-- Safe data injection via json_script without XSS vulnerability -->
 {{ terminal_data|json_script:"terminal-data-source" }}
 
 <script type="module" src="{% static 'js/terminal/controller.js' %}"></script>

@@ -780,7 +780,14 @@ select {
     }
 }
 
-/* Terminal Component Styles */
+/* Terminal Component Styles & LTR Isolation */
+.terminal-window,
+.terminal-window * {
+    direction: ltr !important;
+    text-align: left !important;
+    unicode-bidi: isolate;
+}
+
 .terminal-window {
     background: #141414;
     color: #e5e5e5;
@@ -822,7 +829,7 @@ select {
     position: absolute;
     width: 100%;
     left: 0;
-    text-align: center;
+    text-align: center !important;
     color: #888888;
     font-size: 0.8rem;
     pointer-events: none;
@@ -848,7 +855,9 @@ select {
 
 .terminal-prompt {
     color: #27c93f;
-    margin-inline-end: 0.5rem;
+    margin-right: 0.5rem;
+    margin-left: 0;
+    user-select: none;
 }
 
 .terminal-output {
@@ -865,6 +874,7 @@ select {
 .terminal-input-row {
     display: flex;
     align-items: center;
+    direction: ltr;
 }
 
 .terminal-input {
@@ -876,7 +886,11 @@ select {
     font-size: 0.9rem;
     flex-grow: 1;
     padding: 0;
+    direction: ltr;
+    text-align: left;
+    caret-color: #27c93f;
 }
+
 
 /* Progressive Enhancement for Terminal */
 .js-only-feature {

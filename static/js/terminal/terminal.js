@@ -12,9 +12,10 @@ export class InteractiveTerminal {
 
         this.renderer = new TerminalRenderer(this.output);
         this.registry = new CommandRegistry(dataContext);
-        
+
         this.history = [];
-        this.historyIndex = -1;
+        this.historyIndex = 0;
+        this.tempInput = ''; // Store current input before navigating history
 
         this._bindEvents();
         this._initBanner();
@@ -22,7 +23,7 @@ export class InteractiveTerminal {
 
     _initBanner() {
         this.renderer.renderOutput(
-            "ALI.DEV Interactive Terminal [Version 1.0.0]\nType 'help' to see list of available commands.\n"
+            "ALI.DEV Interactive Terminal [Version 1.0.0]\nType 'help' to see available commands.\n"
         );
     }
 
@@ -36,14 +37,13 @@ export class InteractiveTerminal {
                 this._handleTab();
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault();
-                this._navigateHistory(1);
+                this._navigateHistoryUp();
             } else if (e.key === 'ArrowDown') {
                 e.preventDefault();
-                this._navigateHistory(-1);
+                this._navigateHistoryDown();
             }
         });
 
-        // Refocus on input when clicking anywhere on the terminal body
         this.container.addEventListener('click', () => {
             this.input.focus();
         });
@@ -52,14 +52,17 @@ export class InteractiveTerminal {
     _handleEnter() {
         const rawValue = this.input.value;
         this.input.value = '';
+        this.tempInput = '';
 
         if (!rawValue.trim()) return;
 
-        this.history.push(rawValue);
+        // Store non-duplicate command in history
+        if (this.history.length === 0 || this.history[this.history.length - 1] !== rawValue) {
+            this.history.push(rawValue);
+        }
         this.historyIndex = this.history.length;
 
         this.renderer.renderCommandLine(rawValue);
-
         const result = this.registry.execute(rawValue);
 
         if (result.action === 'clear') {
@@ -68,15 +71,43 @@ export class InteractiveTerminal {
             if (result.output) {
                 this.renderer.renderOutput(result.output, result.isError);
             }
-
-            if (result.action === 'theme') {
-                this._applyThemeAction(result.themeTarget);
-            } else if (result.action === 'open_url' && result.url) {
+            if (result.action === 'open_url' && result.url) {
                 window.open(result.url, '_blank', 'noopener,noreferrer');
             }
         }
 
         this.renderer.scrollToBottom();
+    }
+
+    _navigateHistoryUp() {
+        if (this.history.length === 0) return;
+
+        if (this.historyIndex === this.history.length) {
+            this.tempInput = this.input.value;
+        }
+
+        if (this.historyIndex > 0) {
+            this.historyIndex--;
+            this.input.value = this.history[this.historyIndex];
+            this._setCursorToEnd();
+        }
+    }
+
+    _navigateHistoryDown() {
+        if (this.historyIndex < this.history.length) {
+            this.historyIndex++;
+            if (this.historyIndex === this.history.length) {
+                this.input.value = this.tempInput;
+            } else {
+                this.input.value = this.history[this.historyIndex];
+            }
+            this._setCursorToEnd();
+        }
+    }
+
+    _setCursorToEnd() {
+        const len = this.input.value.length;
+        this.input.setSelectionRange(len, len);
     }
 
     _handleTab() {
@@ -90,32 +121,5 @@ export class InteractiveTerminal {
             this.renderer.renderOutput(result.suggestions.join('  '));
             this.renderer.scrollToBottom();
         }
-    }
-
-    _navigateHistory(direction) {
-        if (this.history.length === 0) return;
-
-        this.historyIndex -= direction;
-        if (this.historyIndex < 0) this.historyIndex = 0;
-        if (this.historyIndex > this.history.length) this.historyIndex = this.history.length;
-
-        if (this.historyIndex === this.history.length) {
-            this.input.value = '';
-        } else {
-            this.input.value = this.history[this.historyIndex];
-        }
-    }
-
-    _applyThemeAction(target) {
-        const root = document.documentElement;
-        let nextTheme = target;
-
-        if (!['light', 'dark'].includes(target)) {
-            const current = root.getAttribute('data-theme') || 'light';
-            nextTheme = current === 'light' ? 'dark' : 'light';
-        }
-
-        root.setAttribute('data-theme', nextTheme);
-        localStorage.setItem('theme', nextTheme);
     }
 }
