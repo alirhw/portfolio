@@ -26,15 +26,22 @@
 </head>
 
 <body>
-    <header class="site-header">
-        <nav class="site-nav" aria-label="{% translate 'Primary navigation' %}">
-            <a class="site-logo" href="{% url 'portfolio:home' %}">ALI.DEV</a>
+    <!-- Skip to main content for keyboard screen readers -->
+    <a href="#main-content" class="skip-link">
+        {% translate "Skip to main content" %}
+    </a>
 
-            <div class="site-nav__links">
-                <a href="#projects">{% translate "Projects" %}</a>
-                <a href="#skills">{% translate "Skills" %}</a>
-                <a href="#experience">{% translate "Experience" %}</a>
-                <a href="#education">{% translate "Education" %}</a>
+    <header class="site-header" role="banner">
+        <nav class="site-nav" aria-label="{% translate 'Primary navigation' %}">
+            <a class="site-logo" href="{% url 'portfolio:home' %}" aria-label="{% translate 'Home page' %}">
+                ALI.DEV
+            </a>
+
+            <div class="site-nav__links" role="list">
+                <a href="#projects" class="nav-link" role="listitem">{% translate "Projects" %}</a>
+                <a href="#skills" class="nav-link" role="listitem">{% translate "Skills" %}</a>
+                <a href="#experience" class="nav-link" role="listitem">{% translate "Experience" %}</a>
+                <a href="#education" class="nav-link" role="listitem">{% translate "Education" %}</a>
             </div>
 
             <div class="site-nav__actions">
@@ -44,19 +51,20 @@
                     type="button"
                     id="theme-toggle"
                     class="theme-toggle"
-                    aria-label="{% translate 'Toggle color theme' %}"
+                    aria-label="{% translate 'Switch to dark theme' %}"
+                    aria-live="polite"
                 >
-                    Theme
+                    <span class="theme-toggle__label">Theme</span>
                 </button>
             </div>
         </nav>
     </header>
 
-    <main id="main-content">
+    <main id="main-content" role="main" tabindex="-1">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="site-footer">
+    <footer class="site-footer" role="contentinfo">
         {% block footer %}
             <p>© {% now "Y" %} ALI.DEV — {% translate "All rights reserved." %}</p>
         {% endblock %}

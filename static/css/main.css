@@ -1,3 +1,4 @@
+/* متغیرهای رنگی با کنتراست استاندارد WCAG AA */
 :root {
     --font-sans:
         Inter,
@@ -25,13 +26,17 @@
         var(--font-sans);
 
     --color-bg: #ffffff;
-    --color-surface: #f5f5f5;
-    --color-text: #111111;
-    --color-text-muted: #666666;
-    --color-border: #e5e5e5;
-    --color-accent: #111111;
+    --color-surface: #f8f9fa;
+    --color-text: #1a1a1a;
+    --color-text-muted: #595959; /* کنتراست بالای 4.5:1 نسبت به #ffffff */
+    --color-border: #d1d5db;
+    --color-accent: #0f172a;
+    --color-focus: #2563eb;
 
+    --container-max-width: 1200px;
     --container-width: 1200px;
+    --header-height: 4.25rem;
+
     --space-xs: 0.5rem;
     --space-sm: 0.75rem;
     --space-md: 1rem;
@@ -43,12 +48,13 @@
 }
 
 [data-theme="dark"] {
-    --color-bg: #111111;
-    --color-surface: #1a1a1a;
-    --color-text: #f5f5f5;
-    --color-text-muted: #a3a3a3;
-    --color-border: #2d2d2d;
-    --color-accent: #ffffff;
+    --color-bg: #0f172a;
+    --color-surface: #1e293b;
+    --color-text: #f8fafc;
+    --color-text-muted: #94a3b8; /* کنتراست بالای 4.5:1 نسبت به #0f172a */
+    --color-border: #334155;
+    --color-accent: #38bdf8;
+    --color-focus: #60a5fa;
 }
 
 *,
@@ -116,6 +122,47 @@ select {
     font: inherit;
 }
 
+/* لینک پرش به محتوا (Skip Link) */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    inset-inline-start: 1rem;
+    z-index: 1000;
+    padding: 0.75rem 1.25rem;
+    background: var(--color-focus);
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: top 150ms ease-in-out;
+}
+
+.skip-link:focus-visible {
+    top: 1rem;
+}
+
+/* مدیریت فوکوس صفحه‌کلید (Keyboard Focus Indicator) */
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 3px;
+}
+
+/* کاهش انیمیشن برای کاربرانی که prefers-reduced-motion دارند */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
 #main-content {
     width: min(
         calc(100% - 2rem),
@@ -167,13 +214,16 @@ select {
     gap: var(--space-lg);
 }
 
-.site-nav__links a {
+.site-nav__links a,
+.nav-link {
     color: var(--color-text-muted);
     transition: color 160ms ease;
 }
 
 .site-nav__links a:hover,
-.site-nav__links a:focus-visible {
+.site-nav__links a:focus-visible,
+.nav-link:hover,
+.nav-link:focus-visible {
     color: var(--color-text);
 }
 
@@ -215,20 +265,7 @@ select {
         0.75rem;
 
     cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .site-nav {
-        flex-wrap: wrap;
-        padding-block: 0.75rem;
-    }
-
-    .site-nav__links {
-        order: 3;
-        width: 100%;
-        overflow-x: auto;
-        padding-bottom: 0.25rem;
-    }
+    font-family: var(--font-mono);
 }
 
 .site-footer {
@@ -564,9 +601,64 @@ select {
     color: var(--color-accent);
 }
 
-@media (max-width: 768px) {
+/* مدیاکوئری‌های ریسپانسیو سه‌گانه */
+
+/* ۱. تبلت (Tablet: 640px to 1024px) */
+@media (max-width: 1024px) {
+    .site-nav {
+        gap: var(--space-md);
+    }
+
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ۲. موبایل (Mobile: < 640px) */
+@media (max-width: 640px) {
+    .site-nav {
+        flex-direction: column;
+        align-items: stretch;
+        padding-block: var(--space-sm);
+        min-height: auto;
+    }
+
+    .site-nav__links {
+        display: flex;
+        overflow-x: auto;
+        padding-block: var(--space-xs);
+        gap: var(--space-md);
+        scrollbar-width: none;
+    }
+
+    .site-nav__links::-webkit-scrollbar {
+        display: none;
+    }
+
+    .site-nav__actions {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: var(--space-sm);
+        margin-top: var(--space-xs);
+    }
+
+    .hero-title {
+        font-size: 1.875rem;
+    }
+
+    .projects-grid,
+    .skills-grid,
+    .building-grid {
+        grid-template-columns: 1fr;
+    }
+
     .timeline-item {
         grid-template-columns: 1fr;
-        gap: var(--space-xs);
+        gap: 0.25rem;
     }
 }

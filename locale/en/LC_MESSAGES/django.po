@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-16 09:20+0000\n"
-"PO-Revision-Date: 2026-08-16 09:20+0000\n"
+"POT-Creation-Date: 2026-08-16 09:30+0000\n"
+"PO-Revision-Date: 2026-08-16 09:30+0000\n"
 "Last-Translator: Ali Rouhani\n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -24,8 +24,14 @@ msgstr "ALI.DEV — Backend Engineer"
 msgid "Personal portfolio of a Backend Developer and AI enthusiast."
 msgstr "Personal portfolio of a Backend Developer and AI enthusiast."
 
+msgid "Skip to main content"
+msgstr "Skip to main content"
+
 msgid "Primary navigation"
 msgstr "Primary navigation"
+
+msgid "Home page"
+msgstr "Home page"
 
 msgid "Projects"
 msgstr "Projects"
@@ -41,6 +47,12 @@ msgstr "Education"
 
 msgid "Toggle color theme"
 msgstr "Toggle color theme"
+
+msgid "Switch to dark theme"
+msgstr "Switch to dark theme"
+
+msgid "Switch to light theme"
+msgstr "Switch to light theme"
 
 msgid "All rights reserved."
 msgstr "All rights reserved."
