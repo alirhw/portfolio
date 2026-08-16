@@ -16,6 +16,10 @@ class SkillCategory(models.Model):
     def __str__(self):
         return self.name_en
 
+    @property
+    def name(self):
+        return self.name_en
+
 
 class Skill(models.Model):
     class Proficiency(models.TextChoices):
@@ -45,6 +49,10 @@ class Skill(models.Model):
         ordering = ["order", "name_en"]
 
     def __str__(self):
+        return self.name_en
+
+    @property
+    def name(self):
         return self.name_en
 
 

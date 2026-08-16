@@ -1,0 +1,19 @@
+{% if educations %}
+<section id="education" class="section education-section">
+    <h2 class="section-title">Education</h2>
+
+    <div class="timeline">
+        {% for edu in educations %}
+            <article class="timeline-item">
+                <div class="timeline-date">
+                    <span>{{ edu.start_year }} — {% if edu.graduation_year %}{{ edu.graduation_year }}{% else %}Present{% endif %}</span>
+                </div>
+                <div class="timeline-body">
+                    <h3 class="timeline-role">{{ edu.degree_en|default:edu.degree }}{% if edu.field_of_study_en or edu.field_of_study %} in {{ edu.field_of_study_en|default:edu.field_of_study }}{% endif %}</h3>
+                    <h4 class="timeline-company">{{ edu.institution_en|default:edu.institution }}</h4>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}

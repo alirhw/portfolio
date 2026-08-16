@@ -1,0 +1,29 @@
+{% if profile %}
+<section id="hero" class="section hero-section">
+    <div class="hero-content">
+        <div class="hero-status">
+            {% if profile.available_for_hire or profile.is_available %}
+                <span class="badge badge-success">● Available for hire</span>
+            {% else %}
+                <span class="badge badge-muted">● Busy on projects</span>
+            {% endif %}
+        </div>
+
+        <h1 class="hero-title">{{ profile.full_name_en|default:profile.full_name }}</h1>
+        <p class="hero-tagline">{{ profile.headline_en|default:profile.headline }}</p>
+        <p class="hero-bio">{{ profile.bio_en|default:profile.bio }}</p>
+
+        <div class="hero-links">
+            {% if profile.github_url %}
+                <a href="{{ profile.github_url }}" target="_blank" rel="noopener noreferrer" class="link-btn">GitHub</a>
+            {% endif %}
+            {% if profile.linkedin_url %}
+                <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener noreferrer" class="link-btn">LinkedIn</a>
+            {% endif %}
+            {% if profile.email %}
+                <a href="mailto:{{ profile.email }}" class="link-btn link-primary">Contact Me</a>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endif %}

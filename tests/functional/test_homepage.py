@@ -140,10 +140,14 @@ def test_homepage_prefetches_project_technologies(client, django_assert_num_quer
         p.technologies.add(tech1, tech2)
 
     # 1. Profile query
-    # 2. Skills query (select_related category)
-    # 3. Projects query (published[:6])
-    # 4. Technologies prefetch query
-    with django_assert_num_queries(4):
+    # 2. SkillCategory query
+    # 3. SkillCategory prefetch skills
+    # 4. Experience query
+    # 5. Education query
+    # 6. Projects query (published[:6])
+    # 7. Technologies prefetch query
+    # 8. Skills query
+    with django_assert_num_queries(8):
         response = client.get(reverse("portfolio:home"))
         assert response.status_code == 200
         # Iterate over prefetch and foreign keys in context to ensure no N+1 triggers

@@ -29,3 +29,19 @@ class PortfolioProfile(models.Model):
 
     def __str__(self):
         return self.full_name_en
+
+    @property
+    def full_name(self):
+        return self.full_name_en
+
+    @property
+    def headline(self):
+        return self.headline_en
+
+    @property
+    def bio(self):
+        return self.bio_en
+
+    @property
+    def is_available(self):
+        return self.available_for_hire

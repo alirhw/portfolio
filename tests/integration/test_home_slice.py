@@ -142,11 +142,14 @@ def test_homepage_vertical_slice_has_bounded_queries(client, django_assert_num_q
         )
 
     # Bounded query test:
-    # Query 1: PortfolioProfile.objects.first()
-    # Query 2: Skill.objects.filter(highlight=True).select_related("category")
-    # Query 3: Project.objects.published().prefetch_related("technologies")[:6]
-    # Query 4: Technology prefetch query
-    with django_assert_num_queries(4):
+    # 1. Profile query
+    # 2. SkillCategory query
+    # 3. SkillCategory prefetch skills
+    # 4. Experience query
+    # 5. Education query
+    # 6. Projects query
+    # 7. Technologies prefetch query
+    with django_assert_num_queries(7):
         response = client.get(reverse("portfolio:home"))
         assert response.status_code == 200
 

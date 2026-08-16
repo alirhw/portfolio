@@ -1,0 +1,20 @@
+{% if experiences %}
+<section id="experience" class="section experience-section">
+    <h2 class="section-title">Work Experience</h2>
+
+    <div class="timeline">
+        {% for exp in experiences %}
+            <article class="timeline-item">
+                <div class="timeline-date">
+                    <span>{{ exp.start_date|date:"M Y" }} — {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}Present{% endif %}</span>
+                </div>
+                <div class="timeline-body">
+                    <h3 class="timeline-role">{{ exp.position_en|default:exp.position }}</h3>
+                    <h4 class="timeline-company">{{ exp.company|default:exp.company_name }}</h4>
+                    <p class="timeline-description">{{ exp.description_en|default:exp.description }}</p>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}

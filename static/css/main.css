@@ -206,3 +206,174 @@ select {
 
     font-size: 0.9rem;
 }
+
+/* Content Sections */
+.section {
+    padding-block: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.section-title {
+    font-size: 1.5rem;
+    margin-bottom: var(--space-lg);
+    font-family: var(--font-mono);
+}
+
+/* Hero Section */
+.hero-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-block: var(--space-xs) var(--space-sm);
+}
+
+.hero-tagline {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-md);
+}
+
+.hero-links {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.link-btn {
+    border: 1px solid var(--color-border);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+}
+
+.link-primary {
+    background: var(--color-text);
+    color: var(--color-bg);
+}
+
+.badge-success {
+    color: #10b981;
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+}
+
+.badge-muted {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+}
+
+/* Skills Matrix */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-lg);
+}
+
+.skill-category-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+}
+
+.skills-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-sm) 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.skill-badge {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+}
+
+/* Timelines (Experience & Education) */
+.timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: var(--space-md);
+}
+
+.timeline-date {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+.timeline-role {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.15rem;
+}
+
+.timeline-company {
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-muted);
+    font-weight: 500;
+}
+
+.timeline-description {
+    margin: 0;
+    color: var(--color-text-muted);
+}
+
+/* Projects Section */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-lg);
+}
+
+.project-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+}
+
+.project-title {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+}
+
+.project-summary {
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-md) 0;
+    flex-grow: 1;
+}
+
+.project-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+}
+
+.tech-tag {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    padding: 0.15rem 0.45rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+}
+
+@media (max-width: 768px) {
+    .timeline-item {
+        grid-template-columns: 1fr;
+        gap: var(--space-xs);
+    }
+}

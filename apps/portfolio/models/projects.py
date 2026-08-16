@@ -41,3 +41,11 @@ class Project(models.Model):
 
     def __str__(self):
         return self.title_en
+
+    @property
+    def title(self):
+        return self.title_en
+
+    @property
+    def summary(self):
+        return self.description_en

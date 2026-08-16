@@ -23,6 +23,18 @@ class Experience(models.Model):
     def __str__(self):
         return f"{self.position_en} at {self.company}"
 
+    @property
+    def position(self):
+        return self.position_en
+
+    @property
+    def company_name(self):
+        return self.company
+
+    @property
+    def description(self):
+        return self.description_en
+
 
 class Education(models.Model):
     degree_en = models.CharField(max_length=150)
@@ -48,6 +60,18 @@ class Education(models.Model):
 
     def __str__(self):
         return f"{self.degree_en} - {self.institution_en}"
+
+    @property
+    def degree(self):
+        return self.degree_en
+
+    @property
+    def institution(self):
+        return self.institution_en
+
+    @property
+    def field_of_study(self):
+        return self.field_of_study_en
 
 
 class CurrentlyBuilding(models.Model):

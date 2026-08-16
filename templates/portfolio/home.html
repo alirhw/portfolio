@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-    ALI.DEV — Backend Developer & AI Enthusiast
+    {% if profile %}{{ profile.full_name_en|default:profile.full_name }} — {{ profile.headline_en|default:profile.headline }}{% else %}ALI.DEV — Backend Developer & AI Enthusiast{% endif %}
 {% endblock %}
 
 {% block meta_description %}
@@ -9,35 +9,25 @@
 {% endblock %}
 
 {% block content %}
-    <section>
-        <h1>ALI.DEV</h1>
-        <p>Backend Developer & AI Enthusiast</p>
-    </section>
+    {% include "portfolio/partials/_hero.html" %}
+    {% include "portfolio/partials/_skills.html" %}
+    {% include "portfolio/partials/_experience.html" %}
+    {% include "portfolio/partials/_education.html" %}
 
-    {% if profile %}
-        <section>
-            <h2>{{ profile.full_name_en }}</h2>
-            <p>{{ profile.headline_en }}</p>
-        </section>
-    {% endif %}
-
-    <section>
-        {% for skill in skills %}
-            <article>
-                {{ skill.name_en }} ({{ skill.category.name_en }})
-            </article>
-        {% endfor %}
-    </section>
-
-    <section>
-        {% for project in projects %}
-            <article>
-                <h2>{{ project.title_en }}</h2>
-
-                {% for technology in project.technologies.all %}
-                    <span>{{ technology.name }}</span>
-                {% endfor %}
-            </article>
-        {% endfor %}
+    <section id="projects" class="section projects-section">
+        <h2 class="section-title">Featured Projects</h2>
+        <div class="projects-grid">
+            {% for project in projects %}
+                <article class="project-card">
+                    <h3 class="project-title">{{ project.title_en|default:project.title }}</h3>
+                    <p class="project-summary">{{ project.description_en|default:project.summary }}</p>
+                    <div class="project-tech-stack">
+                        {% for tech in project.technologies.all %}
+                            <span class="tech-tag">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
     </section>
 {% endblock %}

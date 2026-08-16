@@ -1,0 +1,34 @@
+{% if skill_categories %}
+<section id="skills" class="section skills-section">
+    <h2 class="section-title">Skills Matrix</h2>
+
+    <div class="skills-grid">
+        {% for category in skill_categories %}
+            <article class="skill-category-card">
+                <h3 class="category-name">{{ category.name_en|default:category.name }}</h3>
+                <ul class="skills-list">
+                    {% for skill in category.skills.all %}
+                        {% if skill.highlight %}
+                            <li class="skill-badge">{{ skill.name_en|default:skill.name }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% elif skills %}
+<section id="skills" class="section skills-section">
+    <h2 class="section-title">Skills Matrix</h2>
+
+    <div class="skills-grid">
+        <article class="skill-category-card">
+            <ul class="skills-list">
+                {% for skill in skills %}
+                    <li class="skill-badge">{{ skill.name_en|default:skill.name }} ({{ skill.category.name_en|default:skill.category.name }})</li>
+                {% endfor %}
+            </ul>
+        </article>
+    </div>
+</section>
+{% endif %}
