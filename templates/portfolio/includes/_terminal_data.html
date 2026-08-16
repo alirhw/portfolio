@@ -1,2 +1,37 @@
-{{ profile.email|json_script:"terminal-contact-email" }}
-{{ profile.github_url|json_script:"terminal-github-url" }}
+<script id="terminal-payload" type="application/json">
+{
+    "contact": {
+        "email": "{{ profile.email|default:'' }}",
+        "github": "{{ profile.github_url|default:'' }}",
+        "linkedin": "{{ profile.linkedin_url|default:'' }}"
+    },
+    "skills": [
+        {% for cat in skill_categories %}
+        {
+            "name": "{{ cat.name }}",
+            "skills": [
+                {% for s in cat.skills.all %}
+                    {% if s.highlight %}
+                    {"name": "{{ s.name }}"}{% if not forloop.last %},{% endif %}
+                    {% endif %}
+                {% endfor %}
+            ]
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ],
+    "projects": [
+        {% for p in projects %}
+        {
+            "title": "{{ p.title }}",
+            "summary": "{{ p.summary }}",
+            "url": "{% url 'portfolio:project_detail' slug=p.slug %}",
+            "technologies": [
+                {% for t in p.technologies.all %}
+                    "{{ t.name }}"{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+}
+</script>

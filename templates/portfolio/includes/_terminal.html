@@ -1,0 +1,57 @@
+{% load i18n static %}
+
+<section id="terminal-section" class="section terminal-wrapper">
+    <div class="terminal-window" id="portfolio-terminal">
+        <div class="terminal-header">
+            <div class="terminal-controls">
+                <span class="ctrl-btn ctrl-close"></span>
+                <span class="ctrl-btn ctrl-min"></span>
+                <span class="ctrl-btn ctrl-max"></span>
+            </div>
+            <div class="terminal-title">ali@portfolio:~</div>
+        </div>
+
+        <div class="terminal-body">
+            <div class="terminal-output-container" id="terminal-output"></div>
+
+            <div class="terminal-input-row">
+                <span class="terminal-prompt" aria-hidden="true">ali@portfolio:~$ </span>
+                <input
+                    type="text"
+                    id="terminal-input"
+                    class="terminal-input"
+                    autocomplete="off"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="false"
+                    aria-label="{% translate 'Terminal Command Input' %}"
+                >
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include "portfolio/includes/_terminal_data.html" %}
+
+<script type="module">
+    import { InteractiveTerminal } from "{% static 'js/terminal/terminal.js' %}";
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const payloadElem = document.getElementById("terminal-payload");
+        let dataContext = {};
+        if (payloadElem) {
+            try {
+                dataContext = JSON.parse(payloadElem.textContent);
+            } catch (e) {
+                console.error("Error parsing terminal data context", e);
+            }
+        }
+
+        new InteractiveTerminal({
+            containerId: "portfolio-terminal",
+            inputId: "terminal-input",
+            outputId: "terminal-output",
+            dataContext: dataContext
+        });
+    });
+</script>
