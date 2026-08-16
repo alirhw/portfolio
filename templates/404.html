@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Page Not Found — 404" %} — ALI.DEV
+{% endblock %}
+
+{% block content %}
+<section class="section error-page-section">
+    <div class="error-container">
+        <span class="error-code font-mono">404</span>
+        <h1 class="error-title">{% translate "Page Not Found" %}</h1>
+        <p class="error-description">
+            {% translate "The project or page you are looking for might have been unpublished, removed, or never existed." %}
+        </p>
+        <div class="error-actions">
+            <a href="{% url 'portfolio:home' %}" class="btn btn-primary">
+                ← {% translate "Return to Homepage" %}
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

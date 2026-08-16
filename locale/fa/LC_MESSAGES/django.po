@@ -63,5 +63,17 @@ msgstr "مشاهده دموی زنده"
 msgid "View Source Code"
 msgstr "مشاهده سورس کد"
 
+msgid "Page Not Found — 404"
+msgstr "صفحه پیدا نشد — ۴۰۴"
+
+msgid "Page Not Found"
+msgstr "صفحه پیدا نشد"
+
+msgid "The project or page you are looking for might have been unpublished, removed, or never existed."
+msgstr "پروژه یا صفحه‌ای که به دنبال آن هستید ممکن است از حالت انتشار خارج شده، حذف شده یا هرگز وجود نداشته باشد."
+
+msgid "Return to Homepage"
+msgstr "بازگشت به صفحه اصلی"
+
 msgid "All rights reserved."
 msgstr "تمامی حقوق محفوظ است."

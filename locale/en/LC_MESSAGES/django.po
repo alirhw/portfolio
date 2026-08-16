@@ -63,5 +63,17 @@ msgstr "Visit Live Demo"
 msgid "View Source Code"
 msgstr "View Source Code"
 
+msgid "Page Not Found — 404"
+msgstr "Page Not Found — 404"
+
+msgid "Page Not Found"
+msgstr "Page Not Found"
+
+msgid "The project or page you are looking for might have been unpublished, removed, or never existed."
+msgstr "The project or page you are looking for might have been unpublished, removed, or never existed."
+
+msgid "Return to Homepage"
+msgstr "Return to Homepage"
+
 msgid "All rights reserved."
 msgstr "All rights reserved."

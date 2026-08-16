@@ -678,6 +678,46 @@ select {
     line-height: 1.8;
 }
 
+/* Error 404 Section */
+.error-page-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+    text-align: center;
+}
+
+.error-container {
+    max-width: 540px;
+    margin-inline: auto;
+}
+
+.error-code {
+    display: block;
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1;
+    margin-bottom: var(--space-sm);
+}
+
+.error-title {
+    font-size: 1.75rem;
+    margin-bottom: var(--space-xs);
+}
+
+.error-description {
+    color: var(--color-text-muted);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: var(--space-lg);
+}
+
+.error-actions {
+    display: flex;
+    justify-content: center;
+}
+
 /* مدیاکوئری‌های ریسپانسیو سه‌گانه */
 
 /* ۱. تبلت (Tablet: 640px to 1024px) */
