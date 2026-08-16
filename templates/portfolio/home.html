@@ -4,14 +4,15 @@
     <main>
         {% if profile %}
             <section>
-                <h1>{{ profile }}</h1>
+                <h1>{{ profile.full_name_en }}</h1>
+                <p>{{ profile.headline_en }}</p>
             </section>
         {% endif %}
 
         <section>
             {% for skill in skills %}
                 <article>
-                    {{ skill }}
+                    {{ skill.name_en }} ({{ skill.category.name_en }})
                 </article>
             {% endfor %}
         </section>
@@ -19,10 +20,10 @@
         <section>
             {% for project in projects %}
                 <article>
-                    <h2>{{ project }}</h2>
+                    <h2>{{ project.title_en }}</h2>
 
                     {% for technology in project.technologies.all %}
-                        <span>{{ technology }}</span>
+                        <span>{{ technology.name }}</span>
                     {% endfor %}
                 </article>
             {% endfor %}
