@@ -11,7 +11,7 @@ from .exceptions import (
     GitHubRateLimitError,
 )
 
-# مرزهای زمانی سختگیرانه طبق ARCH-021 (مجموعاً حداکثر ۴ ثانیه)
+# Strict timeout boundaries per ARCH-021 (maximum 4.0s total)
 DEFAULT_TIMEOUT = httpx.Timeout(
     timeout=4.0,
     connect=1.5,
@@ -26,8 +26,8 @@ GITHUB_GRAPHQL_ENDPOINT = "https://api.github.com/graphql"
 
 class GitHubClient:
     """
-    کلاینت سمت سرور برای برقراری ارتباط ایمن با GitHub API.
-    مطابق با ARCH-007، ARCH-008 و ARCH-021.
+    Server-side client for resilient communication with GitHub REST and GraphQL APIs.
+    Complies with ARCH-007, ARCH-008, and ARCH-021.
     """
 
     def __init__(
@@ -35,7 +35,7 @@ class GitHubClient:
         token: str | None = None,
         timeout: httpx.Timeout | None = None,
     ) -> None:
-        # توکن فقط در سمت سرور و با اولویت تنظیمات محیطی دریافت می‌شود
+        # Token is strictly resolved server-side with priority to settings/environment
         self._token = token or getattr(settings, "GITHUB_ACCESS_TOKEN", None)
         self._timeout = timeout or DEFAULT_TIMEOUT
 
@@ -50,7 +50,7 @@ class GitHubClient:
 
     def execute_rest(self, endpoint: str) -> dict[str, Any]:
         """
-        ارسال درخواست GET به اندپوینت‌های REST.
+        Execute a GET request to a GitHub REST endpoint.
         """
         url = f"{GITHUB_REST_BASE_URL.rstrip('/')}/{endpoint.lstrip('/')}"
         try:
@@ -64,7 +64,7 @@ class GitHubClient:
         self, query: str, variables: dict[str, Any] | None = None
     ) -> dict[str, Any]:
         """
-        ارسال کوئری به اندپوینت GraphQL گیت‌هاب.
+        Execute a POST query to the GitHub GraphQL endpoint.
         """
         payload: dict[str, Any] = {"query": query}
         if variables:

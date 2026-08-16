@@ -23,7 +23,7 @@ class GitHubMetrics:
     @classmethod
     def empty(cls) -> GitHubMetrics:
         """
-        مقدار پیش‌فرض و امن (Safe Fallback) هنگام قطعی یا در دسترس نبودن GitHub API
+        Default safe fallback values when GitHub API is unreachable or rate-limited.
         """
         return cls(
             total_contributions=0,

@@ -1,13 +1,13 @@
 class GitHubIntegrationError(Exception):
-    """خطای پایه برای ارتباطات یکپارچه‌سازی گیت‌هاب."""
+    """Base exception for GitHub integration operations."""
 
 
 class GitHubNetworkError(GitHubIntegrationError):
-    """خطای اتصال فیزیکی شبکه، قطعی DNS یا Timeout."""
+    """Raised when a network transport error, DNS resolution failure, or timeout occurs."""
 
 
 class GitHubAPIError(GitHubIntegrationError):
-    """خطای پاسخ غیرموفق HTTP از سمت گیت‌هاب."""
+    """Raised when GitHub API returns an unsuccessful HTTP response (>= 400)."""
 
     def __init__(self, status_code: int, message: str) -> None:
         super().__init__(f"GitHub API returned HTTP {status_code}: {message}")
@@ -16,4 +16,4 @@ class GitHubAPIError(GitHubIntegrationError):
 
 
 class GitHubRateLimitError(GitHubAPIError):
-    """اتمام سهمیه مجاز فراخوانی API (Rate Limit Exceeded)."""
+    """Raised when GitHub API rate limit quota is exceeded."""
