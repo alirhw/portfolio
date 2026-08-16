@@ -101,6 +101,15 @@ MEDIA_ROOT = BASE_DIR / "media"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Cache Framework Configuration
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "portfolio-cache",
+    }
+}
+
 # GitHub Integration Settings (ARCH-008, ARCH-021)
 GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN", None)
 GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "default-user")
+GITHUB_CACHE_TTL = 3600  # 1 hour cache duration
