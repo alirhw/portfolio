@@ -1,0 +1,29 @@
+{% if currently_building %}
+<section id="currently-building" class="section building-section">
+    <div class="section-header">
+        <h2 class="section-title">
+            <span class="pulse-indicator"></span> Currently Building
+        </h2>
+        <p class="section-subtitle">Active explorations and works in progress.</p>
+    </div>
+
+    <div class="building-grid">
+        {% for item in currently_building %}
+            <article class="building-card">
+                <div class="building-card__header">
+                    <h3 class="building-title">{{ item.title_en|default:item.title }}</h3>
+                    {% if item.progress_percentage %}
+                        <span class="progress-badge">{{ item.progress_percentage }}%</span>
+                    {% endif %}
+                </div>
+                <p class="building-description">{{ item.description_en|default:item.description }}</p>
+                {% if item.target_date %}
+                    <div class="building-footer">
+                        <span class="target-label">Target: {{ item.target_date|date:"M Y" }}</span>
+                    </div>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}

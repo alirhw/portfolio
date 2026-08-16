@@ -10,24 +10,9 @@
 
 {% block content %}
     {% include "portfolio/partials/_hero.html" %}
+    {% include "portfolio/includes/_currently_building.html" %}
+    {% include "portfolio/includes/_projects.html" %}
     {% include "portfolio/partials/_skills.html" %}
     {% include "portfolio/partials/_experience.html" %}
     {% include "portfolio/partials/_education.html" %}
-
-    <section id="projects" class="section projects-section">
-        <h2 class="section-title">Featured Projects</h2>
-        <div class="projects-grid">
-            {% for project in projects %}
-                <article class="project-card">
-                    <h3 class="project-title">{{ project.title_en|default:project.title }}</h3>
-                    <p class="project-summary">{{ project.description_en|default:project.summary }}</p>
-                    <div class="project-tech-stack">
-                        {% for tech in project.technologies.all %}
-                            <span class="tech-tag">{{ tech.name }}</span>
-                        {% endfor %}
-                    </div>
-                </article>
-            {% endfor %}
-        </div>
-    </section>
 {% endblock %}

@@ -98,3 +98,11 @@ class CurrentlyBuilding(models.Model):
 
     def __str__(self):
         return self.title_en
+
+    @property
+    def title(self):
+        return self.title_en
+
+    @property
+    def description(self):
+        return self.description_en

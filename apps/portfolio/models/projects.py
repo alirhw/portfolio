@@ -49,3 +49,11 @@ class Project(models.Model):
     @property
     def summary(self):
         return self.description_en
+
+    @property
+    def github_url(self):
+        return self.repository_url
+
+    @property
+    def live_url(self):
+        return self.demo_url

@@ -1,0 +1,65 @@
+{% if projects %}
+<section id="projects" class="section projects-section">
+    <div class="section-header">
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-subtitle">Selected open-source projects and production systems.</p>
+    </div>
+
+    <div class="projects-grid">
+        {% for project in projects %}
+            <article class="project-card">
+                {% if project.featured_image %}
+                    <div class="project-card__image-wrapper">
+                        <img
+                            src="{{ project.featured_image.url }}"
+                            alt="{{ project.title_en|default:project.title }}"
+                            class="project-image"
+                            loading="lazy"
+                        >
+                    </div>
+                {% endif %}
+
+                <div class="project-card__content">
+                    <div class="project-card__top">
+                        <h3 class="project-title">{{ project.title_en|default:project.title }}</h3>
+                        {% if project.is_featured %}
+                            <span class="badge badge-featured">Featured</span>
+                        {% endif %}
+                    </div>
+
+                    <p class="project-summary">{{ project.description_en|default:project.summary }}</p>
+
+                    <div class="project-tech-stack">
+                        {% for tech in project.technologies.all %}
+                            <span class="tech-tag">{{ tech.name }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <div class="project-links">
+                        {% if project.repository_url or project.github_url %}
+                            <a
+                                href="{{ project.repository_url|default:project.github_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="project-link"
+                            >
+                                Source Code ↗
+                            </a>
+                        {% endif %}
+                        {% if project.demo_url or project.live_url %}
+                            <a
+                                href="{{ project.demo_url|default:project.live_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="project-link project-link--primary"
+                            >
+                                Live Demo ↗
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
