@@ -18,6 +18,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "pytest",
+    "pytest-cov>=7.1.0",
     "pytest-django",
     "ruff",
 ]
@@ -44,4 +45,27 @@ indent-style = "space"
 DJANGO_SETTINGS_MODULE = "config.settings.test"
 python_files = ["test_*.py", "*_test.py"]
 testpaths = ["tests"]
-addopts = "--strict-markers --tb=short"
+addopts = "--strict-markers --tb=short --cov=apps --cov=integrations --cov-report=term-missing --cov-fail-under=80"
+
+[tool.coverage.run]
+branch = true
+source = ["apps", "integrations"]
+omit = [
+    "*/migrations/*",
+    "*/apps.py",
+    "*/admin.py",
+    "*/__init__.py",
+]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = false
+fail_under = 80
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "def __str__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]
