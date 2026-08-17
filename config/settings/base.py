@@ -118,3 +118,7 @@ GITHUB_BACKUP_CACHE_TTL = 604800  # 7 days backup cache duration
 # Cloudflare Turnstile Settings
 TURNSTILE_SITE_KEY = os.getenv("TURNSTILE_SITE_KEY", "")
 TURNSTILE_SECRET_KEY = os.getenv("TURNSTILE_SECRET_KEY", "")
+
+# Contact Form Settings
+CONTACT_NOTIFICATION_EMAIL = os.getenv("CONTACT_NOTIFICATION_EMAIL", "admin@example.com")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "noreply@portfolio.local")

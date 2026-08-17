@@ -8,6 +8,7 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path("admin/", admin.site.urls),
+    path("contact/", include("apps.contact.urls", namespace="contact")),
     path("", include("apps.portfolio.urls", namespace="portfolio")),
     prefix_default_language=True,
 )
