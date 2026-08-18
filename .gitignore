@@ -19,3 +19,8 @@ db.sqlite3-journal
 # Static and media files
 staticfiles/
 media/
+
+# Testing and coverage
+.coverage
+htmlcov/
+.pytest_cache/
