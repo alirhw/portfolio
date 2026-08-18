@@ -1,16 +1,30 @@
 {% load i18n %}
 {% get_current_language as CURRENT_LANGUAGE %}
 
-<form action="{% url 'set_language' %}" method="post" class="lang-switch-form">
+<form action="{% url 'set_language' %}" method="post" class="lang-switch-form m-0 p-0 inline-flex">
     {% csrf_token %}
     <input name="next" type="hidden" value="{{ request.get_full_path }}">
     {% if CURRENT_LANGUAGE == "fa" %}
-        <button type="submit" name="language" value="en" class="lang-btn" aria-label="Switch to English">
-            <span class="lang-code">EN</span>
+        <button
+            type="submit"
+            name="language"
+            value="en"
+            class="lang-btn px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all flex items-center gap-1.5"
+            aria-label="Switch to English"
+        >
+            <span>🌐</span>
+            <span class="lang-code font-bold">EN</span>
         </button>
     {% else %}
-        <button type="submit" name="language" value="fa" class="lang-btn" aria-label="تغییر به زبان فارسی">
-            <span class="lang-code">FA</span>
+        <button
+            type="submit"
+            name="language"
+            value="fa"
+            class="lang-btn px-3 py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all flex items-center gap-1.5"
+            aria-label="تغییر به زبان فارسی"
+        >
+            <span>🌐</span>
+            <span class="lang-code font-bold">FA</span>
         </button>
     {% endif %}
 </form>

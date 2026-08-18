@@ -1,69 +1,90 @@
+{% load i18n static %}
 {% if projects %}
-<section id="projects" class="section projects-section">
-    <div class="section-header">
-        <h2 class="section-title">Featured Projects</h2>
-        <p class="section-subtitle">Selected open-source projects and production systems.</p>
-    </div>
+<section id="projects" class="section projects-section py-16 md:py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center space-y-3 mb-16 reveal">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-indigo-500/30 text-indigo-400 text-xs font-mono">
+                <i class="fa-solid fa-briefcase text-sm"></i>
+                <span>{% translate "PORTFOLIO SHOWCASE" %}</span>
+            </div>
+            <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-white">
+                <span class="text-gradient">Featured Projects</span>
+            </h2>
+            <p class="section-subtitle text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+                {% translate "A selection of real-world software applications and systems built with modern backend standards." %}
+            </p>
+        </div>
 
-    <div class="projects-grid">
-        {% for project in projects %}
-            <article class="project-card">
-                {% if project.featured_image %}
-                    <div class="project-card__image-wrapper">
-                        <img
-                            src="{{ project.featured_image.url }}"
-                            alt="{{ project.title_en|default:project.title }}"
-                            class="project-image"
-                            loading="lazy"
-                        >
-                    </div>
-                {% endif %}
-
-                <div class="project-card__content">
-                    <div class="project-card__top">
-                        <h3 class="project-title">
-                            <a href="{% url 'portfolio:project_detail' slug=project.slug %}">
-                                {{ project.title_en|default:project.title }}
-                            </a>
-                        </h3>
-                        {% if project.is_featured %}
-                            <span class="badge badge-featured">Featured</span>
-                        {% endif %}
-                    </div>
-
-                    <p class="project-summary">{{ project.description_en|default:project.summary }}</p>
-
-                    <div class="project-tech-stack">
-                        {% for tech in project.technologies.all %}
-                            <span class="tech-tag">{{ tech.name }}</span>
-                        {% endfor %}
+        <div class="projects-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal">
+            {% for project in projects %}
+                <article class="project-card glass-card rounded-2xl overflow-hidden border border-slate-800 flex flex-col group hover:-translate-y-1.5 transition-all duration-300">
+                    <div class="h-48 bg-gradient-to-br from-indigo-900/60 to-slate-900 relative flex items-center justify-center border-b border-slate-800/80 overflow-hidden">
+                        <div class="absolute inset-0 bg-indigo-500/10 group-hover:bg-indigo-500/20 transition-colors"></div>
+                        <div class="text-center p-6 space-y-2 relative z-10">
+                            <div class="w-14 h-14 mx-auto rounded-2xl bg-indigo-600/30 border border-indigo-500/40 text-indigo-300 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            {% if project.is_featured %}
+                                <span class="badge badge-featured px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-2xs font-mono uppercase tracking-wider">
+                                    Featured
+                                </span>
+                            {% endif %}
+                        </div>
                     </div>
 
-                    <div class="project-links">
-                        {% if project.repository_url or project.github_url %}
-                            <a
-                                href="{{ project.repository_url|default:project.github_url }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="project-link"
-                            >
-                                Source Code ↗
-                            </a>
-                        {% endif %}
-                        {% if project.demo_url or project.live_url %}
-                            <a
-                                href="{{ project.demo_url|default:project.live_url }}"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                class="project-link project-link--primary"
-                            >
-                                Live Demo ↗
-                            </a>
-                        {% endif %}
+                    <div class="project-card__content p-6 flex-grow flex flex-col justify-between space-y-4">
+                        <div class="space-y-2 text-left rtl:text-right">
+                            <h3 class="project-title text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+                                <a href="{% url 'portfolio:project_detail' slug=project.slug %}">
+                                    {{ project.title_en|default:project.title }}
+                                </a>
+                            </h3>
+                            <p class="project-summary text-slate-400 text-xs sm:text-sm leading-relaxed">
+                                {{ project.description_en|default:project.summary }}
+                            </p>
+                        </div>
+
+                        <div class="project-tech-stack flex flex-wrap gap-1.5 pt-2">
+                            {% for tech in project.technologies.all %}
+                                <span class="tech-tag px-2.5 py-0.5 rounded-md bg-slate-800 text-indigo-300 text-xs font-mono">
+                                    {{ tech.name }}
+                                </span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="project-links pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-medium" dir="ltr">
+                            {% if project.repository_url or project.github_url %}
+                                <a
+                                    href="{{ project.repository_url|default:project.github_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="project-link text-slate-300 hover:text-indigo-400 flex items-center gap-1.5 transition-colors"
+                                >
+                                    <i class="fa-brands fa-github text-sm"></i>
+                                    <span>{% translate "Source Code" %} ↗</span>
+                                </a>
+                            {% else %}
+                                <span></span>
+                            {% endif %}
+
+                            {% if project.demo_url or project.live_url %}
+                                <a
+                                    href="{{ project.demo_url|default:project.live_url }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="project-link project-link--primary text-indigo-400 hover:text-indigo-300 flex items-center gap-1 transition-colors"
+                                >
+                                    <span>{% translate "Live Demo" %} ↗</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-3xs"></i>
+                                </a>
+                            {% endif %}
+                        </div>
                     </div>
-                </div>
-            </article>
-        {% endfor %}
+                </article>
+            {% endfor %}
+        </div>
+
     </div>
 </section>
 {% endif %}

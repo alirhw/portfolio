@@ -1,19 +1,21 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block title %}
-    {% if profile %}{{ profile.full_name_en|default:profile.full_name }} — {{ profile.headline_en|default:profile.headline }}{% else %}ALI.DEV — Backend Developer & AI Enthusiast{% endif %}
+    {% if profile %}{{ profile.full_name_en }} — {{ profile.headline_en }}{% else %}ALI.DEV — {% translate "Backend Developer & AI Engineer" %}{% endif %}
 {% endblock %}
 
 {% block meta_description %}
-    Personal portfolio of a Backend Developer and AI enthusiast.
+    {% if profile %}{{ profile.bio_en }}{% else %}{% translate "Personal portfolio of a Backend Developer and AI enthusiast." %}{% endif %}
 {% endblock %}
 
 {% block content %}
     {% include "portfolio/partials/_hero.html" %}
     {% include "portfolio/includes/_currently_building.html" %}
     {% include "portfolio/includes/_projects.html" %}
+    {% include "portfolio/includes/_github_stats.html" %}
     {% include "portfolio/partials/_skills.html" %}
     {% include "portfolio/partials/_experience.html" %}
     {% include "portfolio/partials/_education.html" %}
-    {% include "portfolio/includes/_terminal.html" %}
+    {% include "portfolio/includes/_contact.html" %}
 {% endblock %}

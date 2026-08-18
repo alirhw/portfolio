@@ -1,19 +1,51 @@
+{% load i18n static %}
 {% if educations %}
-<section id="education" class="section education-section">
-    <h2 class="section-title">Education</h2>
+<section id="education" class="section education-section py-16 md:py-24 relative">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center space-y-3 mb-16 reveal">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-indigo-500/30 text-indigo-400 text-xs font-mono">
+                <i class="fa-solid fa-graduation-cap text-sm"></i>
+                <span>{% translate "ACADEMIC BACKGROUND" %}</span>
+            </div>
+            <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-white">
+                {% translate "Academic" %} <span class="text-gradient">{% translate "Education" %}</span>
+            </h2>
+        </div>
 
-    <div class="timeline">
-        {% for edu in educations %}
-            <article class="timeline-item">
-                <div class="timeline-date">
-                    <span>{{ edu.start_year }} — {% if edu.graduation_year %}{{ edu.graduation_year }}{% else %}Present{% endif %}</span>
-                </div>
-                <div class="timeline-body">
-                    <h3 class="timeline-role">{{ edu.degree_en|default:edu.degree }}{% if edu.field_of_study_en or edu.field_of_study %} in {{ edu.field_of_study_en|default:edu.field_of_study }}{% endif %}</h3>
-                    <h4 class="timeline-company">{{ edu.institution_en|default:edu.institution }}</h4>
-                </div>
-            </article>
-        {% endfor %}
+        <div class="timeline relative border-l-2 border-slate-800 rtl:border-l-0 rtl:border-r-2 rtl:mr-4 ml-4 md:ml-8 rtl:md:mr-8 space-y-10 reveal">
+            {% for edu in educations %}
+                <article class="timeline-item relative pl-8 rtl:pl-0 rtl:pr-8 group">
+                    <div class="absolute -left-[9px] rtl:-left-auto rtl:-right-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-indigo-500 group-hover:bg-indigo-500 group-hover:scale-125 transition-all" aria-hidden="true"></div>
+                    
+                    <div class="timeline-body glass-card p-6 rounded-2xl border border-slate-800 space-y-3 hover:-translate-y-0.5 transition-transform text-left rtl:text-right">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                            <div>
+                                <h3 class="timeline-role text-lg sm:text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+                                    {{ edu.degree_en|default:edu.degree }}{% if edu.field_of_study_en or edu.field_of_study %} in {{ edu.field_of_study_en|default:edu.field_of_study }}{% endif %}
+                                </h3>
+                                <h4 class="timeline-company text-sm font-semibold text-indigo-400">
+                                    {{ edu.institution_en|default:edu.institution }}
+                                </h4>
+                            </div>
+
+                            <div class="timeline-date">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-slate-900/80 border border-slate-700/80 text-slate-300" dir="ltr">
+                                    {{ edu.start_year }} — {% if edu.graduation_year %}{{ edu.graduation_year }}{% else %}{% translate "Present" %}{% endif %}
+                                </span>
+                            </div>
+                        </div>
+
+                        {% if edu.description_en or edu.description_fa %}
+                            <p class="timeline-description text-slate-300 text-sm leading-relaxed pt-2 border-t border-slate-800/60">
+                                {{ edu.description_en|default:edu.description_fa }}
+                            </p>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
     </div>
 </section>
 {% endif %}

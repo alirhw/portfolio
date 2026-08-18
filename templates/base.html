@@ -6,6 +6,7 @@
     lang="{{ CURRENT_LANGUAGE }}"
     dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
     data-theme="light"
+    class="dark scroll-smooth"
 >
 <head>
     <meta charset="UTF-8">
@@ -25,63 +26,190 @@
         })();
     </script>
 
+    <!-- Google Fonts: Inter, Fira Code, JetBrains Mono & Vazirmatn -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Vazirmatn:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet"
     >
 
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Tailwind CSS CDN & Custom Config -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Vazirmatn', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#030712',
+                            900: '#070a12',
+                            800: '#0d1322',
+                            700: '#151d32',
+                            600: '#1e293b',
+                        },
+                        brand: {
+                            primary: '#6366f1',
+                            secondary: '#a855f7',
+                            accent: '#06b6d4',
+                            emerald: '#10b981',
+                        }
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 3s ease-in-out infinite alternate',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Glassmorphism Stylesheet -->
     <link rel="stylesheet" href="{% static 'css/main.css' %}">
     {% block extra_head %}{% endblock %}
 </head>
 
-<body>
-    <!-- Skip to main content for keyboard screen readers -->
+<body class="min-h-screen flex flex-col relative selection:bg-indigo-500 selection:text-white bg-[#070a12] text-slate-100 font-sans">
+    <!-- Mouse Glow Interactive Overlay -->
+    <div id="mouse-glow" aria-hidden="true"></div>
+
+    <!-- Accessibility Skip Link -->
     <a href="#main-content" class="skip-link">
         {% translate "Skip to main content" %}
     </a>
 
-    <header class="site-header" role="banner">
-        <nav class="site-nav" aria-label="{% translate 'Primary navigation' %}">
-            <a class="site-logo" href="{% url 'portfolio:home' %}" aria-label="{% translate 'Home page' %}">
-                ALI.DEV
-            </a>
+    <!-- Sticky Glass Navigation Bar -->
+    <header class="site-header sticky top-0 z-50 glass-nav transition-all duration-300" role="banner">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Brand -->
+                <a href="{% url 'portfolio:home' %}" class="site-logo flex items-center gap-3 group" aria-label="{% translate 'Home page' %}">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-mono font-bold text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
+                        &lt;/&gt;
+                    </div>
+                    <span class="text-xl font-bold tracking-tight text-white group-hover:text-indigo-400 transition-colors">
+                        ALI.<span class="text-gradient">DEV</span>
+                    </span>
+                </a>
 
-            <div class="site-nav__links" role="list">
-                <a href="#projects" class="nav-link" role="listitem">{% translate "Projects" %}</a>
-                <a href="#skills" class="nav-link" role="listitem">{% translate "Skills" %}</a>
-                <a href="#experience" class="nav-link" role="listitem">{% translate "Experience" %}</a>
-                <a href="#education" class="nav-link" role="listitem">{% translate "Education" %}</a>
+                <!-- Desktop Navigation Links -->
+                <nav class="site-nav hidden lg:flex items-center gap-6 text-sm font-medium text-slate-300" aria-label="{% translate 'Primary navigation' %}">
+                    <div class="site-nav__links flex items-center gap-6" role="list">
+                        <a href="{% url 'portfolio:home' %}" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Home" %}</a>
+                        <a href="#skills" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Skills" %}</a>
+                        <a href="#building" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Building" %}</a>
+                        <a href="#projects" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Projects" %}</a>
+                        <a href="#github-stats" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "GitHub" %}</a>
+                        <a href="#experience" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Experience" %}</a>
+                        <a href="#education" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Education" %}</a>
+                        <a href="#terminal-section" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Terminal" %}</a>
+                        <a href="#contact" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Contact" %}</a>
+                    </div>
+                </nav>
+
+                <!-- Actions: Language Switcher, Theme Toggle, CTA -->
+                <div class="site-nav__actions flex items-center gap-3">
+                    {% include "includes/_language_switcher.html" %}
+
+                    <button
+                        type="button"
+                        id="theme-toggle"
+                        class="theme-toggle p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white transition-all flex items-center gap-1.5"
+                        aria-label="{% translate 'Switch to dark theme' %}"
+                        aria-live="polite"
+                    >
+                        <i class="fa-solid fa-circle-half-stroke text-sm"></i>
+                        <span class="theme-toggle__label hidden sm:inline">Theme</span>
+                    </button>
+
+                    <a href="#contact" class="hidden sm:flex px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition-all shadow-lg shadow-indigo-500/25 hover:shadow-indigo-500/40 hover:-translate-y-0.5 items-center gap-1.5">
+                        <i class="fa-solid fa-paper-plane text-xs"></i>
+                        <span>{% translate "Contact" %}</span>
+                    </a>
+
+                    <!-- Mobile Hamburger Toggle -->
+                    <button
+                        id="mobile-menu-btn"
+                        type="button"
+                        class="lg:hidden p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 focus:outline-none"
+                        aria-label="{% translate 'Toggle navigation menu' %}"
+                    >
+                        <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
+                    </button>
+                </div>
             </div>
 
-            <div class="site-nav__actions">
-                {% include "includes/_language_switcher.html" %}
-
-                <button
-                    type="button"
-                    id="theme-toggle"
-                    class="theme-toggle"
-                    aria-label="{% translate 'Switch to dark theme' %}"
-                    aria-live="polite"
-                >
-                    <span class="theme-toggle__label">Theme</span>
-                </button>
+            <!-- Mobile Navigation Drawer -->
+            <div id="mobile-menu" class="hidden lg:hidden pb-6 pt-2 border-t border-slate-800/80">
+                <div class="flex flex-col gap-2 text-sm font-medium text-slate-300">
+                    <a href="{% url 'portfolio:home' %}" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Home" %}</a>
+                    <a href="#skills" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Skills" %}</a>
+                    <a href="#building" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Building" %}</a>
+                    <a href="#projects" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Projects" %}</a>
+                    <a href="#github-stats" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "GitHub Stats" %}</a>
+                    <a href="#experience" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Experience" %}</a>
+                    <a href="#education" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Education" %}</a>
+                    <a href="#terminal-section" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Terminal" %}</a>
+                    <a href="#contact" class="hover:text-indigo-400 py-2 px-3 rounded-lg hover:bg-slate-800/40">{% translate "Contact" %}</a>
+                    
+                    <div class="pt-2">
+                        <a href="#contact" class="w-full text-center py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-medium block">
+                            {% translate "Get in Touch" %}
+                        </a>
+                    </div>
+                </div>
             </div>
-        </nav>
+        </div>
     </header>
 
-    <main id="main-content" role="main" tabindex="-1">
+    <!-- Main Content Container -->
+    <main id="main-content" class="relative z-10 flex-grow flex flex-col" role="main" tabindex="-1">
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="site-footer" role="contentinfo">
-        {% block footer %}
-            <p>© {% now "Y" %} ALI.DEV — {% translate "All rights reserved." %}</p>
-        {% endblock %}
+    <!-- Glass Footer -->
+    <footer class="site-footer border-t border-slate-800/80 bg-slate-950 py-12 relative z-10" role="contentinfo">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-mono text-sm font-bold">
+                        &lt;/&gt;
+                    </div>
+                    <p class="text-xs sm:text-sm text-slate-400">
+                        {% block footer %}
+                            © {% now "Y" %} ALI.DEV — {% translate "All rights reserved." %}
+                        {% endblock %}
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium">
+                    <a href="{% url 'portfolio:home' %}" class="hover:text-indigo-400 transition-colors">{% translate "Home" %}</a>
+                    <a href="#projects" class="hover:text-indigo-400 transition-colors">{% translate "Projects" %}</a>
+                    <a href="#skills" class="hover:text-indigo-400 transition-colors">{% translate "Skills" %}</a>
+                    <a href="#contact" class="hover:text-indigo-400 transition-colors">{% translate "Contact" %}</a>
+                </div>
+
+                <a href="#hero" class="w-10 h-10 rounded-xl glass-card text-slate-400 hover:text-indigo-400 flex items-center justify-center transition-all hover:-translate-y-1" aria-label="{% translate 'Back to top' %}">
+                    <i class="fa-solid fa-arrow-up text-sm"></i>
+                </a>
+            </div>
+        </div>
     </footer>
 
+    <!-- Core Scripts -->
     <script type="module" src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
     {% block extra_js %}{% endblock %}
 </body>
 </html>

@@ -1,28 +1,66 @@
+{% load i18n static %}
 {% if currently_building %}
-<section id="currently-building" class="section building-section">
-    <div class="section-header">
-        <h2 class="section-title">
-            <span class="pulse-indicator"></span> Currently Building
-        </h2>
-        <p class="section-subtitle">Active explorations and works in progress.</p>
-    </div>
-
-    <div class="building-grid">
+<section id="building" class="section building-section py-16 md:py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {% for item in currently_building %}
-            <article class="building-card">
-                <div class="building-card__header">
-                    <h3 class="building-title">{{ item.title_en|default:item.title }}</h3>
-                    {% if item.progress_percentage %}
-                        <span class="progress-badge">{{ item.progress_percentage }}%</span>
-                    {% endif %}
-                </div>
-                <p class="building-description">{{ item.description_en|default:item.description }}</p>
-                {% if item.target_date %}
-                    <div class="building-footer">
-                        <span class="target-label">Target: {{ item.target_date|date:"M Y" }}</span>
+            <div class="glass-card rounded-3xl p-8 sm:p-10 border border-indigo-500/30 relative overflow-hidden reveal mb-8 last:mb-0">
+                <div class="absolute -top-24 -left-24 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+                <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                    <div class="lg:col-span-7 space-y-6 text-left rtl:text-right">
+                        <div class="flex items-center gap-3">
+                            <span class="flex h-3 w-3 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+                            </span>
+                            <span class="section-title text-xs font-mono text-emerald-400 font-medium tracking-wider uppercase">
+                                <span class="pulse-indicator"></span> {% translate "Currently Building" %}
+                            </span>
+                        </div>
+
+                        <h3 class="building-title text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+                            {{ item.title_en|default:item.title }}
+                        </h3>
+
+                        <p class="building-description text-slate-300 text-sm sm:text-base leading-relaxed">
+                            {{ item.description_en|default:item.description }}
+                        </p>
+
+                        {% if item.related_link %}
+                            <div class="pt-2">
+                                <a href="{{ item.related_link }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-mono text-indigo-400 hover:text-indigo-300 transition-colors">
+                                    <span>{% translate "View Repository" %}</span>
+                                    <i class="fa-solid fa-arrow-up-right-from-square text-3xs"></i>
+                                </a>
+                            </div>
+                        {% endif %}
                     </div>
-                {% endif %}
-            </article>
+
+                    <div class="lg:col-span-5" dir="ltr">
+                        <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-5">
+                            <div class="flex justify-between items-center text-sm font-semibold">
+                                <span class="text-slate-200">Overall Progress</span>
+                                <span class="progress-badge text-indigo-400 font-mono font-bold">{{ item.progress_percentage }}%</span>
+                            </div>
+
+                            <div class="w-full h-3 rounded-full bg-slate-800 overflow-hidden p-0.5">
+                                <div
+                                    class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 rounded-full transition-all duration-1000"
+                                    style="width: {{ item.progress_percentage|default:0 }}%;"
+                                ></div>
+                            </div>
+
+                            {% if item.current_phase_en or item.current_phase_fa %}
+                                <div class="pt-2 text-xs font-mono text-slate-400 flex items-center justify-between border-t border-slate-800/80">
+                                    <span>Current Phase:</span>
+                                    <span class="text-emerald-400 font-semibold">{{ item.current_phase_en|default:item.current_phase_fa }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
 </section>

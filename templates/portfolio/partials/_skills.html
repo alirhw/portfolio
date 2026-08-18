@@ -1,34 +1,75 @@
+{% load i18n static %}
 {% if skill_categories %}
-<section id="skills" class="section skills-section">
-    <h2 class="section-title">Skills Matrix</h2>
+<section id="skills" class="section skills-section py-16 md:py-24 relative bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+        <div class="text-center space-y-3 mb-16 reveal">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-indigo-500/30 text-indigo-400 text-xs font-mono">
+                <i class="fa-solid fa-layer-group text-sm"></i>
+                <span>{% translate "MY TECH STACK" %}</span>
+            </div>
+            <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-white">
+                {% translate "Skills" %} & <span class="text-gradient">{% translate "Technologies" %}</span>
+            </h2>
+            <p class="section-subtitle text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+                {% translate "The tools, frameworks, and core technologies I work with to build modern software." %}
+            </p>
+        </div>
 
-    <div class="skills-grid">
-        {% for category in skill_categories %}
-            <article class="skill-category-card">
-                <h3 class="category-name">{{ category.name_en|default:category.name }}</h3>
-                <ul class="skills-list">
-                    {% for skill in category.skills.all %}
-                        {% if skill.highlight %}
-                            <li class="skill-badge">{{ skill.name_en|default:skill.name }}</li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-            </article>
-        {% endfor %}
+        <div class="skills-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 reveal">
+            {% for category in skill_categories %}
+                <article class="skill-category-card glass-card p-6 rounded-2xl border border-slate-800 space-y-6 relative group hover:-translate-y-1 transition-transform">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <h3 class="category-name text-lg font-bold text-white">
+                                {{ category.name_en|default:category.name }}
+                            </h3>
+                            <p class="text-xs text-slate-400">Core proficiencies & frameworks</p>
+                        </div>
+                    </div>
+
+                    <ul class="skills-list space-y-3 text-sm list-none p-0 m-0">
+                        {% for skill in category.skills.all %}
+                            {% if skill.highlight %}
+                                <li class="skill-badge flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80">
+                                    <span class="flex items-center gap-2.5 text-slate-200 font-medium">
+                                        <i class="fa-solid fa-code text-indigo-400"></i>
+                                        {{ skill.name_en|default:skill.name }}
+                                    </span>
+                                    <span class="text-xs font-mono text-indigo-400 px-2 py-0.5 rounded bg-indigo-500/10 uppercase">
+                                        {{ skill.get_proficiency_display|default:skill.proficiency }}
+                                    </span>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                </article>
+            {% endfor %}
+        </div>
+
     </div>
 </section>
 {% elif skills %}
-<section id="skills" class="section skills-section">
-    <h2 class="section-title">Skills Matrix</h2>
-
-    <div class="skills-grid">
-        <article class="skill-category-card">
-            <ul class="skills-list">
-                {% for skill in skills %}
-                    <li class="skill-badge">{{ skill.name_en|default:skill.name }} ({{ skill.category.name_en|default:skill.category.name }})</li>
-                {% endfor %}
-            </ul>
-        </article>
+<section id="skills" class="section skills-section py-16 md:py-24 relative bg-slate-950/40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="section-title text-3xl font-extrabold text-white text-center mb-12">
+            {% translate "Skills Matrix" %}
+        </h2>
+        <div class="skills-grid grid grid-cols-1 md:grid-cols-2 gap-8 reveal">
+            <article class="skill-category-card glass-card p-6 rounded-2xl border border-slate-800">
+                <ul class="skills-list space-y-3 list-none p-0 m-0">
+                    {% for skill in skills %}
+                        <li class="skill-badge flex items-center justify-between p-2.5 rounded-xl bg-slate-900/60 border border-slate-800/80 text-slate-200">
+                            <span>{{ skill.name_en|default:skill.name }}</span>
+                            <span class="text-xs font-mono text-indigo-400">({{ skill.category.name_en|default:skill.category.name }})</span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </article>
+        </div>
     </div>
 </section>
 {% endif %}
