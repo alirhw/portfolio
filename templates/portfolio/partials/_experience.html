@@ -4,27 +4,27 @@
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <div class="text-center space-y-3 mb-16 reveal">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-indigo-500/30 text-indigo-400 text-xs font-mono">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border border-indigo-500/20 dark:border-indigo-500/30 text-indigo-600 dark:text-indigo-400 text-xs font-mono">
                 <i class="fa-solid fa-briefcase text-sm"></i>
                 <span>{% translate "CAREER PATH" %}</span>
             </div>
-            <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-white">
+            <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
                 {% translate "Work" %} <span class="text-gradient">{% translate "Experience" %}</span>
             </h2>
         </div>
 
-        <div class="timeline relative border-l-2 border-slate-800 rtl:border-l-0 rtl:border-r-2 rtl:mr-4 ml-4 md:ml-8 rtl:md:mr-8 space-y-10 reveal">
+        <div class="timeline relative border-l-2 border-slate-300 dark:border-slate-800 rtl:border-l-0 rtl:border-r-2 rtl:mr-4 ml-4 md:ml-8 rtl:md:mr-8 space-y-10 reveal">
             {% for exp in experiences %}
                 <article class="timeline-item relative pl-8 rtl:pl-0 rtl:pr-8 group">
-                    <div class="absolute -left-[9px] rtl:-left-auto rtl:-right-[9px] top-1.5 w-4 h-4 rounded-full bg-slate-900 border-2 border-indigo-500 group-hover:bg-indigo-500 group-hover:scale-125 transition-all" aria-hidden="true"></div>
+                    <div class="absolute -left-[9px] rtl:-left-auto rtl:-right-[9px] top-1.5 w-4 h-4 rounded-full bg-white dark:bg-slate-900 border-2 border-indigo-500 group-hover:bg-indigo-500 group-hover:scale-125 transition-all" aria-hidden="true"></div>
                     
-                    <div class="timeline-body glass-card p-6 rounded-2xl border border-slate-800 space-y-3 hover:-translate-y-0.5 transition-transform text-left rtl:text-right">
+                    <div class="timeline-body glass-card p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3 hover:-translate-y-0.5 transition-transform text-left rtl:text-right">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div>
-                                <h3 class="timeline-role text-lg sm:text-xl font-bold text-white group-hover:text-indigo-400 transition-colors">
+                                <h3 class="timeline-role text-lg sm:text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                     {{ exp.position_en|default:exp.position }}
                                 </h3>
-                                <h4 class="timeline-company text-sm font-semibold text-indigo-400">
+                                <h4 class="timeline-company text-sm font-semibold text-indigo-600 dark:text-indigo-400">
                                     {% if exp.company_url %}
                                         <a href="{{ exp.company_url }}" target="_blank" rel="noopener noreferrer" class="hover:underline">
                                             {{ exp.company|default:exp.company_name }}
@@ -36,14 +36,14 @@
                             </div>
 
                             <div class="timeline-date">
-                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-slate-900/80 border border-slate-700/80 text-slate-300" dir="ltr">
+                                <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-mono bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/80 text-slate-700 dark:text-slate-300" dir="ltr">
                                     {{ exp.start_date|date:"M Y" }} — {% if exp.end_date %}{{ exp.end_date|date:"M Y" }}{% else %}{% translate "Present" %}{% endif %}
                                 </span>
                             </div>
                         </div>
 
                         {% if exp.description_en or exp.description_fa or exp.description %}
-                            <p class="timeline-description text-slate-300 text-sm leading-relaxed pt-2 border-t border-slate-800/60">
+                            <p class="timeline-description text-slate-600 dark:text-slate-300 text-sm leading-relaxed pt-2 border-t border-slate-200 dark:border-slate-800/60">
                                 {{ exp.description_en|default:exp.description }}
                             </p>
                         {% endif %}
