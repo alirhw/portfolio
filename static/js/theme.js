@@ -21,7 +21,11 @@ export class ThemeManager {
         if (stored === THEMES.LIGHT || stored === THEMES.DARK) {
             return stored;
         }
-        return document.documentElement.getAttribute('data-theme') || this.getSystemPreference();
+        const docTheme = document.documentElement.getAttribute('data-theme');
+        if (docTheme === THEMES.LIGHT || docTheme === THEMES.DARK) {
+            return docTheme;
+        }
+        return this.getSystemPreference();
     }
 
     /**
@@ -31,13 +35,34 @@ export class ThemeManager {
     static setTheme(theme) {
         const targetTheme = (theme === THEMES.DARK) ? THEMES.DARK : THEMES.LIGHT;
         document.documentElement.setAttribute('data-theme', targetTheme);
-        localStorage.setItem(THEME_KEY, targetTheme);
 
-        // Update ARIA label on header button
+        if (targetTheme === THEMES.DARK) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        try {
+            localStorage.setItem(THEME_KEY, targetTheme);
+        } catch (e) {}
+
+        // Update ARIA label and icon on header button
         const toggleBtn = document.getElementById('theme-toggle');
         if (toggleBtn) {
             const nextTheme = targetTheme === THEMES.LIGHT ? THEMES.DARK : THEMES.LIGHT;
             toggleBtn.setAttribute('aria-label', `Switch to ${nextTheme} theme`);
+            const label = toggleBtn.querySelector('.theme-toggle__label');
+            if (label) {
+                label.textContent = targetTheme === THEMES.DARK ? 'Dark' : 'Light';
+            }
+            const icon = toggleBtn.querySelector('i');
+            if (icon) {
+                if (targetTheme === THEMES.DARK) {
+                    icon.className = 'fa-solid fa-moon text-sm text-indigo-400';
+                } else {
+                    icon.className = 'fa-solid fa-sun text-sm text-amber-500';
+                }
+            }
         }
 
         // Dispatch global theme change event
@@ -63,7 +88,8 @@ export class ThemeManager {
 
         const toggleBtn = document.getElementById('theme-toggle');
         if (toggleBtn) {
-            toggleBtn.addEventListener('click', () => {
+            toggleBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 this.toggleTheme();
             });
         }

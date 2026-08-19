@@ -22,6 +22,11 @@
                 const saved = localStorage.getItem('portfolio_theme');
                 const theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
                 document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
             } catch (e) {}
         })();
     </script>
@@ -78,7 +83,7 @@
     {% block extra_head %}{% endblock %}
 </head>
 
-<body class="min-h-screen flex flex-col relative selection:bg-indigo-500 selection:text-white bg-[#070a12] text-slate-100 font-sans">
+<body class="min-h-screen flex flex-col relative selection:bg-indigo-500 selection:text-white font-sans transition-colors duration-300">
     <!-- Mouse Glow Interactive Overlay -->
     <div id="mouse-glow" aria-hidden="true"></div>
 
@@ -97,23 +102,23 @@
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center font-mono font-bold text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition-transform">
                         &lt;/&gt;
                     </div>
-                    <span class="text-xl font-bold tracking-tight text-white group-hover:text-indigo-400 transition-colors">
+                    <span class="text-xl font-bold tracking-tight text-slate-900 dark:text-white group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">
                         ALI.<span class="text-gradient">DEV</span>
                     </span>
                 </a>
 
                 <!-- Desktop Navigation Links -->
-                <nav class="site-nav hidden xl:flex items-center gap-5 2xl:gap-6 text-sm font-medium text-slate-300" aria-label="{% translate 'Primary navigation' %}">
+                <nav class="site-nav hidden xl:flex items-center gap-5 2xl:gap-6 text-sm font-medium text-slate-700 dark:text-slate-300" aria-label="{% translate 'Primary navigation' %}">
                     <div class="site-nav__links flex items-center gap-5 2xl:gap-6" role="list">
-                        <a href="{% url 'portfolio:home' %}" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Home" %}</a>
-                        <a href="#skills" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Skills" %}</a>
-                        <a href="#building" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Building" %}</a>
-                        <a href="#projects" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Projects" %}</a>
-                        <a href="#github-stats" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "GitHub" %}</a>
-                        <a href="#experience" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Experience" %}</a>
-                        <a href="#education" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Education" %}</a>
-                        <a href="#terminal-section" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Terminal" %}</a>
-                        <a href="#contact" class="nav-link hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Contact" %}</a>
+                        <a href="{% url 'portfolio:home' %}" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Home" %}</a>
+                        <a href="#skills" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Skills" %}</a>
+                        <a href="#building" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Building" %}</a>
+                        <a href="#projects" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Projects" %}</a>
+                        <a href="#github-stats" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "GitHub" %}</a>
+                        <a href="#experience" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Experience" %}</a>
+                        <a href="#education" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Education" %}</a>
+                        <a href="#terminal-section" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Terminal" %}</a>
+                        <a href="#contact" class="nav-link hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors py-1" role="listitem">{% translate "Contact" %}</a>
                     </div>
                 </nav>
 
@@ -124,7 +129,7 @@
                     <button
                         type="button"
                         id="theme-toggle"
-                        class="theme-toggle p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-800/80 border border-slate-700 text-xs font-mono text-slate-300 hover:text-white hover:border-indigo-500/50 transition-all flex items-center gap-1.5"
+                        class="theme-toggle p-2 sm:px-3 sm:py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-300 dark:border-slate-700 text-xs font-mono text-slate-700 dark:text-slate-300 hover:text-slate-950 dark:hover:text-white hover:border-indigo-500 transition-all flex items-center gap-1.5"
                         aria-label="{% translate 'Switch to dark theme' %}"
                         aria-live="polite"
                     >
@@ -141,7 +146,7 @@
                     <button
                         id="mobile-menu-btn"
                         type="button"
-                        class="xl:hidden p-2.5 rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 focus:outline-none transition-colors"
+                        class="xl:hidden p-2.5 rounded-xl text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800/60 focus:outline-none transition-colors"
                         aria-label="{% translate 'Toggle navigation menu' %}"
                     >
                         <i class="fa-solid fa-bars text-xl" id="menu-icon"></i>
@@ -150,17 +155,17 @@
             </div>
 
             <!-- Mobile & Tablet Navigation Drawer -->
-            <div id="mobile-menu" class="hidden xl:hidden pb-6 pt-3 border-t border-slate-800/80">
-                <div class="flex flex-col gap-1.5 text-sm font-medium text-slate-300">
-                    <a href="{% url 'portfolio:home' %}" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Home" %}</a>
-                    <a href="#skills" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Skills" %}</a>
-                    <a href="#building" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Building" %}</a>
-                    <a href="#projects" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Projects" %}</a>
-                    <a href="#github-stats" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "GitHub Stats" %}</a>
-                    <a href="#experience" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Experience" %}</a>
-                    <a href="#education" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Education" %}</a>
-                    <a href="#terminal-section" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Terminal" %}</a>
-                    <a href="#contact" class="hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-800/60 transition-colors">{% translate "Contact" %}</a>
+            <div id="mobile-menu" class="hidden xl:hidden pb-6 pt-3 border-t border-slate-200 dark:border-slate-800/80">
+                <div class="flex flex-col gap-1.5 text-sm font-medium text-slate-700 dark:text-slate-300">
+                    <a href="{% url 'portfolio:home' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Home" %}</a>
+                    <a href="#skills" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Skills" %}</a>
+                    <a href="#building" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Building" %}</a>
+                    <a href="#projects" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Projects" %}</a>
+                    <a href="#github-stats" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "GitHub Stats" %}</a>
+                    <a href="#experience" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Experience" %}</a>
+                    <a href="#education" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Education" %}</a>
+                    <a href="#terminal-section" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Terminal" %}</a>
+                    <a href="#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400 py-2.5 px-3.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors">{% translate "Contact" %}</a>
                     
                     <div class="pt-3">
                         <a href="#contact" class="w-full text-center py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold block transition-colors shadow-lg shadow-indigo-600/30">
@@ -178,28 +183,28 @@
     </main>
 
     <!-- Glass Footer -->
-    <footer class="site-footer border-t border-slate-800/80 bg-slate-950 py-12 relative z-10" role="contentinfo">
+    <footer class="site-footer border-t border-slate-200 dark:border-slate-800/80 bg-slate-100 dark:bg-slate-950 py-12 relative z-10" role="contentinfo">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-3">
                     <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-mono text-sm font-bold">
                         &lt;/&gt;
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-400">
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">
                         {% block footer %}
                             © {% now "Y" %} ALI.DEV — {% translate "All rights reserved." %}
                         {% endblock %}
                     </p>
                 </div>
 
-                <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium">
-                    <a href="{% url 'portfolio:home' %}" class="hover:text-indigo-400 transition-colors">{% translate "Home" %}</a>
-                    <a href="#projects" class="hover:text-indigo-400 transition-colors">{% translate "Projects" %}</a>
-                    <a href="#skills" class="hover:text-indigo-400 transition-colors">{% translate "Skills" %}</a>
-                    <a href="#contact" class="hover:text-indigo-400 transition-colors">{% translate "Contact" %}</a>
+                <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-600 dark:text-slate-400 font-medium">
+                    <a href="{% url 'portfolio:home' %}" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% translate "Home" %}</a>
+                    <a href="#projects" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% translate "Projects" %}</a>
+                    <a href="#skills" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% translate "Skills" %}</a>
+                    <a href="#contact" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% translate "Contact" %}</a>
                 </div>
 
-                <a href="#hero" class="w-10 h-10 rounded-xl glass-card text-slate-400 hover:text-indigo-400 flex items-center justify-center transition-all hover:-translate-y-1" aria-label="{% translate 'Back to top' %}">
+                <a href="#hero" class="w-10 h-10 rounded-xl glass-card text-slate-600 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 flex items-center justify-center transition-all hover:-translate-y-1" aria-label="{% translate 'Back to top' %}">
                     <i class="fa-solid fa-arrow-up text-sm"></i>
                 </a>
             </div>
