@@ -36,7 +36,12 @@ services:
       GITHUB_USERNAME: ${GITHUB_USERNAME:-}
       TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:-}
       TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
-      SENTRY_DSN: ${SENTRY_DSN:-}
+    healthcheck:
+      test: ["CMD-SHELL", "python -c 'import urllib.request; urllib.request.urlopen(\"http://localhost:8000/healthz/\")'"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+      start_period: 15s
     volumes:
       - media_data:/app/media
     depends_on:
