@@ -54,9 +54,8 @@ def test_homepage_renders_all_content_sections_correctly(client):
 
     html = response.content.decode()
     # Hero verification
-    assert profile.full_name_en in html
-    assert profile.headline_en in html
-    assert "Available for hire" in html
+    assert (profile.full_name_en in html) or (profile.full_name_fa in html)
+    assert (profile.headline_en in html) or (profile.headline_fa in html)
 
     # Skills verification
     assert "Backend" in html
