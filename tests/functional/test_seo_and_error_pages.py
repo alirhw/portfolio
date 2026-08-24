@@ -31,10 +31,7 @@ def test_sitemap_xml_contains_published_projects(client):
 
     response = client.get("/sitemap.xml")
     assert response.status_code == 200
-    assert (
-        "application/xml" in response["Content-Type"]
-        or "text/xml" in response["Content-Type"]
-    )
+    assert "application/xml" in response["Content-Type"] or "text/xml" in response["Content-Type"]
 
     content = response.content.decode()
     assert "/seo-indexed-app" in content

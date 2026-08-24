@@ -33,9 +33,7 @@ CSP_DIRECTIVES = {
         "https://challenges.cloudflare.com",
     ),
     # Frames: Turnstile challenge iframe
-    "frame-src": (
-        "https://challenges.cloudflare.com",
-    ),
+    "frame-src": ("https://challenges.cloudflare.com",),
     # Clickjacking protection: disallow embedding site in unauthorized frames
     "frame-ancestors": ("'none'",),
     # Restrict form action destinations

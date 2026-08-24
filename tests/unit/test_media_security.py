@@ -17,9 +17,7 @@ def test_valid_pdf_file_passes_validation():
 def test_fake_pdf_with_invalid_header_raises_validation_error():
     # File with .pdf extension but malicious HTML content (MIME spoofing)
     fake_pdf_content = b"<html><script>alert(1)</script></html>"
-    file_obj = SimpleUploadedFile(
-        "malicious.pdf", fake_pdf_content, content_type="application/pdf"
-    )
+    file_obj = SimpleUploadedFile("malicious.pdf", fake_pdf_content, content_type="application/pdf")
 
     with pytest.raises(ValidationError) as exc:
         validate_resume_file(file_obj)

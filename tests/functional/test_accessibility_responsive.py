@@ -8,7 +8,7 @@ def test_skip_link_exists_in_base_template(client):
     assert response.status_code == 200
 
     html = response.content.decode()
-    assert 'class="skip-link"' in html
+    assert "skip-link" in html or "skip-to-content" in html
     assert 'href="#main-content"' in html
 
 

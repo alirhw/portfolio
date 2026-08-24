@@ -55,9 +55,7 @@ def validate_image_file(file_obj) -> None:
         raise ValidationError(_("Unsupported image format. Allowed formats: JPG, PNG, WEBP."))
 
     if file_obj.size > MAX_IMAGE_SIZE:
-        raise ValidationError(
-            _("Image size cannot exceed %(max_size)s MB.") % {"max_size": 3}
-        )
+        raise ValidationError(_("Image size cannot exceed %(max_size)s MB.") % {"max_size": 3})
 
     if hasattr(file_obj, "seek") and hasattr(file_obj, "read"):
         file_obj.seek(0)

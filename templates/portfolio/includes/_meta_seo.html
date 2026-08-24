@@ -1,0 +1,26 @@
+{% load i18n static %}
+
+<!-- Primary Meta Tags -->
+<title>{% block title %}{{ profile.full_name|default:"Developer Portfolio" }} | {{ profile.headline|default:"Software Engineer" }}{% endblock %}</title>
+<meta name="title" content="{{ profile.full_name|default:'Developer Portfolio' }} | {{ profile.headline|default:'Software Engineer' }}">
+<meta name="description" content="{{ profile.bio|truncatechars:160|default:'Personal developer portfolio, showcasing open-source projects, architecture designs, and engineering competencies.' }}">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0d1117" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+
+<!-- Open Graph / Facebook / LinkedIn -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ request.build_absolute_uri }}">
+<meta property="og:title" content="{{ profile.full_name|default:'Ali Developer' }} | Portfolio">
+<meta property="og:description" content="{{ profile.bio|truncatechars:160|default:'Personal developer portfolio, showcasing open-source projects, architecture designs, and engineering competencies.' }}">
+<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-cover.png' %}">
+
+<!-- Twitter Card -->
+<meta property="twitter:card" content="summary_large_image">
+<meta property="twitter:url" content="{{ request.build_absolute_uri }}">
+<meta property="twitter:title" content="{{ profile.full_name|default:'Ali Developer' }} | Portfolio">
+<meta property="twitter:description" content="{{ profile.bio|truncatechars:160|default:'Personal developer portfolio, showcasing open-source projects, architecture designs, and engineering competencies.' }}">
+<meta property="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'images/og-cover.png' %}">
+
+<!-- Canonical Link -->
+<link rel="canonical" href="{{ request.build_absolute_uri }}">
