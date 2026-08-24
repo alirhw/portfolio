@@ -1,44 +1,70 @@
-name: CI Pipeline
+name: CI & Quality Gate
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, develop]
   pull_request:
     branches: [main, master]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  quality-and-tests:
+  quality-gate:
+    name: Release Candidate Audit & Verification
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
-      - name: Checkout repository
+      - name: Checkout Source Code
         uses: actions/checkout@v4
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
+      - name: Install uv Package Manager
+        uses: astral-sh/setup-uv@v3
         with:
           version: "latest"
+          enable-cache: true
 
-      - name: Set up Python
+      - name: Set up Python Environment
         run: uv python install 3.14
 
-      - name: Verify Lockfile
-        run: uv lock --check
+      - name: Install Project Dependencies
+        run: uv sync --frozen
 
-      - name: Install Dependencies
-        run: uv sync --all-extras --dev
+      - name: Install Playwright Browsers & Dependencies
+        run: uv run playwright install --with-deps chromium
 
-      - name: Lint with Ruff
+      - name: Execute Code Formatting & Lint Checks
         run: |
           uv run ruff check .
           uv run ruff format --check .
 
-      - name: Django System & Migration Checks
-        env:
-          DJANGO_SETTINGS_MODULE: config.settings.test
-        run: |
-          uv run manage.py check
-          uv run manage.py makemigrations --check --dry-run
+      - name: Verify Migration Integrity
+        run: uv run python manage.py makemigrations --check --dry-run
 
-      - name: Run Tests
-        run: uv run pytest
+      - name: Django Production Deployment Check
+        env:
+          DJANGO_SETTINGS_MODULE: config.settings.production
+          DJANGO_SECRET_KEY: "ci-dummy-production-secret-key-for-checks-at-least-50-chars-long"
+          ALLOWED_HOSTS: "ali.dev,localhost,127.0.0.1"
+        run: uv run python manage.py check --deploy
+
+      - name: Run Pytest Suite with Coverage Enforcement
+        env:
+          DJANGO_SECRET_KEY: "ci-testing-secret-key"
+          GITHUB_ACCESS_TOKEN: ""
+        run: uv run pytest tests/unit/ tests/functional/ tests/integration/ --cov=apps --cov=integrations --cov-report=term-missing --cov-fail-under=80
+
+      - name: Run Playwright E2E Suite
+        run: uv run pytest tests/e2e/ --no-cov
