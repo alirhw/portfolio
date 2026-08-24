@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>500 - Internal Server Error</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 2rem;
+            background: #0d1117;
+            color: #c9d1d9;
+            font-family: system-ui, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+        }
+        .error-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 2.5rem;
+            max-width: 480px;
+            text-align: center;
+        }
+        .error-code { font-size: 4rem; color: #f85149; margin: 0; font-family: monospace; }
+        .btn { display: inline-block; background: #58a6ff; color: #0d1117; padding: 0.75rem 1.5rem; border-radius: 6px; text-decoration: none; font-weight: 600; margin-top: 1.5rem; }
+    </style>
+</head>
+<body>
+    <div class="error-card">
+        <h1 class="error-code">500</h1>
+        <h2>Internal Server Error</h2>
+        <p>Something went wrong on our end. Our automated monitoring is actively looking into it.</p>
+        <a href="/" class="btn">Back to Safety</a>
+    </div>
+</body>
+</html>

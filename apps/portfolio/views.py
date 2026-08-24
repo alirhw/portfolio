@@ -1,6 +1,7 @@
-from django.http import FileResponse, Http404
+from django.http import FileResponse, Http404, HttpResponse
 from django.urls import reverse
 from django.views import View
+from django.views.decorators.http import require_GET
 from django.views.generic import DetailView, TemplateView
 
 from integrations.github.services import GitHubStatsService
@@ -108,3 +109,16 @@ class ResumeDownloadView(View):
         filename = resume.file.name.split("/")[-1]
         response["Content-Disposition"] = f'inline; filename="{filename}"'
         return response
+
+
+@require_GET
+def robots_txt_view(request):
+    sitemap_url = request.build_absolute_uri("/sitemap.xml")
+    content = f"""User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /contact/submit/
+
+Sitemap: {sitemap_url}
+"""
+    return HttpResponse(content.strip(), content_type="text/plain")
