@@ -1,6 +1,6 @@
 """
 Production settings (Phase 12 - Task T-060)
-Features: PostgreSQL database via DATABASE_URL, Sentry monitoring, structured logging, and WhiteNoise static storage.
+PostgreSQL database via DATABASE_URL, Sentry monitoring, structured logging, WhiteNoise storage.
 """
 
 import logging
@@ -82,7 +82,10 @@ LOGGING = {
     "disable_existing_loggers": False,
     "formatters": {
         "verbose": {
-            "format": "%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] %(process)d %(thread)d %(message)s",
+            "format": (
+                "%(asctime)s [%(levelname)s] [%(name)s:%(lineno)d] "
+                "%(process)d %(thread)d %(message)s"
+            ),
             "datefmt": "%Y-%m-%dT%H:%M:%S%z",
         },
         "simple": {

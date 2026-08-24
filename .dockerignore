@@ -1,0 +1,39 @@
+# Python Bytecode and Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.ruff_cache/
+
+# Virtual Environments & Package Managers
+.venv/
+env/
+venv/
+.uv/
+
+# Git and IDE configs
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+
+# Local Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+
+# Local SQLite databases & Temporary storage
+*.sqlite3
+*.db
+/media/*
+!/media/.gitkeep
+/staticfiles/*
+
+# Documentation & Node artifacts
+docs/
+node_modules/
+playwright-report/
+test-results/
