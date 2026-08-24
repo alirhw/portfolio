@@ -2,6 +2,8 @@ import os
 
 from .base import *  # noqa: F403
 
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+
 DEBUG = False
 
 SECRET_KEY = os.environ.get(
