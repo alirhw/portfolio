@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   quality-gate:
-    name: Release Candidate Audit & Verification
+    name: Code Quality & Test Gate
     runs-on: ubuntu-latest
 
     services:
@@ -45,26 +45,54 @@ jobs:
       - name: Install Playwright Browsers & Dependencies
         run: uv run playwright install --with-deps chromium
 
-      - name: Execute Code Formatting & Lint Checks
+      - name: Run Ruff Lint & Format Checks
         run: |
           uv run ruff check .
           uv run ruff format --check .
 
-      - name: Verify Migration Integrity
+      - name: Check Django Migrations Integrity
         run: uv run python manage.py makemigrations --check --dry-run
 
       - name: Django Production Deployment Check
         env:
           DJANGO_SETTINGS_MODULE: config.settings.production
-          DJANGO_SECRET_KEY: "ci-dummy-production-secret-key-for-checks-at-least-50-chars-long"
+          SECRET_KEY: "ci-dummy-production-secret-key-for-checks-at-least-50-chars-long"
           ALLOWED_HOSTS: "ali.dev,localhost,127.0.0.1"
         run: uv run python manage.py check --deploy
 
       - name: Run Pytest Suite with Coverage Enforcement
         env:
-          DJANGO_SECRET_KEY: "ci-testing-secret-key"
+          SECRET_KEY: "ci-testing-secret-key"
           GITHUB_ACCESS_TOKEN: ""
         run: uv run pytest tests/unit/ tests/functional/ tests/integration/ --cov=apps --cov=integrations --cov-report=term-missing --cov-fail-under=80
 
       - name: Run Playwright E2E Suite
         run: uv run pytest tests/e2e/ --no-cov
+
+  docker-contract:
+    name: Docker Image Build & Smoke Test
+    needs: quality-gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker Image with BuildKit Cache
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: portfolio-app:ci-test
+          load: true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Execute Docker Smoke Test
+        run: |
+          chmod +x scripts/docker_smoke_test.sh
+          ./scripts/docker_smoke_test.sh portfolio-app:ci-test
