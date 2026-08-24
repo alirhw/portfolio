@@ -13,8 +13,10 @@ def test_build_csp_header_format():
     assert "frame-ancestors 'none'" in header
     assert "base-uri 'self'" in header
 
-    # Verify Cloudflare Turnstile challenge domain presence in script and frame
+    # Verify Cloudflare Turnstile, Tailwind CDN, and FontAwesome presence
     assert "https://challenges.cloudflare.com" in header
+    assert "https://cdn.tailwindcss.com" in header
+    assert "https://cdnjs.cloudflare.com" in header
 
 
 def test_script_src_does_not_contain_unsafe_eval():

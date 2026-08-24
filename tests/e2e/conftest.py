@@ -41,6 +41,8 @@ def browser_type_launch_args(browser_type_launch_args):
 @pytest.fixture(autouse=True)
 def mock_e2e_github_stats():
     """Mock GitHub stats service during E2E tests to avoid external network latency."""
+    from django.core.cache import cache
+
     fake_stats = NormalizedGitHubMetrics(
         username="default-user",
         total_contributions=450,
@@ -49,8 +51,13 @@ def mock_e2e_github_stats():
         current_streak_days=14,
         followers_count=10,
     )
-    with patch("apps.portfolio.views.GitHubStatsService.get_stats", return_value=fake_stats):
-        yield
+    cache.set("github_stats_data", fake_stats, 86400)
+    with patch(
+        "integrations.github.services.GitHubStatsService.get_stats", return_value=fake_stats
+    ):
+        with patch("apps.portfolio.views.GitHubStatsService.get_stats", return_value=fake_stats):
+            yield
+    cache.delete("github_stats_data")
 
 
 @pytest.fixture

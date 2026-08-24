@@ -4,16 +4,19 @@ Strict and well-defined Content Security Policy (CSP) directives.
 
 CSP_DIRECTIVES = {
     "default-src": ("'self'",),
-    # Scripts: only local host scripts and Cloudflare Turnstile challenge widget
+    # Scripts: local host scripts, inline scripts, Tailwind CDN, and Turnstile challenge widget
     "script-src": (
         "'self'",
+        "'unsafe-inline'",
+        "https://cdn.tailwindcss.com",
         "https://challenges.cloudflare.com",
     ),
-    # Styles: local CSS, inline styles for components, and Google Fonts
+    # Styles: local CSS, inline styles, Google Fonts, and FontAwesome CDN
     "style-src": (
         "'self'",
         "'unsafe-inline'",
         "https://fonts.googleapis.com",
+        "https://cdnjs.cloudflare.com",
     ),
     # Images: local host, data URIs, and external assets
     "img-src": (
@@ -21,10 +24,11 @@ CSP_DIRECTIVES = {
         "data:",
         "https:",
     ),
-    # Fonts: local static files and Google Fonts webfonts
+    # Fonts: local static files, Google Fonts, and FontAwesome webfonts
     "font-src": (
         "'self'",
         "https://fonts.gstatic.com",
+        "https://cdnjs.cloudflare.com",
         "data:",
     ),
     # Network connections and Fetch: local endpoints and Turnstile verification
