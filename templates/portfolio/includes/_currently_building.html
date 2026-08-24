@@ -9,7 +9,7 @@
                 <span>{% translate "ACTIVE EXPLORATIONS" %}</span>
             </div>
             <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-                <span class="text-gradient">Currently Building</span>
+                <span class="text-gradient">{% translate "Currently Building" %}</span>
             </h2>
             <p class="section-subtitle text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
                 {% translate "Sneak peek into experimental side-projects, open-source tools, and research in progress." %}
@@ -22,7 +22,7 @@
                     <div class="space-y-4 text-left rtl:text-right">
                         <div class="flex items-center justify-between gap-4">
                             <span class="px-3 py-1 rounded-full text-xs font-mono bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-                                {{ item.current_phase_en|default:item.current_phase_fa|default:"In Development" }}
+                                {{ item.current_phase|default:"In Development" }}
                             </span>
                             <span class="text-xs font-mono text-slate-600 dark:text-slate-400 font-bold">
                                 {{ item.progress_percentage }}%
@@ -30,11 +30,11 @@
                         </div>
 
                         <h3 class="building-title text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                            {{ item.title_en|default:item.title }}
+                            {{ item.title }}
                         </h3>
 
                         <p class="building-desc text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
-                            {{ item.description_en|default:item.description }}
+                            {{ item.description }}
                         </p>
                     </div>
 

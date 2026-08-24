@@ -22,10 +22,10 @@
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                             <div>
                                 <h3 class="timeline-role text-lg sm:text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
-                                    {{ edu.degree_en|default:edu.degree }}{% if edu.field_of_study_en or edu.field_of_study %} in {{ edu.field_of_study_en|default:edu.field_of_study }}{% endif %}
+                                    {{ edu.degree }}{% if edu.field_of_study %} in {{ edu.field_of_study }}{% endif %}
                                 </h3>
                                 <h4 class="timeline-company text-sm font-semibold text-indigo-600 dark:text-indigo-400">
-                                    {{ edu.institution_en|default:edu.institution }}
+                                    {{ edu.institution }}
                                 </h4>
                             </div>
 
@@ -36,9 +36,9 @@
                             </div>
                         </div>
 
-                        {% if edu.description_en or edu.description_fa %}
+                        {% if edu.description %}
                             <p class="timeline-description text-slate-600 dark:text-slate-300 text-sm leading-relaxed pt-2 border-t border-slate-200 dark:border-slate-800/60">
-                                {{ edu.description_en|default:edu.description_fa }}
+                                {{ edu.description }}
                             </p>
                         {% endif %}
                     </div>

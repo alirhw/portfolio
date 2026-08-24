@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Portfolio 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-16 09:30+0000\n"
-"PO-Revision-Date: 2026-08-16 09:30+0000\n"
+"POT-Creation-Date: 2026-08-24 14:00+0000\n"
+"PO-Revision-Date: 2026-08-24 14:00+0000\n"
 "Last-Translator: Ali Rouhani\n"
 "Language-Team: Persian\n"
 "Language: fa\n"
@@ -33,17 +33,38 @@ msgstr "ناوبری اصلی"
 msgid "Home page"
 msgstr "صفحه اصلی"
 
+msgid "Home"
+msgstr "صفحه اصلی"
+
+msgid "Building"
+msgstr "در حال ساخت"
+
 msgid "Projects"
 msgstr "پروژه‌ها"
 
 msgid "Skills"
 msgstr "مهارت‌ها"
 
+msgid "Technologies"
+msgstr "فناوری‌ها"
+
+msgid "GitHub"
+msgstr "گیت‌هاب"
+
+msgid "GitHub Stats"
+msgstr "آمار گیت‌هاب"
+
 msgid "Experience"
 msgstr "سوابق کاری"
 
 msgid "Education"
 msgstr "تحصیلات"
+
+msgid "Terminal"
+msgstr "ترمینال"
+
+msgid "Contact"
+msgstr "تماس"
 
 msgid "Toggle color theme"
 msgstr "تغییر تم رنگی"
@@ -53,6 +74,180 @@ msgstr "تغییر به تم تاریک"
 
 msgid "Switch to light theme"
 msgstr "تغییر به تم روشن"
+
+msgid "Toggle navigation menu"
+msgstr "تغییر منوی ناوبری"
+
+msgid "Get in Touch"
+msgstr "ارتباط با من"
+
+msgid "Back to top"
+msgstr "بازگشت به بالا"
+
+msgid "All rights reserved."
+msgstr "تمامی حقوق محفوظ است."
+
+msgid "Busy on projects"
+msgstr "مشغول روی پروژه‌ها"
+
+msgid "Available for hire"
+msgstr "آماده برای همکاری"
+
+msgid "Backend Developer & AI Systems Engineer"
+msgstr "توسعه‌دهنده بک‌اند و مهندس سیستم‌های هوش مصنوعی"
+
+msgid "Specialized in Python, Django, distributed architectures, high-performance APIs, and AI integrations."
+msgstr "متخصص در پایتون، جنگو، معماری‌های توزیع‌شده، APIهای با کارایی بالا و سیستم‌های هوش مصنوعی."
+
+msgid "View Projects"
+msgstr "مشاهده پروژه‌ها"
+
+msgid "View Resume"
+msgstr "مشاهده رزومه"
+
+msgid "MY TECH STACK"
+msgstr "فناوری‌های تخصصی"
+
+msgid "The tools, frameworks, and core technologies I work with to build modern software."
+msgstr "ابزارها، فریم‌ورک‌ها و فناوری‌های اصلی که برای توسعه نرم‌افزارهای مدرن به کار می‌برم."
+
+msgid "Core proficiencies & frameworks"
+msgstr "مهارت‌ها و فریم‌ورک‌های کلیدی"
+
+msgid "Skills Matrix"
+msgstr "ماتریس مهارت‌ها"
+
+msgid "CAREER PATH"
+msgstr "مسیر شغلی"
+
+msgid "Work"
+msgstr "سوابق"
+
+msgid "Present"
+msgstr "تاکنون"
+
+msgid "ACADEMIC BACKGROUND"
+msgstr "پیشینه تحصیلی"
+
+msgid "Academic"
+msgstr "سوابق"
+
+msgid "PORTFOLIO SHOWCASE"
+msgstr "ویترین پروژه‌ها"
+
+msgid "Featured Projects"
+msgstr "پروژه‌های منتخب"
+
+msgid "Featured"
+msgstr "منتخب"
+
+msgid "A selection of real-world software applications and systems built with modern backend standards."
+msgstr "گزیده‌ای از پروژه‌ها و سیستم‌های نرم‌افزاری واقعی با استانداردهای مدرن بک‌اند."
+
+msgid "Source Code"
+msgstr "سورس کد"
+
+msgid "Live Demo"
+msgstr "دموی زنده"
+
+msgid "ACTIVE EXPLORATIONS"
+msgstr "پروژه‌های فعال در دست اقدام"
+
+msgid "Currently Building"
+msgstr "در حال ساخت و توسعه"
+
+msgid "Sneak peek into experimental side-projects, open-source tools, and research in progress."
+msgstr "نیم‌نگاهی به پروژه‌های آزمایشی، ابزارهای متن‌باز و پژوهش‌های در حال انجام."
+
+msgid "In Development"
+msgstr "در حال توسعه"
+
+msgid "View Repository"
+msgstr "مشاهده مخزن پروژه"
+
+msgid "OPEN SOURCE ACTIVITY"
+msgstr "فعالیت‌های متن‌باز"
+
+msgid "Telemetry & Stats"
+msgstr "آمار و تلمتری زنده"
+
+msgid "Real-time insights and telemetry aggregated directly from public GitHub repositories."
+msgstr "بینش‌های لحظه‌ای و آمارهای تجمیع‌شده مستقیم از مخازن عمومی گیت‌هاب."
+
+msgid "Contributions"
+msgstr "مشارکت‌ها"
+
+msgid "Public Repos"
+msgstr "مخازن عمومی"
+
+msgid "Stars Earned"
+msgstr "ستاره‌های دریافتی"
+
+msgid "Followers"
+msgstr "دنبال‌کنندگان"
+
+msgid "Contribution Activity"
+msgstr "فعالیت‌های مشارکت"
+
+msgid "Live Feed"
+msgstr "بروزرسانی زنده"
+
+msgid "Less"
+msgstr "کمتر"
+
+msgid "More"
+msgstr "بیشتر"
+
+msgid "Top Languages"
+msgstr "زبان‌های برتر"
+
+msgid "GET IN TOUCH"
+msgstr "ارتباط با من"
+
+msgid "Let's"
+msgstr "بیایید"
+
+msgid "Connect"
+msgstr "گفتگو کنیم"
+
+msgid "Feel free to reach out for project inquiries, freelance opportunities, or technical collaboration."
+msgstr "برای استعلام پروژه، فرصت‌های همکاری فریلنسری یا مشاوره‌های فنی با من در ارتباط باشید."
+
+msgid "Contact Details"
+msgstr "اطلاعات تماس"
+
+msgid "Email Address"
+msgstr "آدرس ایمیل"
+
+msgid "Location"
+msgstr "موقعیت مکانی"
+
+msgid "Available for Remote Opportunities"
+msgstr "آماده برای همکاری به صورت ریموت"
+
+msgid "Direct Messaging"
+msgstr "ارسال پیام مستقیم"
+
+msgid "Your Name"
+msgstr "نام شما"
+
+msgid "e.g. John Doe"
+msgstr "مثال: علی احمدی"
+
+msgid "Subject"
+msgstr "موضوع"
+
+msgid "e.g. Project Inquiry / Collaboration"
+msgstr "مثال: پیشنهاد همکاری / پروژه"
+
+msgid "Your Message"
+msgstr "متن پیام شما"
+
+msgid "Send Message"
+msgstr "ارسال پیام"
+
+msgid "Sending..."
+msgstr "در حال ارسال..."
 
 msgid "Back to all projects"
 msgstr "بازگشت به همه پروژه‌ها"
@@ -75,17 +270,32 @@ msgstr "پروژه یا صفحه‌ای که به دنبال آن هستید م�
 msgid "Return to Homepage"
 msgstr "بازگشت به صفحه اصلی"
 
-msgid "Available for hire"
-msgstr "آماده برای همکاری"
+msgid "Access Forbidden — 403"
+msgstr "دسترسی غیرمجاز — ۴۰۳"
 
-msgid "Busy on projects"
-msgstr "مشغول روی پروژه‌ها"
+msgid "Access Forbidden"
+msgstr "دسترسی غیرمجاز"
 
-msgid "View Resume"
-msgstr "مشاهده رزومه"
+msgid "Bad Request — 400"
+msgstr "درخواست نامعتبر — ۴۰۰"
 
-msgid "Contact"
-msgstr "تماس"
+msgid "Bad Request"
+msgstr "درخواست نامعتبر"
 
-msgid "All rights reserved."
-msgstr "تمامی حقوق محفوظ است."
+msgid "Server Error — 500"
+msgstr "خطای سرور — ۵۰۰"
+
+msgid "Internal Server Error"
+msgstr "خطای داخلی سرور"
+
+msgid "Beginner"
+msgstr "مقدماتی"
+
+msgid "Intermediate"
+msgstr "متوسط"
+
+msgid "Advanced"
+msgstr "پیشرفته"
+
+msgid "Expert"
+msgstr "متخصص"

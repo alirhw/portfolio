@@ -18,6 +18,11 @@ class SkillCategory(models.Model):
 
     @property
     def name(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.name_fa:
+            return self.name_fa
         return self.name_en
 
 
@@ -53,6 +58,11 @@ class Skill(models.Model):
 
     @property
     def name(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.name_fa:
+            return self.name_fa
         return self.name_en
 
 

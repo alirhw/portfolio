@@ -34,8 +34,8 @@ def test_homepage_renders_profile_information_from_database(client):
     assert response.status_code == 200
     html = response.content.decode()
 
-    assert profile.full_name_en in html
-    assert profile.headline_en in html
+    assert (profile.full_name_en in html) or (profile.full_name_fa in html)
+    assert (profile.headline_en in html) or (profile.headline_fa in html)
 
 
 @pytest.mark.django_db
@@ -67,11 +67,12 @@ def test_homepage_visibility_filters_unpublished_projects(client):
     html = response.content.decode()
 
     # Published project and its technologies must be rendered
-    assert published_project.title_en in html
+    assert (published_project.title_en in html) or (published_project.title_fa in html)
     assert tech.name in html
 
     # Unpublished project must NOT be present in HTML
     assert unpublished_project.title_en not in html
+    assert unpublished_project.title_fa not in html
 
 
 @pytest.mark.django_db
@@ -157,16 +158,16 @@ def test_homepage_vertical_slice_has_bounded_queries(client, django_assert_num_q
 
         # Verify complete rendering in HTML
         html = response.content.decode()
-        assert "Ali Rouhani" in html
-        assert "Senior Python Engineer" in html
+        assert ("Ali Rouhani" in html) or ("علی روحانی" in html)
+        assert ("Senior Python Engineer" in html) or ("مهندس ارشد پایتون" in html)
         for i in range(4):
-            assert f"Skill {i}" in html
+            assert (f"Skill {i}" in html) or (f"مهارت {i}" in html)
         for i in range(4, 6):
-            assert f"Hidden Skill {i}" not in html
+            assert (f"Hidden Skill {i}" not in html) and (f"مهارت مخفی {i}" not in html)
         for i in range(5):
-            assert f"Project {i}" in html
+            assert (f"Project {i}" in html) or (f"پروژه {i}" in html)
         for i in range(5, 8):
-            assert f"Draft Project {i}" not in html
+            assert (f"Draft Project {i}" not in html) and (f"پروژه پیش‌نویس {i}" not in html)
 
 
 @pytest.mark.django_db

@@ -46,8 +46,8 @@ def test_published_project_returns_200_and_renders_content(client, published_pro
     assert response.context["project"] == published_project
 
     content = response.content.decode()
-    assert "High Performance Engine" in content
-    assert "Detailed technical overview." in content
+    assert ("High Performance Engine" in content) or ("موتور با کارایی بالا" in content)
+    assert ("Detailed technical overview." in content) or ("مرور فنی دقیق." in content)
 
 
 @pytest.mark.django_db

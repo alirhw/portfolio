@@ -44,14 +44,29 @@ class Project(models.Model):
 
     @property
     def title(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.title_fa:
+            return self.title_fa
         return self.title_en
 
     @property
     def summary(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.description_fa:
+            return self.description_fa
         return self.description_en
 
     @property
     def description(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.description_fa:
+            return self.description_fa
         return self.description_en
 
     @property

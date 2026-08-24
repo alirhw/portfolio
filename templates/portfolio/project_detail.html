@@ -2,11 +2,11 @@
 {% load i18n static %}
 
 {% block title %}
-    {{ project.title_en|default:project.title }} — ALI.DEV
+    {{ project.title }} — ALI.DEV
 {% endblock %}
 
 {% block meta_description %}
-    {{ project.description_en|default:project.summary|truncatewords:25 }}
+    {{ project.summary|truncatewords:25 }}
 {% endblock %}
 
 {% block content %}
@@ -20,11 +20,11 @@
 
             <div class="space-y-3">
                 <h1 class="project-detail-title text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight">
-                    <span class="text-gradient">{{ project.title_en|default:project.title }}</span>
+                    <span class="text-gradient">{{ project.title }}</span>
                 </h1>
 
                 <p class="project-detail-summary text-slate-700 dark:text-slate-300 text-base sm:text-lg leading-relaxed max-w-3xl">
-                    {{ project.description_en|default:project.summary }}
+                    {{ project.summary }}
                 </p>
             </div>
 
@@ -67,14 +67,14 @@
             <div class="project-detail-banner rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-2xl">
                 <img
                     src="{{ project.featured_image.url }}"
-                    alt="{{ project.title_en|default:project.title }}"
+                    alt="{{ project.title }}"
                     class="project-banner-img w-full h-auto object-cover"
                 >
             </div>
         {% endif %}
 
         <div class="project-detail-body text-slate-700 dark:text-slate-300 space-y-4 leading-relaxed text-sm sm:text-base prose prose-slate dark:prose-invert max-w-none text-left rtl:text-right">
-            {{ project.description|default:project.description_en|linebreaks }}
+            {{ project.description|linebreaks }}
         </div>
 
     </div>

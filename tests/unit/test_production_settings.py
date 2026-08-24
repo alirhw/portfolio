@@ -6,9 +6,7 @@ def test_production_settings_database_url_and_storages(monkeypatch):
     Verify DATABASE_URL parsing and WhiteNoise storage configuration.
     """
     monkeypatch.setenv("SECRET_KEY", "test-secret-key-1234567890-test")
-    monkeypatch.setenv(
-        "DATABASE_URL", "postgresql://dbuser:dbpass@postgres:5432/portfolio_prod"
-    )
+    monkeypatch.setenv("DATABASE_URL", "postgresql://dbuser:dbpass@postgres:5432/portfolio_prod")
     monkeypatch.setenv("ALLOWED_HOSTS", "portfolio.example.com,localhost")
     monkeypatch.setenv("SENTRY_DSN", "")
 

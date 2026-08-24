@@ -25,9 +25,9 @@
                         </div>
                         <div>
                             <h3 class="category-name text-lg font-bold text-slate-900 dark:text-white">
-                                {{ category.name_en|default:category.name }}
+                                {{ category.name }}
                             </h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Core proficiencies & frameworks</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">{% translate "Core proficiencies & frameworks" %}</p>
                         </div>
                     </div>
 
@@ -37,7 +37,7 @@
                                 <li class="skill-badge flex items-center justify-between p-3 rounded-xl bg-slate-100/90 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80">
                                     <span class="flex items-center gap-2.5 text-slate-800 dark:text-slate-200 font-medium">
                                         <i class="fa-solid fa-code text-indigo-600 dark:text-indigo-400"></i>
-                                        {{ skill.name_en|default:skill.name }}
+                                        {{ skill.name }}
                                     </span>
                                     <span class="text-xs font-mono text-indigo-700 dark:text-indigo-400 px-2.5 py-0.5 rounded-md bg-indigo-500/10 border border-indigo-500/20 uppercase font-semibold">
                                         {{ skill.get_proficiency_display|default:skill.proficiency }}
@@ -63,8 +63,8 @@
                 <ul class="skills-list space-y-3 list-none p-0 m-0">
                     {% for skill in skills %}
                         <li class="skill-badge flex items-center justify-between p-3 rounded-xl bg-slate-100/90 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800/80 text-slate-800 dark:text-slate-200">
-                            <span>{{ skill.name_en|default:skill.name }}</span>
-                            <span class="text-xs font-mono text-indigo-600 dark:text-indigo-400">({{ skill.category.name_en|default:skill.category.name }})</span>
+                            <span>{{ skill.name }}</span>
+                            <span class="text-xs font-mono text-indigo-600 dark:text-indigo-400">({{ skill.category.name }})</span>
                         </li>
                     {% endfor %}
                 </ul>

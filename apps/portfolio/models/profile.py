@@ -32,14 +32,29 @@ class PortfolioProfile(models.Model):
 
     @property
     def full_name(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.full_name_fa:
+            return self.full_name_fa
         return self.full_name_en
 
     @property
     def headline(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.headline_fa:
+            return self.headline_fa
         return self.headline_en
 
     @property
     def bio(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.bio_fa:
+            return self.bio_fa
         return self.bio_en
 
     @property

@@ -25,6 +25,11 @@ class Experience(models.Model):
 
     @property
     def position(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.position_fa:
+            return self.position_fa
         return self.position_en
 
     @property
@@ -33,6 +38,11 @@ class Experience(models.Model):
 
     @property
     def description(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.description_fa:
+            return self.description_fa
         return self.description_en
 
 
@@ -63,14 +73,29 @@ class Education(models.Model):
 
     @property
     def degree(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.degree_fa:
+            return self.degree_fa
         return self.degree_en
 
     @property
     def institution(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.institution_fa:
+            return self.institution_fa
         return self.institution_en
 
     @property
     def field_of_study(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.field_of_study_fa:
+            return self.field_of_study_fa
         return self.field_of_study_en
 
 
@@ -101,8 +126,27 @@ class CurrentlyBuilding(models.Model):
 
     @property
     def title(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.title_fa:
+            return self.title_fa
         return self.title_en
 
     @property
     def description(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.description_fa:
+            return self.description_fa
         return self.description_en
+
+    @property
+    def current_phase(self):
+        from django.utils.translation import get_language
+
+        lang = get_language()
+        if lang and lang.startswith("fa") and self.current_phase_fa:
+            return self.current_phase_fa
+        return self.current_phase_en

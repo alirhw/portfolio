@@ -9,7 +9,7 @@
                 <span>{% translate "PORTFOLIO SHOWCASE" %}</span>
             </div>
             <h2 class="section-title text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white">
-                <span class="text-gradient">Featured Projects</span>
+                <span class="text-gradient">{% translate "Featured Projects" %}</span>
             </h2>
             <p class="section-subtitle text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
                 {% translate "A selection of real-world software applications and systems built with modern backend standards." %}
@@ -27,7 +27,7 @@
                             </div>
                             {% if project.is_featured %}
                                 <span class="badge badge-featured px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-2xs font-mono uppercase tracking-wider">
-                                    Featured
+                                    {% translate "Featured" %}
                                 </span>
                             {% endif %}
                         </div>
@@ -37,11 +37,11 @@
                         <div class="space-y-2 text-left rtl:text-right">
                             <h3 class="project-title text-xl font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                                 <a href="{% url 'portfolio:project_detail' slug=project.slug %}">
-                                    {{ project.title_en|default:project.title }}
+                                    {{ project.title }}
                                 </a>
                             </h3>
                             <p class="project-summary text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed">
-                                {{ project.description_en|default:project.summary }}
+                                {{ project.summary }}
                             </p>
                         </div>
 

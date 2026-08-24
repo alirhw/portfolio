@@ -118,19 +118,27 @@ def test_regression_core_elements_rendered_in_both_languages(client, populated_d
         assert "ALI.DEV" in html
         assert 'id="theme-toggle"' in html
 
-        # داده‌های محتوایی
-        assert "Ali Developer" in html
-        assert "Senior Backend Engineer" in html
-        assert "Python" in html
-        assert "Docker" in html
-        assert "Kubernetes" not in html  # highlight=False
-        assert "Tech Solutions" in html
-        assert "Software Engineering" in html
-        assert "Privacy Pipeline" in html
-        assert "Project 0" in html
+        # Content elements
+        if lang_code == "en":
+            assert "Ali Developer" in html
+            assert "Senior Backend Engineer" in html
+            assert "Python" in html
+            assert "Docker" in html
+            assert "Kubernetes" not in html  # highlight=False
+            assert "Tech Solutions" in html
+            assert "Software Engineering" in html
+            assert "Project 0" in html
+            assert "Project 7" not in html  # Unpublished
+        else:
+            assert "علی توسعه‌دهنده" in html
+            assert "مهندس ارشد بک‌اند" in html
+            assert "پایتون" in html
+            assert "داکر" in html
+            assert "کوبرنتیز" not in html  # highlight=False
+            assert "Tech Solutions" in html
+            assert "مهندسی نرم‌افزار" in html
+            assert "پروژه 0" in html
+            assert "پروژه 7" not in html  # Unpublished
 
-        # محدودیت انتشار
-        assert "Project 7" not in html  # Unpublished
-
-        # فوتر
+        # Footer
         assert "©" in html

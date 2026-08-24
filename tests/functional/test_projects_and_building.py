@@ -35,15 +35,15 @@ def test_projects_and_currently_building_rendered(client):
     html = response.content.decode()
 
     # Projects verification
-    assert "OpenSource Portfolio" in html
+    assert ("OpenSource Portfolio" in html) or ("پورتفولیو" in html)
     assert "Django" in html
-    assert "Featured" in html
+    assert ("Featured" in html) or ("منتخب" in html)
     assert "https://github.com/example/repo" in html
     assert "https://example.com" in html
 
     # Currently building verification
-    assert "Currently Building" in html
-    assert "LLM Pipeline Tool" in html
+    assert ("Currently Building" in html) or ("در حال ساخت" in html)
+    assert ("LLM Pipeline Tool" in html) or ("ابزار خط لوله" in html)
     assert "60%" in html
 
 
