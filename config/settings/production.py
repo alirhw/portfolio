@@ -1,5 +1,5 @@
 """
-Production settings (Phase 12 - Task T-060)
+Production settings (Phase 12 - Task T-060 & T-063)
 PostgreSQL database via DATABASE_URL, Sentry monitoring, structured logging, WhiteNoise storage.
 """
 
@@ -67,6 +67,20 @@ if SENTRY_DSN:
     )
 
 # 4. Static files storage and compression with WhiteNoise
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    "apps.core.middleware.SecurityHeadersMiddleware",
+    "apps.core.middleware.ContentSecurityPolicyMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+]
+
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
@@ -75,6 +89,13 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+WHITENOISE_MAX_AGE = 31536000
+
+
+def WHITENOISE_IMMUTABLE_FILE_TEST(path, url):
+    return True
+
 
 # 5. Structured logging
 LOGGING = {
