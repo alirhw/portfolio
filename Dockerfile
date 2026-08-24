@@ -47,11 +47,15 @@ RUN SECRET_KEY="dummy-build-key-for-collectstatic" \
     DATABASE_URL="sqlite:////tmp/dummy.db" \
     python manage.py collectstatic --noinput
 
+# Grant execution permissions to entrypoint script
+RUN chmod +x /app/scripts/docker-entrypoint.sh
+
 # Switch to non-root user
 USER appuser
 
 # Expose application port
 EXPOSE 8000
 
-# Run Gunicorn production WSGI server
+# Set entrypoint to run migrations and start server
+ENTRYPOINT ["/app/scripts/docker-entrypoint.sh"]
 CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "30", "--access-logfile", "-", "--error-logfile", "-"]

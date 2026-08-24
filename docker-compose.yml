@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: portfolio_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-portfolio_db}
+      POSTGRES_USER: ${POSTGRES_USER:-portfolio_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secure_db_password}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-portfolio_user} -d ${POSTGRES_DB:-portfolio_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - portfolio_internal_network
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: portfolio_web
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8000}:8000"
+    environment:
+      DEBUG: "False"
+      DJANGO_SETTINGS_MODULE: config.settings.production
+      SECRET_KEY: ${SECRET_KEY}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-portfolio_user}:${POSTGRES_PASSWORD:-secure_db_password}@postgres:5432/${POSTGRES_DB:-portfolio_db}
+      GITHUB_ACCESS_TOKEN: ${GITHUB_ACCESS_TOKEN:-}
+      GITHUB_USERNAME: ${GITHUB_USERNAME:-}
+      TURNSTILE_SITE_KEY: ${TURNSTILE_SITE_KEY:-}
+      TURNSTILE_SECRET_KEY: ${TURNSTILE_SECRET_KEY:-}
+      SENTRY_DSN: ${SENTRY_DSN:-}
+    volumes:
+      - media_data:/app/media
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - portfolio_internal_network
+
+volumes:
+  postgres_data:
+    driver: local
+  media_data:
+    driver: local
+
+networks:
+  portfolio_internal_network:
+    driver: bridge
