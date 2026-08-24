@@ -27,7 +27,7 @@ def test_resume_download_returns_200_and_correct_headers(client, active_resume):
     assert response.status_code == 200
     assert response["Content-Type"] == "application/pdf"
     assert "inline;" in response["Content-Disposition"]
-    assert "ali_developer_resume" in response["Content-Disposition"]
+    assert ".pdf" in response["Content-Disposition"]
 
 
 @pytest.mark.django_db

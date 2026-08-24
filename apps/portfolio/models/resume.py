@@ -1,9 +1,17 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+
+from apps.core.storage import SecureUploadTo
+from apps.core.validators import validate_resume_file
 
 
 class Resume(models.Model):
     title = models.CharField(max_length=150)
-    file = models.FileField(upload_to="resumes/")
+    file = models.FileField(
+        upload_to=SecureUploadTo("resumes/"),
+        validators=[validate_resume_file],
+        verbose_name=_("PDF File"),
+    )
     version = models.CharField(max_length=50, blank=True)
     is_current = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)

@@ -114,8 +114,8 @@ def test_admin_can_unpublish_project_via_action(client, superuser):
 @pytest.mark.django_db
 def test_admin_can_replace_current_resume_via_change_form(client, superuser):
     client.force_login(superuser)
-    file1 = SimpleUploadedFile("resume1.pdf", b"content 1")
-    file2 = SimpleUploadedFile("resume2.pdf", b"content 2")
+    file1 = SimpleUploadedFile("resume1.pdf", b"%PDF-1.4 content 1", content_type="application/pdf")
+    file2 = SimpleUploadedFile("resume2.pdf", b"%PDF-1.4 content 2", content_type="application/pdf")
 
     resume_old = Resume.objects.create(
         title="Resume Old",
@@ -130,7 +130,9 @@ def test_admin_can_replace_current_resume_via_change_form(client, superuser):
         is_current=False,
     )
 
-    update_file = SimpleUploadedFile("resume_updated.pdf", b"updated content")
+    update_file = SimpleUploadedFile(
+        "resume_updated.pdf", b"%PDF-1.4 updated content", content_type="application/pdf"
+    )
 
     # Submit change form with is_current checked
     response = client.post(
