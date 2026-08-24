@@ -65,7 +65,8 @@ def test_navigation_contains_section_links(client):
 
     html = response.content.decode()
     assert 'href="#skills"' in html
-    assert 'href="#experience"' in html
-    assert 'href="#education"' in html
+    assert 'href="#building"' in html
     assert 'href="#projects"' in html
+    assert 'href="#github-stats"' in html
+    assert 'href="#contact"' in html
     assert 'id="theme-toggle"' in html
