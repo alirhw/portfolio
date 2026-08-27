@@ -9,7 +9,7 @@ echo "========================================================================"
 
 # 1. Verify Non-root user
 echo "--> [1/3] Verifying Non-root user..."
-RUNNER_USER=$(docker run --rm "${IMAGE_TAG}" whoami)
+RUNNER_USER=$(docker run --rm --entrypoint whoami "${IMAGE_TAG}")
 if [ "${RUNNER_USER}" != "appuser" ]; then
     echo "❌ Security failure: Container executed as '${RUNNER_USER}' instead of 'appuser'"
     exit 1
