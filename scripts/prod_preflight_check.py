@@ -1,7 +1,7 @@
 """
 Production pre-flight check script.
 Verifies database connectivity with retries, applies pending migrations,
-and tests persistent media storage access.
+seeds initial data if empty, and tests persistent media storage access.
 """
 
 import os
@@ -35,7 +35,7 @@ from django.db import connection  # noqa: E402
 
 def check_database_connection():
     """Verify production database connectivity with retries."""
-    print("--> [1/3] Checking Production Database connectivity...")
+    print("--> [1/4] Checking Production Database connectivity...")
     max_retries = 10
     for attempt in range(1, max_retries + 1):
         try:
@@ -59,7 +59,7 @@ def check_database_connection():
 
 def run_database_migrations():
     """Apply pending database migrations without interactive prompts."""
-    print("--> [2/3] Applying pending database migrations...")
+    print("--> [2/4] Applying pending database migrations...")
     try:
         call_command("migrate", interactive=False, verbosity=1)
         print("[OK] Database migrations applied successfully.")
@@ -68,9 +68,28 @@ def run_database_migrations():
         sys.exit(1)
 
 
+def seed_initial_data_if_empty():
+    """Seed initial real portfolio and profile data if database is fresh and empty."""
+    print("--> [3/4] Checking database initial profile state...")
+    try:
+        from apps.portfolio.models import PortfolioProfile
+
+        if not PortfolioProfile.objects.exists():
+            print("   ↳ Empty database detected. Populating real portfolio data...")
+            call_command("seed_data")
+            print("[OK] Initial portfolio data seeded successfully.")
+        else:
+            print("[OK] Portfolio data is already present.")
+    except Exception as exc:
+        print(
+            f"[WARN] Initial data seed notice: {exc}. Continuing startup...",
+            file=sys.stderr,
+        )
+
+
 def check_media_storage_volume():
     """Verify Railway persistent volume write and read access at MEDIA_ROOT."""
-    print("--> [3/3] Verifying Railway Persistent Volume write access at /app/media...")
+    print("--> [4/4] Verifying Railway Persistent Volume write access at /app/media...")
     media_dir = os.getenv("MEDIA_ROOT", "/app/media")
 
     try:
@@ -93,6 +112,7 @@ if __name__ == "__main__":
     print("========================================================================")
     check_database_connection()
     run_database_migrations()
+    seed_initial_data_if_empty()
     check_media_storage_volume()
     print("========================================================================")
     print("[OK] PRE-FLIGHT CHECKS PASSED: READY TO SERVE TRAFFIC")

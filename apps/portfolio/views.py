@@ -78,10 +78,10 @@ class HomeView(TemplateView):
                 for p in projects
             ],
             "stats": {
-                "contributions": github_stats.total_contributions,
-                "repos": github_stats.public_repos_count,
-                "stars": github_stats.total_stars_earned,
-                "streak": github_stats.current_streak_days,
+                "contributions": getattr(github_stats, "total_contributions", 0),
+                "repos": getattr(github_stats, "public_repos_count", 0),
+                "stars": getattr(github_stats, "total_stars_earned", 0),
+                "streak": getattr(github_stats, "current_streak_days", 0),
             },
         }
 
