@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-echo "==> Running database migrations..."
-python manage.py migrate --noinput
+# Execute production pre-flight checks and apply pending database migrations
+python scripts/prod_preflight_check.py
 
-echo "==> Starting application server..."
+echo "==> Starting Gunicorn Application Server..."
 exec "$@"
