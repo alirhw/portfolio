@@ -222,8 +222,8 @@ msgstr "آدرس ایمیل"
 msgid "Location"
 msgstr "موقعیت مکانی"
 
-msgid "Available for Remote Opportunities"
-msgstr "آماده برای همکاری به صورت ریموت"
+msgid "Isfahan, Iran"
+msgstr "اصفهان، ایران"
 
 msgid "Direct Messaging"
 msgstr "ارسال پیام مستقیم"
