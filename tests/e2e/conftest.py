@@ -19,8 +19,19 @@ from integrations.github.schemas import NormalizedGitHubMetrics
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 
+from playwright.sync_api import sync_playwright
+
+
 @pytest.fixture(scope="session")
-def browser_type_launch_args(browser_type_launch_args):
+def playwright_instance():
+    """Session-scoped standalone Playwright instance."""
+    with sync_playwright() as p:
+        yield p
+
+
+@pytest.fixture(scope="session")
+def browser(playwright_instance):
+    """Session-scoped Chromium browser instance."""
     chrome_path = (
         Path.home()
         / "AppData"
@@ -30,12 +41,22 @@ def browser_type_launch_args(browser_type_launch_args):
         / "chrome-win64"
         / "chrome.exe"
     )
+    launch_kwargs = {"headless": True}
     if chrome_path.exists():
-        return {
-            **browser_type_launch_args,
-            "executable_path": str(chrome_path),
-        }
-    return browser_type_launch_args
+        launch_kwargs["executable_path"] = str(chrome_path)
+    browser = playwright_instance.chromium.launch(**launch_kwargs)
+    yield browser
+    browser.close()
+
+
+@pytest.fixture
+def page(browser):
+    """Function-scoped isolated page fixture for E2E tests."""
+    context = browser.new_context()
+    page = context.new_page()
+    yield page
+    page.close()
+    context.close()
 
 
 @pytest.fixture(autouse=True)
