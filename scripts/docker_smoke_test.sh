@@ -23,6 +23,7 @@ CONTAINER_ID=$(docker run -d \
   -e SECRET_KEY="ci-smoke-test-secret-key" \
   -e ALLOWED_HOSTS="localhost,127.0.0.1" \
   -e DATABASE_URL="sqlite:////tmp/smoke_test.db" \
+  -e SECURE_SSL_REDIRECT="False" \
   "${IMAGE_TAG}")
 
 # Cleanup function on script exit
@@ -40,7 +41,7 @@ COUNT=0
 HEALTH_STATUS=1
 
 until [ $COUNT -ge $MAX_RETRIES ]; do
-    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8000/healthz/ || echo "000")
+    HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -H "X-Forwarded-Proto: https" http://localhost:8000/healthz/ || echo "000")
     if [ "$HTTP_CODE" = "200" ]; then
         HEALTH_STATUS=0
         break
