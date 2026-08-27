@@ -17,7 +17,7 @@ from apps.portfolio.models import (
 
 
 class Command(BaseCommand):
-    help = "Seed database with rich mock data for testing portfolio sections"
+    help = "Seed database with real profile and portfolio data for Ali Rouhani"
 
     def add_arguments(self, parser):
         parser.add_argument(
@@ -29,7 +29,7 @@ class Command(BaseCommand):
     @transaction.atomic
     def handle(self, *args, **options):
         if options["clear"]:
-            self.stdout.write("Clearing existing mock data...")
+            self.stdout.write("Clearing existing data...")
             PortfolioProfile.objects.all().delete()
             Project.objects.all().delete()
             Skill.objects.all().delete()
@@ -42,27 +42,29 @@ class Command(BaseCommand):
             self.stdout.write(self.style.WARNING("Existing data cleared."))
 
         self.stdout.write("Seeding Portfolio Profile...")
-        profile, created = PortfolioProfile.objects.update_or_create(
+        PortfolioProfile.objects.update_or_create(
             singleton_key=1,
             defaults={
                 "full_name_en": "Ali Rouhani",
                 "full_name_fa": "علی روحانی",
-                "headline_en": "Backend Developer & AI Systems Engineer",
-                "headline_fa": "توسعه‌دهنده بک‌اند و مهندس سیستم‌های هوش مصنوعی",
+                "headline_en": "Software Engineer & Python/Django Developer",
+                "headline_fa": "مهندس نرم‌افزار و توسعه‌دهنده پایتون و جنگو",
                 "bio_en": (
-                    "Passionate backend engineer with 4+ years of experience designing "
-                    "scalable microservices, high-throughput asynchronous pipelines, "
-                    "and AI-powered backend systems. Experienced in Python, Django, "
-                    "FastAPI, Redis, Docker, and PostgreSQL."
+                    "Senior computer engineering student and backend developer focusing on "
+                    "Python, Django, and scalable web solutions. Passionate about building "
+                    "robust backend architectures, working with Linux environments, and "
+                    "exploring AI applications. Continuously learning modern technologies "
+                    "and building practical engineering projects."
                 ),
                 "bio_fa": (
-                    "مهندس بک‌اند با بیش از ۴ سال تجربه در طراحی میکروسرویس‌های مقیاس‌پذیر، "
-                    "پایپ‌لاین‌های ناهمگام پرسرعت و سیستم‌های هوش مصنوعی. مسلط به پایتون، "
-                    "جنگو، فست‌ای‌پی‌آی، ردیس، داکر و پستگرس‌کیواِل."
+                    "دانشجوی سال آخر مهندسی کامپیوتر و توسعه‌دهنده بک‌اند با تمرکز بر پایتون، "
+                    "جنگو و ساخت سیستم‌های وب پایدار. علاقه‌مند به معماری بک‌اند، محیط‌های لینوکسی "
+                    "و کاوش در کاربردهای هوش مصنوعی. همواره در حال یادگیری فناوری‌های نوین و "
+                    "پیاده‌سازی پروژه‌های کاربردی مهندسی."
                 ),
                 "available_for_hire": True,
                 "github_url": "https://github.com/alirhw",
-                "linkedin_url": "https://linkedin.com/in/alirhw",
+                "linkedin_url": "https://www.linkedin.com/in/ali-rouhani-09b45a415",
                 "email": "ali.rouhani.2005@gmail.com",
             },
         )
@@ -71,16 +73,16 @@ class Command(BaseCommand):
         tech_data = [
             ("Python", "python", "code"),
             ("Django", "django", "server"),
-            ("FastAPI", "fastapi", "zap"),
             ("PostgreSQL", "postgresql", "database"),
+            ("SQLite", "sqlite", "database"),
             ("Redis", "redis", "layers"),
-            ("Celery", "celery", "cpu"),
             ("Docker", "docker", "container"),
-            ("LangChain", "langchain", "bot"),
-            ("WebSockets", "websockets", "activity"),
-            ("React", "react", "layout"),
             ("Linux", "linux", "terminal"),
             ("Git", "git", "git-branch"),
+            ("HTML5/CSS3", "html-css", "layout"),
+            ("JavaScript", "javascript", "code"),
+            ("Java", "java", "cpu"),
+            ("AI & LLMs", "ai-llms", "bot"),
         ]
         tech_map = {}
         for name, slug, icon in tech_data:
@@ -98,426 +100,248 @@ class Command(BaseCommand):
                 "order": 1,
                 "skills": [
                     ("Python", "پایتون", Skill.Proficiency.EXPERT, True, 1),
-                    ("Django / DRF", "جنگو و رست‌فریم‌ورک", Skill.Proficiency.EXPERT, True, 2),
-                    ("FastAPI", "فست‌ای‌پی‌آی", Skill.Proficiency.ADVANCED, True, 3),
-                    ("Celery & Redis", "سلری و ردیس", Skill.Proficiency.ADVANCED, True, 4),
-                    (
-                        "Asyncio & WebSockets",
-                        "تسک‌های ناهمگام و وب‌سوکت",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        5,
-                    ),
-                    (
-                        "RESTful APIs & GraphQL",
-                        "طراحی API و گراف‌کیواِل",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        6,
-                    ),
+                    ("Django", "جنگو", Skill.Proficiency.ADVANCED, True, 2),
+                    ("RESTful APIs", "وب‌سرویس‌های REST", Skill.Proficiency.ADVANCED, True, 3),
+                    ("Java", "جاوا", Skill.Proficiency.INTERMEDIATE, False, 4),
                 ],
             },
             {
-                "name_en": "Databases & Storage",
-                "name_fa": "پایگاه‌های داده و ذخیره‌سازی",
+                "name_en": "Databases & Caching",
+                "name_fa": "پایگاه‌داده و کشینگ",
                 "order": 2,
                 "skills": [
-                    ("PostgreSQL", "پستگرس‌کیواِل", Skill.Proficiency.EXPERT, True, 1),
-                    ("Redis Caching", "ردیس و کشینگ", Skill.Proficiency.ADVANCED, True, 2),
-                    (
-                        "Query Optimization & Indexing",
-                        "بهینه‌سازی کوئری و ایندکس‌گذاری",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        3,
-                    ),
-                    ("SQLite", "اس‌کیولایت", Skill.Proficiency.ADVANCED, True, 4),
-                    ("MongoDB", "مانگودی‌بی", Skill.Proficiency.INTERMEDIATE, True, 5),
+                    ("PostgreSQL", "پستگرس‌کیواِل", Skill.Proficiency.ADVANCED, True, 1),
+                    ("SQLite", "اس‌کیوال‌لایت", Skill.Proficiency.ADVANCED, False, 2),
+                    ("Redis", "ردیس", Skill.Proficiency.INTERMEDIATE, True, 3),
+                    ("Database Design", "طراحی پایگاه‌داده", Skill.Proficiency.ADVANCED, False, 4),
                 ],
             },
             {
-                "name_en": "DevOps & Infrastructure",
-                "name_fa": "دواپس و زیرساخت",
+                "name_en": "DevOps & Systems",
+                "name_fa": "دواپس و سیستم‌ها",
                 "order": 3,
                 "skills": [
+                    ("Linux", "لینوکس", Skill.Proficiency.INTERMEDIATE, True, 1),
+                    ("Git & GitHub", "گیت و گیت‌هاب", Skill.Proficiency.ADVANCED, True, 2),
+                    ("Docker", "داکر", Skill.Proficiency.INTERMEDIATE, True, 3),
                     (
-                        "Docker & Docker Compose",
-                        "داکر و داکر کمپوز",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        1,
-                    ),
-                    (
-                        "CI/CD (GitHub Actions)",
-                        "گیت‌هاب اکشنز و CI/CD",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        2,
-                    ),
-                    (
-                        "Linux & Bash Scripting",
-                        "لینوکس و اسکریپت‌نویسی بش",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        3,
-                    ),
-                    (
-                        "Nginx & Reverse Proxies",
-                        "انجین‌ایکس و پراکسی معکوس",
+                        "CI/CD Automation",
+                        "پایپلاین‌های CI/CD",
                         Skill.Proficiency.INTERMEDIATE,
-                        True,
+                        False,
                         4,
-                    ),
-                    (
-                        "Microservices Architecture",
-                        "معماری میکروسرویس",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        5,
                     ),
                 ],
             },
             {
-                "name_en": "AI & Machine Learning",
-                "name_fa": "هوش مصنوعی و یادگیری ماشین",
+                "name_en": "AI & Web Technologies",
+                "name_fa": "هوش مصنوعی و وب",
                 "order": 4,
                 "skills": [
                     (
-                        "RAG (Retrieval-Augmented Generation)",
-                        "سیستم‌های RAG و جستجوی معنایی",
-                        Skill.Proficiency.ADVANCED,
+                        "AI & LLM Integration",
+                        "هوش مصنوعی و مدل‌های زبانی",
+                        Skill.Proficiency.INTERMEDIATE,
                         True,
                         1,
                     ),
+                    ("HTML5 / CSS3", "HTML5 و CSS3", Skill.Proficiency.INTERMEDIATE, False, 2),
                     (
-                        "LangChain & LlamaIndex",
-                        "فریم‌ورک‌های لنگ‌چین و لاماایندکس",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        2,
-                    ),
-                    (
-                        "LLM Agent Workflows",
-                        "طراحی ورک‌فلوهای ایجنتی",
-                        Skill.Proficiency.ADVANCED,
-                        True,
-                        3,
-                    ),
-                    (
-                        "PyTorch & Transformers",
-                        "پای‌تورچ و ترنسفورمرها",
+                        "JavaScript (Vanilla)",
+                        "جاوا اسکریپت",
                         Skill.Proficiency.INTERMEDIATE,
-                        True,
-                        4,
+                        False,
+                        3,
                     ),
                 ],
             },
         ]
 
-        for cat_info in categories:
+        for cat_data in categories:
             cat, _ = SkillCategory.objects.update_or_create(
-                name_en=cat_info["name_en"],
+                name_en=cat_data["name_en"],
                 defaults={
-                    "name_fa": cat_info["name_fa"],
-                    "order": cat_info["order"],
+                    "name_fa": cat_data["name_fa"],
+                    "order": cat_data["order"],
                 },
             )
-            for name_en, name_fa, prof, highlight, order in cat_info["skills"]:
+            for s_name_en, s_name_fa, s_prof, s_highlight, s_order in cat_data["skills"]:
                 Skill.objects.update_or_create(
-                    name_en=name_en,
+                    name_en=s_name_en,
                     category=cat,
                     defaults={
-                        "name_fa": name_fa,
-                        "proficiency": prof,
-                        "highlight": highlight,
-                        "order": order,
+                        "name_fa": s_name_fa,
+                        "proficiency": s_prof,
+                        "highlight": s_highlight,
+                        "order": s_order,
                     },
                 )
+
+        self.stdout.write("Seeding Currently Building...")
+        CurrentlyBuilding.objects.update_or_create(
+            id=1,
+            defaults={
+                "title_en": "I Got You — AI Assistant for Junior Developers",
+                "title_fa": "I Got You — دستیار هوش مصنوعی برای برنامه‌نویسان",
+                "description_en": (
+                    "An intelligent AI-driven chatbot designed to mentor junior developers, "
+                    "debug code, and provide structured learning pathways."
+                ),
+                "description_fa": (
+                    "چت‌بات هوشمند مبتنی بر هوش مصنوعی برای راهنمایی، رفع باگ و ارائه "
+                    "مسیر یادگیری برای توسعه‌دهندگان تازه‌کار."
+                ),
+                "current_phase_en": "Architecture & MVP",
+                "current_phase_fa": "معماری و توسعه MVP",
+                "progress_percentage": 65,
+                "related_link": "https://github.com/alirhw",
+                "is_active": True,
+            },
+        )
 
         self.stdout.write("Seeding Projects...")
         projects_data = [
             {
-                "title_en": "CloudSync: Distributed Task Queue & Event Pipeline",
-                "title_fa": "سامانه پردازش توزیع‌شده و صف وظایف CloudSync",
-                "slug": "cloudsync-distributed-task-queue",
+                "title_en": "Modular Developer Portfolio & Interactive Terminal",
+                "title_fa": "پورتفولیوی ماژولار توسعه‌دهنده با ترمینال تعاملی",
+                "slug": "developer-portfolio",
                 "description_en": (
-                    "A high-performance distributed task scheduler and event streaming pipeline "
-                    "built with Django, Celery, Redis, and WebSockets. Handles over 10,000 "
-                    "tasks/sec with sub-second latency, automated retry policies, and "
-                    "real-time dashboard telemetry."
+                    "Production-ready bilingual developer portfolio platform built with Django 6, "
+                    "progressive enhancement interactive web terminal with Tab autocomplete, "
+                    "WhiteNoise asset caching, and Docker CI/CD."
                 ),
                 "description_fa": (
-                    "سامانه زمان‌بندی و صف وظایف توزیع‌شده با کارایی فوق‌العاده بالا با پایتون، "
-                    "جنگو، سلری و ردیس. قابلیت پردازش بیش از ۱۰ هزار تسک در ثانیه به همراه "
-                    "داشبورد مانیتورینگ بلادرنگ."
+                    "وب‌اپلیکیشن پروداکشن پورتفولیوی دوزبانه (فارسی و انگلیسی) توسعه‌یافته با "
+                    "جنگو ۶، ترمینال تعاملی جاوا اسکریپت با پشتیبانی از Autocomplete و کلید Tab، "
+                    "مانیتورینگ Sentry و استقرار کانتینری داکر."
                 ),
-                "is_published": True,
                 "is_featured": True,
-                "demo_url": "https://github.com/alirhw/portfolio",
-                "repository_url": "https://github.com/alirhw/portfolio",
+                "is_published": True,
                 "order": 1,
-                "techs": ["python", "django", "celery", "redis", "docker"],
+                "repository_url": "https://github.com/alirhw/portfolio",
+                "demo_url": "https://portfolio.alirhw.dev",
+                "techs": ["python", "django", "postgresql", "docker", "html-css", "javascript"],
             },
             {
-                "title_en": "DocuSense: Enterprise RAG & Knowledge Engine",
-                "title_fa": "موتور هوشمند جستجو و تحلیل اسناد سازمانی DocuSense",
-                "slug": "docusense-enterprise-rag",
+                "title_en": "Auto Spare Parts E-Commerce Platform",
+                "title_fa": "سامانه فروشگاهی آنلاین لوازم یدکی خودرو",
+                "slug": "autoparts-ecommerce",
                 "description_en": (
-                    "Production-ready Retrieval Augmented Generation (RAG) system capable of "
-                    "indexing complex multi-format document repositories. Utilizes dense vector "
-                    "search, hybrid re-ranking, and streaming LLM responses with citations."
+                    "Comprehensive automotive spare parts e-commerce platform providing "
+                    "structured catalog management, vehicle model compatibility search, "
+                    "secure user authentication, and shopping cart order processing."
                 ),
                 "description_fa": (
-                    "سیستم پیشرفته RAG برای ایندکس و پردازش اسناد سازمانی و پاسخ‌دهی هوشمند "
-                    "به سوالات کاربران با جستجوی معنایی و ارجاع به منابع دقیق."
+                    "پلتفرم فروشگاهی جامع قطعات خودرو با قابلیت دسته‌بندی تخصصی قطعات یدکی، "
+                    "جستجوی سازگاری با مدل خودرو، مدیریت سبد خرید و کاتالوگ محصولات."
                 ),
-                "is_published": True,
                 "is_featured": True,
-                "demo_url": "https://github.com/alirhw/portfolio",
-                "repository_url": "https://github.com/alirhw/portfolio",
+                "is_published": True,
                 "order": 2,
-                "techs": ["python", "fastapi", "langchain", "postgresql", "docker"],
+                "repository_url": "https://github.com/alirhw",
+                "demo_url": "",
+                "techs": ["python", "django", "postgresql", "html-css", "javascript"],
             },
             {
-                "title_en": "HyperPay: Resilient Multi-Gateway Payment Engine",
-                "title_fa": "موتور تراکنش‌های مالی و درگاه‌های پرداخت HyperPay",
-                "slug": "hyperpay-payment-gateway",
+                "title_en": "I Got You — AI Developer Assistant",
+                "title_fa": "دستیار هوش مصنوعی توسعه‌دهندگان (I Got You)",
+                "slug": "i-got-you-ai",
                 "description_en": (
-                    "Financial transaction processing microservice with robust idempotency "
-                    "guarantees, distributed locking, circuit breaker patterns, automated "
-                    "reconciliation jobs, and HMAC-signed webhook delivery."
+                    "Conversational AI tool integrating modern language models to provide "
+                    "contextual coding explanations, syntax error resolution, and interactive "
+                    "guided examples tailored for junior software developers."
                 ),
                 "description_fa": (
-                    "میکروسرویس پردازش تراکنش‌های مالی با تضمین عدم تکرار (idempotency)، "
-                    "سیستم مدارشکن (circuit breaker) و تسویه‌حساب و وب‌هوک‌های امن."
+                    "ابزار هوش مصنوعی مکالمه‌محور برای ارائه توضیحات مفهومی کد، خطایابی "
+                    "سریع ساختار پایتون و ارائه مثال‌های کاربردی به برنامه‌نویسان تازه‌کار."
                 ),
-                "is_published": True,
                 "is_featured": True,
-                "demo_url": "https://github.com/alirhw/portfolio",
-                "repository_url": "https://github.com/alirhw/portfolio",
+                "is_published": True,
                 "order": 3,
-                "techs": ["python", "django", "postgresql", "redis", "docker"],
-            },
-            {
-                "title_en": "MetricFlow: Real-time Observability & APM Toolkit",
-                "title_fa": "سیستم مانیتورینگ عملکرد و تحلیل متریک‌های لحظه‌ای MetricFlow",
-                "slug": "metricflow-apm-toolkit",
-                "description_en": (
-                    "Lightweight application performance monitoring and telemetry aggregator "
-                    "providing real-time alerts, health check probes, latency histograms, "
-                    "and distributed tracing across microservices."
-                ),
-                "description_fa": (
-                    "ابزار سبک و سریع مانیتورینگ و ارزیابی سلامت سرویس‌ها با اعلان‌های آنی، "
-                    "محاسبه توزیع تاخیر و رهگیری درخواست‌ها."
-                ),
-                "is_published": True,
-                "is_featured": False,
-                "demo_url": "https://github.com/alirhw/portfolio",
-                "repository_url": "https://github.com/alirhw/portfolio",
-                "order": 4,
-                "techs": ["python", "fastapi", "redis", "websockets"],
-            },
-            {
-                "title_en": "NexusAuth: Zero-Trust OAuth2 & Identity Provider",
-                "title_fa": "سرور مدیریت هویت و احراز هویت متمرکز NexusAuth",
-                "slug": "nexus-auth-identity-provider",
-                "description_en": (
-                    "RFC-compliant OAuth2 and OpenID Connect identity provider with MFA, "
-                    "session revocation across devices, role-based access control (RBAC), "
-                    "and cryptographic JWT token signing."
-                ),
-                "description_fa": (
-                    "سرور احراز هویت متمرکز منطبق بر استاندارد OAuth2 و OpenID با پشتیبانی "
-                    "از ورود دومرحله‌ای و ابطال لحظه‌ای سشن‌ها."
-                ),
-                "is_published": True,
-                "is_featured": False,
-                "demo_url": "https://github.com/alirhw/portfolio",
-                "repository_url": "https://github.com/alirhw/portfolio",
-                "order": 5,
-                "techs": ["python", "django", "postgresql", "redis"],
+                "repository_url": "https://github.com/alirhw",
+                "demo_url": "",
+                "techs": ["python", "ai-llms", "django"],
             },
         ]
 
         for p_data in projects_data:
-            techs = [tech_map[slug] for slug in p_data["techs"] if slug in tech_map]
+            tech_slugs = p_data.pop("techs")
             proj, _ = Project.objects.update_or_create(
                 slug=p_data["slug"],
-                defaults={
-                    "title_en": p_data["title_en"],
-                    "title_fa": p_data["title_fa"],
-                    "description_en": p_data["description_en"],
-                    "description_fa": p_data["description_fa"],
-                    "is_published": p_data["is_published"],
-                    "is_featured": p_data["is_featured"],
-                    "demo_url": p_data["demo_url"],
-                    "repository_url": p_data["repository_url"],
-                    "order": p_data["order"],
-                },
+                defaults=p_data,
             )
-            proj.technologies.set(techs)
-
-        self.stdout.write("Seeding Currently Building items...")
-        building_items = [
-            {
-                "title_en": "Agentic Task Orchestration Framework",
-                "title_fa": "فریم‌ورک ارکستراسیون خودکار ایجنت‌های هوش مصنوعی",
-                "description_en": (
-                    "Building a modular multi-agent workflow framework featuring sandboxed "
-                    "Python code execution, stateful memory management, and self-correcting "
-                    "query planners."
-                ),
-                "description_fa": (
-                    "توسعه فریم‌ورک ماژولار ارکستراسیون چند ایجنتی با امکان اجرای امن کدها در "
-                    "محیط ایزوله و مدیریت حافظه بلندمدت."
-                ),
-                "progress_percentage": 80,
-                "current_phase_en": "Benchmarking & Security Sandboxing",
-                "current_phase_fa": "ارزیابی بنچمارک و امنیت محیط ایزوله",
-                "related_link": "https://github.com/alirhw",
-                "is_active": True,
-                "order": 1,
-            },
-            {
-                "title_en": "High-Throughput ASGI Event Gateway",
-                "title_fa": "دروازه رویدادهای ناهمگام پرسرعت بر بستر ASGI",
-                "description_en": (
-                    "Developing an ultra-low latency event gateway handling 50k+ persistent "
-                    "concurrent WebSocket connections with backpressure management."
-                ),
-                "description_fa": (
-                    "پیاده‌سازی گیت‌وی بلادرنگ برای اتصال بیش از ۵۰ هزار کلاینت همزمان و "
-                    "کنترل هوشمند جریان داده."
-                ),
-                "progress_percentage": 45,
-                "current_phase_en": "Concurrency Optimization & Protocol Tuning",
-                "current_phase_fa": "بهینه‌سازی همزمانی و تنظیم پروتکل",
-                "related_link": "https://github.com/alirhw",
-                "is_active": True,
-                "order": 2,
-            },
-        ]
-
-        for b_data in building_items:
-            CurrentlyBuilding.objects.update_or_create(
-                title_en=b_data["title_en"],
-                defaults=b_data,
-            )
+            proj.technologies.set([tech_map[ts] for ts in tech_slugs if ts in tech_map])
 
         self.stdout.write("Seeding Experience...")
-        experiences = [
-            {
-                "position_en": "Lead Backend Engineer",
-                "position_fa": "مهندس ارشد بک‌اند",
-                "company": "Apex Cloud Systems",
-                "company_url": "https://example.com",
-                "start_date": date(2023, 6, 1),
-                "end_date": None,
+        Experience.objects.update_or_create(
+            company="Self-Employed / Independent Projects",
+            position_en="Freelance Backend & Software Developer",
+            defaults={
+                "position_fa": "توسعه‌دهنده نرم‌افزار و بک‌اند (فریلنس)",
+                "location_en": "Isfahan, Iran (Remote)",
+                "location_fa": "اصفهان، ایران (دورکاری)",
+                "start_date": date(2023, 1, 1),
                 "is_current": True,
                 "description_en": (
-                    "Spearheaded core backend architecture for high-volume enterprise SaaS. "
-                    "Improved API response times by 40% through Redis caching and query "
-                    "refactoring. Mentored junior backend developers."
+                    "Designed and developed backend services and web applications using Python "
+                    "and Django. Implemented relational database schemas, REST APIs, and integrated "
+                    "external services and AI tools."
                 ),
                 "description_fa": (
-                    "راهبری معماری سیستم‌های بک‌اند با ترافیک بالا، کاهش ۴۰ درصدی زمان پاسخگویی "
-                    "API با بهینه‌سازی دیتابیس و کشینگ ردیس."
+                    "طراحی و توسعه سرویس‌های وب و بک‌اند با استفاده از پایتون و جنگو. پیاده‌سازی "
+                    "ساختار پایگاه‌داده‌های رابطه‌ای، وب‌سرویس‌های REST و یکپارچه‌سازی با سرویس‌های "
+                    "خارجی و ابزارهای هوش مصنوعی."
                 ),
                 "order": 1,
             },
-            {
-                "position_en": "Python / Django Developer",
-                "position_fa": "توسعه‌دهنده پایتون و جنگو",
-                "company": "NovaTech Solutions",
-                "company_url": "https://example.com",
-                "start_date": date(2021, 9, 1),
-                "end_date": date(2023, 5, 31),
+        )
+
+        Experience.objects.update_or_create(
+            company="Computer Engineering Department",
+            position_en="Software Engineering Student Project Lead",
+            defaults={
+                "position_fa": "توسعه‌دهنده پروژه‌های دانشگاهی و تحقیقاتی",
+                "location_en": "Isfahan, Iran",
+                "location_fa": "اصفهان، ایران",
+                "start_date": date(2022, 9, 1),
+                "end_date": date(2024, 6, 1),
                 "is_current": False,
                 "description_en": (
-                    "Developed RESTful APIs, asynchronous Celery task pipelines, and payment "
-                    "gateway integrations. Implemented automated CI/CD workflows and increased "
-                    "test coverage to 95%."
+                    "Collaborated on software engineering course projects, implementing "
+                    "algorithms, database systems, object-oriented software in Python and Java, "
+                    "and exploring Linux workflows."
                 ),
                 "description_fa": (
-                    "توسعه APIهای مقیاس‌پذیر و صف‌های پردازش غیرهمگام با سلری، پیاده‌سازی "
-                    "تست‌های اتوماتیک و اتصال به درگاه‌های بانکی."
+                    "پیاده‌سازی پروژه‌های درسی مهندسی نرم‌افزار، الگوریتم‌ها و ساختار داده، "
+                    "برنامه‌نویسی شیءگرا با پایتون و جاوا و کار با ابزارها و محیط‌های لینوکسی."
                 ),
                 "order": 2,
             },
-        ]
-
-        for exp_data in experiences:
-            Experience.objects.update_or_create(
-                position_en=exp_data["position_en"],
-                company=exp_data["company"],
-                defaults=exp_data,
-            )
+        )
 
         self.stdout.write("Seeding Education...")
-        educations = [
-            {
-                "degree_en": "Bachelor of Science",
-                "degree_fa": "کارشناسی",
-                "institution_en": "University of Tehran",
-                "institution_fa": "دانشگاه تهران",
-                "field_of_study_en": "Computer Engineering",
-                "field_of_study_fa": "مهندسی کامپیوتر",
-                "start_year": 2020,
-                "graduation_year": 2024,
+        Education.objects.update_or_create(
+            degree_en="B.Sc. in Computer Engineering",
+            institution_en="University",
+            defaults={
+                "degree_fa": "کارشناسی مهندسی کامپیوتر",
+                "institution_fa": "دانشگاه",
+                "field_of_study_en": "Software Engineering",
+                "field_of_study_fa": "مهندسی نرم‌افزار",
+                "start_year": 2021,
+                "graduation_year": 2025,
                 "description_en": (
-                    "Specialized in Distributed Systems, Operating Systems, Algorithm "
-                    "Design, and Relational Database Engineering."
+                    "Focusing on software development methodologies, database systems, computer "
+                    "networks, algorithms, and artificial intelligence."
                 ),
                 "description_fa": (
-                    "تمرکز بر سیستم‌های توزیع‌شده، سیستم‌های عامل، طراحی الگوریتم و مهندسی پایگاه‌داده."
+                    "تمرکز بر مهندسی نرم‌افزار، طراحی سیستم‌های پایگاه‌داده، شبکه‌های کامپیوتری، "
+                    "الگوریتم‌ها و هوش مصنوعی."
                 ),
                 "order": 1,
             },
-        ]
-
-        for edu_data in educations:
-            Education.objects.update_or_create(
-                degree_en=edu_data["degree_en"],
-                institution_en=edu_data["institution_en"],
-                defaults=edu_data,
-            )
-
-        self.stdout.write("Seeding Sample Contact Messages...")
-        messages = [
-            {
-                "sender_name": "Sara Ahmadi",
-                "email": "sara.ahmadi@techstart.io",
-                "subject": "Backend Consulting & Architecture Review",
-                "message": (
-                    "Hi Ali, we were really impressed by your open-source projects and would "
-                    "like to discuss an advisory role for our backend infrastructure."
-                ),
-                "ip_address": "127.0.0.1",
-                "is_read": True,
-                "is_notified": True,
-            },
-            {
-                "sender_name": "Michael Vance",
-                "email": "michael.vance@innovate.ai",
-                "subject": "Invitation for Senior AI/Backend Role",
-                "message": (
-                    "Hello Ali, we love your work on RAG pipelines and distributed queues. "
-                    "Are you open to exploring senior engineering positions?"
-                ),
-                "ip_address": "127.0.0.1",
-                "is_read": False,
-                "is_notified": True,
-            },
-        ]
-
-        for msg_data in messages:
-            ContactMessage.objects.update_or_create(
-                email=msg_data["email"],
-                subject=msg_data["subject"],
-                defaults=msg_data,
-            )
+        )
 
         self.stdout.write(
-            self.style.SUCCESS("[OK] Successfully seeded all mock data for portfolio & contact!")
+            self.style.SUCCESS("Database seeded successfully with real developer profile!")
         )
