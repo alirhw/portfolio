@@ -274,18 +274,16 @@ class Command(BaseCommand):
 
         self.stdout.write("Seeding Experience...")
         Experience.objects.update_or_create(
-            company="Self-Employed / Independent Projects",
-            position_en="Freelance Backend & Software Developer",
+            company="Independent Software Projects & Freelance",
+            position_en="Independent Software Developer & Backend Engineer",
             defaults={
-                "position_fa": "توسعه‌دهنده نرم‌افزار و بک‌اند (فریلنس)",
-                "location_en": "Isfahan, Iran (Remote)",
-                "location_fa": "اصفهان، ایران (دورکاری)",
+                "position_fa": "توسعه‌دهنده پروژه‌های مستقل نرم‌افزاری و بک‌اند",
                 "start_date": date(2023, 1, 1),
                 "is_current": True,
                 "description_en": (
                     "Designed and developed backend services and web applications using Python "
-                    "and Django. Implemented relational database schemas, REST APIs, and integrated "
-                    "external services and AI tools."
+                    "and Django. Implemented relational database schemas, REST APIs, "
+                    "and integrated external services and AI tools."
                 ),
                 "description_fa": (
                     "طراحی و توسعه سرویس‌های وب و بک‌اند با استفاده از پایتون و جنگو. پیاده‌سازی "
@@ -301,8 +299,6 @@ class Command(BaseCommand):
             position_en="Software Engineering Student Project Lead",
             defaults={
                 "position_fa": "توسعه‌دهنده پروژه‌های دانشگاهی و تحقیقاتی",
-                "location_en": "Isfahan, Iran",
-                "location_fa": "اصفهان، ایران",
                 "start_date": date(2022, 9, 1),
                 "end_date": date(2024, 6, 1),
                 "is_current": False,
