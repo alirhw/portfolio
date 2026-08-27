@@ -27,7 +27,10 @@ SECRET_KEY = os.environ.get(
 
 ALLOWED_HOSTS = [
     host.strip()
-    for host in os.getenv("ALLOWED_HOSTS", "ali.dev,www.ali.dev").split(",")
+    for host in os.getenv(
+        "ALLOWED_HOSTS",
+        ".railway.app,.up.railway.app,localhost,127.0.0.1,0.0.0.0,portfolio.alirhw.dev",
+    ).split(",")
     if host.strip()
 ]
 
@@ -197,6 +200,7 @@ LOGGING = {
 
 # 9. Security and HTTPS flags
 SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "True").lower() in ("true", "1", "yes")
+SECURE_REDIRECT_EXEMPT = [r"^healthz/?$"]
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 SESSION_COOKIE_SECURE = True
@@ -207,7 +211,12 @@ CSRF_COOKIE_SECURE = True
 CSRF_COOKIE_HTTPONLY = True
 CSRF_COOKIE_SAMESITE = "Lax"
 CSRF_TRUSTED_ORIGINS = [
-    f"https://{host}" for host in ALLOWED_HOSTS if host and not host.startswith(".")
+    f"https://{host.lstrip('.')}"
+    for host in ALLOWED_HOSTS
+    if host and not host.startswith("0.0.0.0") and not host.startswith("127.0.0.1")
+] + [
+    "https://*.railway.app",
+    "https://*.up.railway.app",
 ]
 
 SECURE_HSTS_SECONDS = 31536000
