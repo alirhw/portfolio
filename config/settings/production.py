@@ -26,12 +26,7 @@ SECRET_KEY = os.environ.get(
 )
 
 ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv(
-        "ALLOWED_HOSTS",
-        ".railway.app,.up.railway.app,localhost,127.0.0.1,0.0.0.0,portfolio.alirhw.dev",
-    ).split(",")
-    if host.strip()
+    host.strip() for host in os.getenv("ALLOWED_HOSTS", "*").split(",") if host.strip()
 ]
 
 # 2. Database configuration via DATABASE_URL
