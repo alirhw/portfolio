@@ -1,6 +1,7 @@
 """
-Production settings (Phase 12 - Task T-060 & T-063)
-PostgreSQL database via DATABASE_URL, Sentry monitoring, structured logging, WhiteNoise storage.
+Production settings (Phase 12 - Tasks T-060, T-063, T-068).
+PostgreSQL database via DATABASE_URL, Sentry monitoring, structured logging,
+WhiteNoise storage, SMTP email delivery, and secret sanitization.
 """
 
 import logging
@@ -43,30 +44,72 @@ DATABASES = {
     )
 }
 
-# 3. Sentry Error Tracking & Performance Monitoring
+# 3. External service integration credentials
+GITHUB_ACCESS_TOKEN = os.getenv("GITHUB_ACCESS_TOKEN", "")
+GITHUB_USERNAME = os.getenv("GITHUB_USERNAME", "alirhw")
+TURNSTILE_SITE_KEY = os.getenv("TURNSTILE_SITE_KEY", "")
+TURNSTILE_SECRET_KEY = os.getenv("TURNSTILE_SECRET_KEY", "")
+
+# 4. Secure email configuration (SMTP)
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.sendgrid.net")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS", "True").lower() in ("true", "1", "yes")
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL", "Ali Developer <contact@ali.dev>")
+CONTACT_NOTIFICATION_EMAIL = os.getenv("CONTACT_NOTIFICATION_EMAIL", "ali@ali.dev")
+
+
+# 5. Sensitive data sanitization for Sentry reports
+def sanitize_sentry_events(event, hint):
+    """
+    Remove sensitive secrets, tokens, and credentials from Sentry event payloads.
+    """
+    sensitive_keys = {
+        "SECRET_KEY",
+        "DATABASE_URL",
+        "GITHUB_ACCESS_TOKEN",
+        "TURNSTILE_SECRET_KEY",
+        "EMAIL_HOST_PASSWORD",
+        "password",
+        "csrfmiddlewaretoken",
+    }
+
+    # Filter environment variables in request env
+    if "request" in event and "env" in event["request"]:
+        for key in list(event["request"]["env"].keys()):
+            if key in sensitive_keys or "SECRET" in key or "TOKEN" in key or "KEY" in key:
+                event["request"]["env"][key] = "[FILTERED]"
+
+    # Filter POST form data
+    if "request" in event and "data" in event["request"]:
+        if isinstance(event["request"]["data"], dict):
+            for k in event["request"]["data"].keys():
+                if k in sensitive_keys:
+                    event["request"]["data"][k] = "[FILTERED]"
+
+    return event
+
+
+# 6. Sentry Error Tracking & Performance Monitoring
 SENTRY_DSN = os.getenv("SENTRY_DSN")
 if SENTRY_DSN:
     sentry_sdk.init(
         dsn=SENTRY_DSN,
         integrations=[
-            DjangoIntegration(
-                transaction_style="url",
-                middleware_spans=True,
-                signals_spans=True,
-            ),
-            LoggingIntegration(
-                level=logging.INFO,
-                event_level=logging.ERROR,
-            ),
+            DjangoIntegration(transaction_style="url"),
+            LoggingIntegration(level=logging.INFO, event_level=logging.ERROR),
         ],
         traces_sample_rate=float(os.getenv("SENTRY_TRACES_SAMPLE_RATE", "0.2")),
         profiles_sample_rate=float(os.getenv("SENTRY_PROFILES_SAMPLE_RATE", "0.1")),
+        before_send=sanitize_sentry_events,
         send_default_pii=False,
         environment=os.getenv("ENVIRONMENT", "production"),
         release=os.getenv("APP_VERSION", "v1.0.0-rc.1"),
     )
 
-# 4. Static files storage and compression with WhiteNoise
+# 7. Static files storage and compression with WhiteNoise
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
@@ -97,7 +140,7 @@ def WHITENOISE_IMMUTABLE_FILE_TEST(path, url):
     return True
 
 
-# 5. Structured logging
+# 8. Structured logging
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -152,7 +195,7 @@ LOGGING = {
     },
 }
 
-# 6. Security and HTTPS flags
+# 9. Security and HTTPS flags
 SECURE_SSL_REDIRECT = os.getenv("SECURE_SSL_REDIRECT", "True").lower() in ("true", "1", "yes")
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
